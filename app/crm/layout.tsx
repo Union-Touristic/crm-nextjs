@@ -12,9 +12,11 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import classNames from "@/utils/classNames";
-import ProfileDropdown from "./components/ProfileDropdown";
-import Search from "./components/Search";
-import Notifications from "./components/Notifications";
+import ProfileDropdown from "./_components/ProfileDropdown";
+import Search from "./_components/Search";
+import Notifications from "./_components/Notifications";
+import NavLinkMobile from "./_components/NavLinkMobile";
+import NavLinkDesktop from "./_components/NavLinkDesktop";
 
 const navigation = [
   { name: "Dashboard", href: "/crm/dashboard", icon: HomeIcon },
@@ -97,15 +99,11 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
                         const isActive = pathname === item.href;
 
                         return (
-                          <Link
+                          <NavLinkMobile
                             key={item.name}
                             href={item.href}
-                            className={classNames(
-                              isActive
-                                ? "bg-gray-900 text-white"
-                                : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                              "group flex items-center px-2 py-2 text-base font-medium rounded-md"
-                            )}
+                            className="text-gray-300 hover:bg-gray-700 hover:text-white"
+                            activeClassName="bg-gray-900 text-white"
                           >
                             <item.icon
                               className={classNames(
@@ -117,7 +115,7 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
                               aria-hidden="true"
                             />
                             {item.name}
-                          </Link>
+                          </NavLinkMobile>
                         );
                       })}
                     </nav>
@@ -151,15 +149,11 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
                   const isActive = pathname === item.href;
 
                   return (
-                    <a
+                    <NavLinkDesktop
                       key={item.name}
                       href={item.href}
-                      className={classNames(
-                        isActive
-                          ? "bg-gray-900 text-white"
-                          : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                        "group flex items-center px-2 py-2 text-sm font-medium rounded-md"
-                      )}
+                      className="text-gray-300 hover:bg-gray-700 hover:text-white"
+                      activeClassName="bg-gray-900 text-white"
                     >
                       <item.icon
                         className={classNames(
@@ -171,7 +165,7 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
                         aria-hidden="true"
                       />
                       {item.name}
-                    </a>
+                    </NavLinkDesktop>
                   );
                 })}
               </nav>
@@ -189,9 +183,7 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
               <Bars3BottomLeftIcon className="h-6 w-6" aria-hidden="true" />
             </button>
             <div className="flex flex-1 justify-between px-4">
-              <div className="flex flex-1">
-                {/* <Search /> */}
-              </div>
+              <div className="flex flex-1">{/* <Search /> */}</div>
               <div className="ml-4 flex items-center md:ml-6">
                 {/* <Notifications /> */}
                 {/* <ProfileDropdown /> */}
