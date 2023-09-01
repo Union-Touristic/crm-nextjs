@@ -82,7 +82,7 @@ export default function Mobile() {
               </div>
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
-                  {navigation.map((item: NavLink) => {
+                  {navigation.map((item) => {
                     return (
                       <NavLinkMobile
                         viewport="mobile"
