@@ -1,3 +1,4 @@
+"use client";
 import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
@@ -7,22 +8,22 @@ import Image from "next/image";
 
 import NavLinkMobile from "./NavLink";
 import { NavLink } from "@/types/types";
+import {
+  useSidebar,
+  useSidebarDispatch,
+} from "@/app/crm/_context/SidebarContext";
+import { navigation } from "@/app/crm/_data/navigation";
 
-export default function Mobile({
-  sidebarOpen,
-  setSidebarOpen,
-  navigation,
-}: {
-  sidebarOpen: boolean;
-  setSidebarOpen: (bool: boolean) => void;
-  navigation: NavLink[];
-}) {
+export default function Mobile() {
+  const sidebarOpen = useSidebar();
+  const sidebarDispatch = useSidebarDispatch();
+
   return (
     <Transition.Root show={sidebarOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-40 md:hidden"
-        onClose={setSidebarOpen}
+        onClose={() => sidebarDispatch({ type: "close sidebar" })}
       >
         <Transition.Child
           as={Fragment}
@@ -59,7 +60,7 @@ export default function Mobile({
                   <button
                     type="button"
                     className="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                    onClick={() => setSidebarOpen(false)}
+                    onClick={() => sidebarDispatch({ type: "close sidebar" })}
                   >
                     <span className="sr-only">Close sidebar</span>
                     <XMarkIcon
@@ -81,7 +82,7 @@ export default function Mobile({
               </div>
               <div className="mt-5 h-0 flex-1 overflow-y-auto">
                 <nav className="space-y-1 px-2">
-                  {navigation.map((item) => {
+                  {navigation.map((item: NavLink) => {
                     return (
                       <NavLinkMobile
                         viewport="mobile"
@@ -94,6 +95,9 @@ export default function Mobile({
                           className: "text-gray-400 group-hover:text-gray-300",
                           activeClassName: "text-gray-300",
                         }}
+                        onClick={() =>
+                          sidebarDispatch({ type: "close sidebar" })
+                        }
                       >
                         {item.name}
                       </NavLinkMobile>

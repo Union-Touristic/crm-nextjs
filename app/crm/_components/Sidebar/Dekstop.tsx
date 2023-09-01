@@ -1,9 +1,11 @@
+"use client";
 import Link from "next/link";
 import Image from "next/image";
 import NavLinkDesktop from "./NavLink";
 import { NavLink } from "@/types/types";
+import { navigation } from "@/app/crm/_data/navigation";
 
-export default function Dekstop({ navigation }: { navigation: NavLink[] }) {
+export default function Dekstop() {
   return (
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <div className="flex min-h-0 flex-1 flex-col bg-gray-800">
@@ -14,7 +16,7 @@ export default function Dekstop({ navigation }: { navigation: NavLink[] }) {
         </div>
         <div className="flex flex-1 flex-col overflow-y-auto">
           <nav className="flex-1 space-y-1 px-2 py-4">
-            {navigation.map((item) => {
+            {navigation.map((item: NavLink) => {
               return (
                 <NavLinkDesktop
                   viewport="desktop"

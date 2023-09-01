@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 
 import classNames from "@/utils/classNames";
 import { NavLinkIcon } from "@/types/types";
+import { MouseEventHandler } from "react";
 
 type Props = {
   viewport: string;
@@ -15,6 +16,7 @@ type Props = {
     activeClassName: string;
   };
   children: React.ReactNode;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 export default function NavLink({
@@ -24,6 +26,7 @@ export default function NavLink({
   href,
   icon: Icon,
   children,
+  onClick,
   ...props
 }: Props) {
   const pathname = usePathname();
@@ -37,6 +40,7 @@ export default function NavLink({
         "group flex items-center p-2 font-medium rounded-md"
       )}
       href={href}
+      onClick={onClick}
       {...props}
     >
       {Icon.icon && (
