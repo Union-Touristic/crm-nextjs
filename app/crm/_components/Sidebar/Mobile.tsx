@@ -7,7 +7,6 @@ import Link from "next/link";
 import Image from "next/image";
 
 import NavLinkMobile from "./NavLink";
-import { NavLink } from "@/types/types";
 import {
   useSidebar,
   useSidebarDispatch,
@@ -15,11 +14,11 @@ import {
 import { navigation } from "@/app/crm/_data/navigation";
 
 export default function Mobile() {
-  const sidebarOpen = useSidebar();
+  const sidebar = useSidebar();
   const sidebarDispatch = useSidebarDispatch();
 
   return (
-    <Transition.Root show={sidebarOpen} as={Fragment}>
+    <Transition.Root show={sidebar.isOpen} as={Fragment}>
       <Dialog
         as="div"
         className="relative z-40 md:hidden"

@@ -1,19 +1,19 @@
 "use client";
-import React, { createContext, useContext, useReducer } from "react";
-import sidebarReducer from "./reducer";
+import React, { Dispatch, createContext, useContext, useReducer } from "react";
+import sidebarReducer, { SidebarAction, SidebarState } from "./reducer";
 
-type SidebarDispatchContextType = {};
-
-export const SidebarContext = createContext(false);
-// TODO: fix type
-export const SidebarDispatchContext = createContext<any>(null);
-
-export const SidebarProvider = ({
-  children,
-}: {
+type Props = {
   children: React.ReactNode;
-}) => {
-  const [sidebar, sidebarDispatch] = useReducer(sidebarReducer, false);
+};
+
+export const SidebarContext = createContext<SidebarState | null>(null);
+export const SidebarDispatchContext =
+  createContext<Dispatch<SidebarAction> | null>(null);
+
+const initialState: SidebarState = { isOpen: false };
+
+export const SidebarProvider = ({ children }: Props) => {
+  const [sidebar, sidebarDispatch] = useReducer(sidebarReducer, initialState);
 
   return (
     <SidebarContext.Provider value={sidebar}>
@@ -24,5 +24,18 @@ export const SidebarProvider = ({
   );
 };
 
-export const useSidebar = () => useContext(SidebarContext);
-export const useSidebarDispatch = () => useContext(SidebarDispatchContext);
+export const useSidebar = () => {
+  const object = useContext(SidebarContext);
+  if (!object) {
+    throw new Error("useSidebarDispatch must be used within a Provider");
+  }
+  return object;
+};
+
+export const useSidebarDispatch = () => {
+  const object = useContext(SidebarDispatchContext);
+  if (!object) {
+    throw new Error("useSidebarDispatch must be used within a Provider");
+  }
+  return object;
+};

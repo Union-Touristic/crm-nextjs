@@ -1,12 +1,17 @@
+export type SidebarState = {
+  isOpen: boolean;
+};
+export type SidebarAction = { type: string };
+
 export default function sidebarReducer(
-  state: boolean,
-  action: { type: string }
-) {
+  state: SidebarState,
+  action: SidebarAction
+): SidebarState {
   switch (action.type) {
     case "open sidebar":
-      return true;
+      return { ...state, isOpen: true };
     case "close sidebar":
-      return false;
+      return { ...state, isOpen: false };
     default: {
       throw Error("Unknown action: " + action.type);
     }
