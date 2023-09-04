@@ -3,12 +3,13 @@ import Link from "next/link";
 import Image from "next/image";
 import NavLinkDesktop from "./NavLink";
 import { navigation } from "@/app/crm/_data/navigation";
+import ThemeDropdown from "../ThemeDropdown";
 
 export default function Dekstop() {
   return (
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
-      <div className="flex min-h-0 flex-1 flex-col bg-gray-800">
-        <div className="flex h-16 flex-shrink-0 items-center bg-gray-900 px-4">
+      <div className="flex min-h-0 flex-1 flex-col bg-gray-200 dark:bg-gray-800">
+        <div className="flex h-16 flex-shrink-0 items-center bg-gray-300 dark:bg-gray-900 px-4">
           <Link href="/crm/dashboard">
             <Image height={32} width={38} src="/mark.svg" alt="Your Company" />
           </Link>
@@ -21,12 +22,13 @@ export default function Dekstop() {
                   viewport="desktop"
                   key={item.name}
                   href={item.href}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white"
-                  activeClassName="bg-gray-900 text-white"
+                  className="text-gray-900 hover:bg-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                  activeClassName="bg-gray-400 dark:bg-gray-900 dark:text-white"
                   icon={{
                     icon: item.icon,
-                    className: "text-gray-400 group-hover:text-gray-300",
-                    activeClassName: "text-gray-300",
+                    className:
+                      "dark:text-gray-400 dark:group-hover:text-gray-300",
+                    activeClassName: "dark:text-gray-300",
                   }}
                 >
                   {item.name}
@@ -34,6 +36,9 @@ export default function Dekstop() {
               );
             })}
           </nav>
+          <div className="py-4">
+            <ThemeDropdown />
+          </div>
         </div>
       </div>
     </div>

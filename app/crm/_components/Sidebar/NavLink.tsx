@@ -6,7 +6,7 @@ import { NavLinkIcon } from "@/types/types";
 import { MouseEventHandler } from "react";
 
 type Props = {
-  viewport: string;
+  viewport: "desktop" | "mobile";
   className: string;
   activeClassName: string;
   href: string;

@@ -87,8 +87,8 @@ export default function Mobile() {
                         viewport="mobile"
                         key={item.name}
                         href={item.href}
-                        className="text-gray-300 hover:bg-gray-700 hover:text-white"
-                        activeClassName="bg-gray-900 text-white"
+                        className="text-gray-900 hover:bg-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                        activeClassName="bg-gray-400 dark:bg-gray-900 dark:text-white"
                         icon={{
                           icon: item.icon,
                           className: "text-gray-400 group-hover:text-gray-300",

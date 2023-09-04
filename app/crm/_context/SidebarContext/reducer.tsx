@@ -1,7 +1,7 @@
 export type SidebarState = {
   isOpen: boolean;
 };
-export type SidebarAction = { type: string };
+export type SidebarAction = { type: "open sidebar" | "close sidebar" };
 
 export default function sidebarReducer(
   state: SidebarState,
