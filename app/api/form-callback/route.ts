@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { CallbackForm } from "@/types/types";
 
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 const BOT_API_TOKEN = process.env.TELEGRAM_BOT_API_TOKEN;
@@ -21,9 +22,9 @@ export async function POST(request: Request) {
     body: JSON.stringify({ chat_id: CHAT_ID, text }),
   });
 
-  if (sendMessageTelegram.statusText === 'OK') {
+  if (sendMessageTelegram.statusText === "OK") {
     return NextResponse.json({ name, phone, status: "ok" });
   }
 
-  return NextResponse.json({message: "Something went wrong"})
+  return NextResponse.json({ message: "Something went wrong" });
 }

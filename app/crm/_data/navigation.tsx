@@ -9,4 +9,5 @@ export const navigation: NavLink[] = [
   { name: "Dashboard", href: "/crm/dashboard", icon: HomeIcon },
   { name: "Selections", href: "/crm/selections", icon: RectangleStackIcon },
   { name: "Leads", href: "/crm/leads", icon: UserPlusIcon },
+  { name: "Orders", href: "/crm/orders", icon: UserPlusIcon },
 ];
