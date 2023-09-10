@@ -1,9 +1,13 @@
 "use client";
 import { Bars3BottomLeftIcon } from "@heroicons/react/24/outline";
 import { useSidebarDispatch } from "@/app/crm/_context/SidebarContext";
+import { Button } from "@/components/ui/button";
 
 export default function TopPanel() {
   const sidebarDispatch = useSidebarDispatch();
+  function handleClick() {
+    alert("hello world");
+  }
 
   return (
     <div className="sticky top-0 z-10 flex h-16 flex-shrink-0 bg-white shadow">
@@ -20,6 +24,7 @@ export default function TopPanel() {
         <div className="ml-4 flex items-center md:ml-6">
           {/* <Notifications /> */}
           {/* <ProfileDropdown /> */}
+          <Button variant="secondary">Click</Button>
         </div>
       </div>
     </div>

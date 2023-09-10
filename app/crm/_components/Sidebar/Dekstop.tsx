@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import NavLinkDesktop from "./NavLink";
 import { navigation } from "@/app/crm/_data/navigation";
-import ThemeDropdown from "../ThemeDropdown";
+import { ModeToggle } from "../ModeToggle";
 
 export default function Dekstop() {
   return (
@@ -36,8 +36,8 @@ export default function Dekstop() {
               );
             })}
           </nav>
-          <div className="py-4">
-            <ThemeDropdown />
+          <div className="px-4 py-4">
+            <ModeToggle />
           </div>
         </div>
       </div>
