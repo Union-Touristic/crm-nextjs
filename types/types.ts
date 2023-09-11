@@ -1,15 +1,12 @@
-import { ForwardRefExoticComponent, RefAttributes, SVGProps } from "react";
+import { IconProps } from "@radix-ui/react-icons/dist/types";
 
 export type CallbackForm = {
   name: string;
   phone: string;
 };
 
-export type NavLinkIcon = ForwardRefExoticComponent<
-  Omit<SVGProps<SVGSVGElement>, "ref"> & {
-    title?: string | undefined;
-    titleId?: string | undefined;
-  } & RefAttributes<SVGSVGElement>
+export type NavLinkIcon = React.ForwardRefExoticComponent<
+  IconProps & React.RefAttributes<SVGSVGElement>
 >;
 
 export type NavLink = {

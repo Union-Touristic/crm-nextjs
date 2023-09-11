@@ -2,8 +2,8 @@ import {
   int,
   varchar,
   mysqlTable,
-  mysqlSchema,
   boolean,
+  timestamp,
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
@@ -20,4 +20,5 @@ export const clientOrders = mysqlTable("client_orders", {
   name: varchar("name", { length: 100 }),
   phoneNumber: varchar("phone_number", { length: 30 }),
   isActive: boolean("is_active"),
+  createdAt: timestamp("created_at").defaultNow(),
 });

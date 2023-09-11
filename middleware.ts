@@ -1,10 +1,9 @@
-import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
 const allowedOrigins =
   process.env.NODE_ENV === "production"
     ? ["https://uniontouristic.kz"]
-    : ["http://localhost:3000"];
+    : ["http://localhost:3000", "http://localhost:8000"];
 
 export function middleware(request: NextRequest) {
   const origin = request.headers.get("origin");
@@ -25,13 +24,17 @@ export function middleware(request: NextRequest) {
   const res = NextResponse.next();
 
   if (origin && allowedOrigins.includes(origin)) {
+    res.headers.append("Access-Control-Allow-Credentials", "true");
     res.headers.append("Access-Control-Allow-Origin", origin);
+    res.headers.append(
+      "Access-Control-Allow-Methods",
+      "GET,DELETE,PATCH,POST,PUT"
+    );
+    res.headers.append(
+      "Access-Control-Allow-Headers",
+      "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+    );
   }
-
-  res.headers.append(
-    "Access-Control-Allow-Headers",
-    "X-CSRF-Token, Content-Type"
-  );
 
   return res;
 }

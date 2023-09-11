@@ -1,29 +1,47 @@
 import type { Metadata } from "next";
-import Title from "../_components/Title";
+import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { clientOrders } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
+import { DashboardShell } from "@/components/shell";
+import { DashboardHeader } from "@/components/header";
+import { OrderCreateButton } from "@/components/order-create-button";
+import { OrderItem } from "@/components/order-item";
+import { EmptyPlaceholder } from "@/components/empty-placeholder";
 
 export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function Dashboard() {
+export default async function DashboardPage() {
   const orders = await db
     .select()
     .from(clientOrders)
     .where(eq(clientOrders.isActive, true));
 
   return (
-    <>
-      <Title>Orders</Title>
-      <div className="py-4">
-        <div className="h-96 rounded-lg border-4 border-dashed border-gray-200">
-          {orders.map((order) => {
-            return <div key={order.id}>{order.name}</div>;
-          })}
-        </div>
+    <DashboardShell>
+      <DashboardHeader heading="Orders" text="Create and manage orders.">
+        <OrderCreateButton />
+      </DashboardHeader>
+      <div>
+        {orders?.length ? (
+          <div className="divide-y divide-border rounded-md border">
+            {orders.map((order) => (
+              <OrderItem key={order.id} order={order} />
+            ))}
+          </div>
+        ) : (
+          <EmptyPlaceholder>
+            <EmptyPlaceholder.Icon name="file-plus-2" />
+            <EmptyPlaceholder.Title>No orders created</EmptyPlaceholder.Title>
+            <EmptyPlaceholder.Description>
+              You don&apos;t have any orders yet. You can create orders
+              yourself.
+            </EmptyPlaceholder.Description>
+            <OrderCreateButton variant="outline" />
+          </EmptyPlaceholder>
+        )}
       </div>
-    </>
+    </DashboardShell>
   );
 }

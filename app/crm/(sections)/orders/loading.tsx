@@ -1,7 +1,21 @@
-export default function loading() {
+import { DashboardHeader } from "@/components/header";
+import { OrderCreateButton } from "@/components/order-create-button";
+import { OrderItem } from "@/components/order-item";
+import { DashboardShell } from "@/components/shell";
+
+export default function DashboardLoading() {
   return (
-    <div className="h-full flex items-center justify-center bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700">
-      <span className="sr-only">Loading...</span>
-    </div>
+    <DashboardShell>
+      <DashboardHeader heading="Orders" text="Create and manage orders.">
+        <OrderCreateButton />
+      </DashboardHeader>
+      <div className="divide-border-200 divide-y rounded-md border">
+        <OrderItem.Skeleton />
+        <OrderItem.Skeleton />
+        <OrderItem.Skeleton />
+        <OrderItem.Skeleton />
+        <OrderItem.Skeleton />
+      </div>
+    </DashboardShell>
   );
 }

@@ -24,7 +24,6 @@ export default function TopPanel() {
         <div className="ml-4 flex items-center md:ml-6">
           {/* <Notifications /> */}
           {/* <ProfileDropdown /> */}
-          <Button variant="secondary">Click</Button>
         </div>
       </div>
     </div>
