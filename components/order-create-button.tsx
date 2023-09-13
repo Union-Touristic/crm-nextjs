@@ -1,11 +1,9 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
 import { cn } from "@/lib/utils";
 import { ButtonProps, buttonVariants } from "@/components/ui/button";
-import Icon from "@/components/lucide-icon";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Plus, Loader2 } from "lucide-react";
 
 interface OrderCreateButtonProps extends ButtonProps {}
 
@@ -19,7 +17,9 @@ export function OrderCreateButton({
 
   return (
     <button
-      onClick={() => {}}
+      onClick={() => {
+        router.push("/crm/orders/create");
+      }}
       className={cn(
         buttonVariants({ variant }),
         {
@@ -31,9 +31,9 @@ export function OrderCreateButton({
       {...props}
     >
       {isLoading ? (
-        <Icon name="loader-2" className="mr-2 h-4 w-4 animate-spin" />
+        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (
-        <Icon name="plus" className="mr-2 h-4 w-4" />
+        <Plus className="mr-2 h-4 w-4" />
       )}
       New order
     </button>

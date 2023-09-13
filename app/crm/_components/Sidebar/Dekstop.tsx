@@ -10,7 +10,7 @@ export default function Dekstop() {
     <div className="hidden md:fixed md:inset-y-0 md:flex md:w-64 md:flex-col">
       <div className="flex min-h-0 flex-1 flex-col bg-gray-200 dark:bg-gray-800">
         <div className="flex h-16 flex-shrink-0 items-center bg-gray-300 dark:bg-gray-900 px-4">
-          <Link href="/crm/dashboard">
+          <Link href="/">
             <Image height={32} width={38} src="/mark.svg" alt="Your Company" />
           </Link>
         </div>

@@ -12,7 +12,9 @@ export const metadata: Metadata = {
   title: "Dashboard",
 };
 
-export default async function DashboardPage() {
+type Props = {};
+
+export default async function DashboardPage({}: Props) {
   const orders = await db
     .select()
     .from(clientOrders)
@@ -35,8 +37,7 @@ export default async function DashboardPage() {
             <EmptyPlaceholder.Icon name="file-plus-2" />
             <EmptyPlaceholder.Title>No orders created</EmptyPlaceholder.Title>
             <EmptyPlaceholder.Description>
-              You don&apos;t have any orders yet. You can create orders
-              yourself.
+              You don&apos;t have any orders yet.
             </EmptyPlaceholder.Description>
             <OrderCreateButton variant="outline" />
           </EmptyPlaceholder>

@@ -70,7 +70,7 @@ export default function Mobile() {
                 </div>
               </Transition.Child>
               <div className="flex flex-shrink-0 items-center px-4">
-                <Link href="/crm/dashboard">
+                <Link href="/">
                   <Image
                     height={32}
                     width={38}

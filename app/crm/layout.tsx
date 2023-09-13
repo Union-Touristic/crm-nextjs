@@ -5,8 +5,10 @@ import { SidebarProvider } from "./_context/SidebarContext";
 
 export default function SidebarLayout({
   children,
+  modal,
 }: {
   children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
   return (
     <SidebarProvider>
@@ -15,6 +17,7 @@ export default function SidebarLayout({
       <div className="flex flex-col md:pl-64">
         <TopPanel />
         {children}
+        {modal}
       </div>
     </SidebarProvider>
   );
