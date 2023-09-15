@@ -1,6 +1,30 @@
+"use client";
+import CreateOrderForm from "@/components/create-order-form";
+import { ToastAction } from "@/components/ui/toast";
+import { toast } from "@/components/ui/use-toast";
+
 type Props = {};
 
 export default function CreateOrderPage({}: Props) {
-  // TODO: Make Form for Creating Orders
-  return <div>app/crm/orders/createorder</div>;
+  return (
+    <div className="flex flex-col w-96 space-y-8">
+      <div className="flex flex-col space-y-2">
+        <h3 className="scroll-m-20 text-2xl font-semibold tracking-tight">
+          Create new Order
+        </h3>
+        <p className="leading-7 [&:not(:first-child)]:mt-2">
+          Provide fields to create new Order.
+        </p>
+      </div>
+      <CreateOrderForm
+        onCancelClick={() => {
+          toast({
+            title: "Sample text ",
+            description: "Description",
+            action: <ToastAction altText="Undo">Undo</ToastAction>,
+          });
+        }}
+      />
+    </div>
+  );
 }

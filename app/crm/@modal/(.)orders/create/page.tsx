@@ -11,9 +11,8 @@ import {
 } from "@/components/ui/alert-dialog";
 import { toast } from "@/components/ui/use-toast";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Plus } from "lucide-react";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import CreateOrderForm from "@/components/create-order-form";
 
 export default function CreateOrderModal() {
   const [_, setShowModal] = useState<boolean>(true);
@@ -34,14 +33,12 @@ export default function CreateOrderModal() {
             Provide fields to create new Order.
           </AlertDialogDescription>
         </AlertDialogHeader>
-        {/* TODO: Make Form for creating Orders */}
-        <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction className="bg-green-600 focus:ring-green-600 hover:bg-green-600">
-            <Plus className="mr-2 h-4 w-4" />
-            <span>Create</span>
-          </AlertDialogAction>
-        </AlertDialogFooter>
+        <CreateOrderForm
+          onCancelClick={() => {
+            setShowModal(false);
+            router.back();
+          }}
+        />
       </AlertDialogContent>
     </AlertDialog>
   );
