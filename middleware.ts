@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 
 const allowedOrigins =
   process.env.NODE_ENV === "production"
-    ? ["https://uniontouristic.kz"]
+    ? ["https://uniontouristic.kz", "https://crm-nextjs-plum.vercel.app"]
     : ["http://localhost:3000", "http://localhost:8000"];
 
 export function middleware(request: NextRequest) {

@@ -19,6 +19,7 @@ export const clientOrders = mysqlTable("client_orders", {
   id: int("id").primaryKey().autoincrement(),
   name: varchar("name", { length: 100 }),
   phoneNumber: varchar("phone_number", { length: 30 }),
-  isActive: boolean("is_active"),
+  isActive: boolean("is_active").default(true),
+  source: varchar("source", { length: 60 }),
   createdAt: timestamp("created_at").defaultNow(),
 });

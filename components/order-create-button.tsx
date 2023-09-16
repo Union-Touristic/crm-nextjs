@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ButtonProps, buttonVariants } from "@/components/ui/button";
 import { Plus, Loader2 } from "lucide-react";
+import { useModalDispatch } from "./modal-provider";
 
 interface OrderCreateButtonProps extends ButtonProps {}
 
@@ -14,10 +15,12 @@ export function OrderCreateButton({
 }: OrderCreateButtonProps) {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const modalDispatch = useModalDispatch();
 
   return (
     <button
       onClick={() => {
+        modalDispatch({ type: "open modal" });
         router.push("/crm/orders/create");
       }}
       className={cn(

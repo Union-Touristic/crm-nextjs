@@ -1,0 +1,2 @@
+ALTER TABLE `client_orders` MODIFY COLUMN `is_active` boolean DEFAULT true;--> statement-breakpoint
+ALTER TABLE `client_orders` ADD `source` enum('unknown','website','advertisement','instagram','facebook');

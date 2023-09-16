@@ -1,0 +1,1 @@
+ALTER TABLE `client_orders` MODIFY COLUMN `source` varchar(60);

@@ -6,6 +6,8 @@ export default function Home() {
       Home Page
       <br />
       <Link href="/crm/dashboard">Go to Dashboard</Link>
+      <br />
+      <Link href="/playground">Go to Playground</Link>
     </div>
   );
 }

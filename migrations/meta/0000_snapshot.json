@@ -1,0 +1,15 @@
+{
+  "version": "5",
+  "dialect": "mysql",
+  "id": "f16cdd19-a07f-480a-8a25-5f649ba703d8",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {},
+  "schemas": {
+    "crm": "crm"
+  },
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}
