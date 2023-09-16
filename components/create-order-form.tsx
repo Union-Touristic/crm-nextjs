@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
+import { OrderInsert } from "@/lib/db/schema";
 
 type Props = {
   onCancelClick?: (e: React.MouseEvent) => void;
@@ -19,21 +20,18 @@ type Props = {
   onFail?: () => void;
 };
 
-type FormState = {
-  order_name: string;
-  order_phone: string;
-  order_source: string;
+export type CreateOrderType = Pick<
+  OrderInsert,
+  "name" | "phoneNumber" | "source"
+>;
+
+const initialForm: CreateOrderType = {
+  name: "",
+  phoneNumber: "",
+  source: "unknown",
 };
 
-export type Order = FormState;
-
-const initialForm: FormState = {
-  order_name: "",
-  order_phone: "",
-  order_source: "unknown",
-};
-
-async function createOrder(order: Order) {
+async function createOrder(order: CreateOrderType) {
   const response = await fetch(`/api/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -57,7 +55,7 @@ export default function CreateOrderForm({
   onSuccess = () => {},
   onFail = () => {},
 }: Props) {
-  const [form, setForm] = useState<FormState>(initialForm);
+  const [form, setForm] = useState<CreateOrderType>(initialForm);
 
   async function handleSumbmit(e: React.FormEvent) {
     e.preventDefault();
@@ -82,10 +80,12 @@ export default function CreateOrderForm({
             className="w-72"
             autoComplete="off"
             onChange={(e) => {
-              setForm((prevForm) => ({
-                ...prevForm,
-                order_name: e.target.value,
-              }));
+              setForm(
+                (prevForm): CreateOrderType => ({
+                  ...prevForm,
+                  name: e.target.value,
+                })
+              );
             }}
           />
         </div>
@@ -97,10 +97,12 @@ export default function CreateOrderForm({
             className="w-72"
             autoComplete="off"
             onChange={(e) => {
-              setForm((prevForm) => ({
-                ...prevForm,
-                order_phone: e.target.value,
-              }));
+              setForm(
+                (prevForm): CreateOrderType => ({
+                  ...prevForm,
+                  phoneNumber: e.target.value,
+                })
+              );
             }}
           />
         </div>
@@ -109,10 +111,12 @@ export default function CreateOrderForm({
           <Select
             defaultValue="unknown"
             onValueChange={(value) => {
-              setForm((prevForm) => ({
-                ...prevForm,
-                order_source: value,
-              }));
+              setForm(
+                (prevForm): CreateOrderType => ({
+                  ...prevForm,
+                  source: value,
+                })
+              );
             }}
           >
             <SelectTrigger className="w-72" id="order_source">

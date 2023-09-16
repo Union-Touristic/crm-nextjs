@@ -5,6 +5,7 @@ import {
   boolean,
   timestamp,
 } from "drizzle-orm/mysql-core";
+import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
 
 export const users = mysqlTable("users", {
   id: int("id").primaryKey().autoincrement(),
@@ -23,3 +24,6 @@ export const clientOrders = mysqlTable("client_orders", {
   source: varchar("source", { length: 60 }),
   createdAt: timestamp("created_at").defaultNow(),
 });
+
+export type Order = InferSelectModel<typeof clientOrders>;
+export type OrderInsert = InferInsertModel<typeof clientOrders>;

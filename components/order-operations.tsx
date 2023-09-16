@@ -21,7 +21,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { toast } from "@/components/ui/use-toast";
-import Icon from "@/components/lucide-icon";
+import { MoreVertical, Loader2, Archive } from "lucide-react";
+import { Order } from "@/lib/db/schema";
 
 async function archivePost(orderId: number) {
   const response = await fetch(`/api/orders/${orderId}`, {
@@ -40,10 +41,7 @@ async function archivePost(orderId: number) {
 }
 
 interface OrderOperationsProps {
-  order: {
-    id: number;
-    name: string | null;
-  };
+  order: Order;
 }
 
 export function OrderOperations({ order }: OrderOperationsProps) {
@@ -55,7 +53,7 @@ export function OrderOperations({ order }: OrderOperationsProps) {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
-          <Icon className="h-4 w-4" name="more-vertical" />
+          <MoreVertical className="h-4 w-4" />
           <span className="sr-only">Open</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -102,9 +100,9 @@ export function OrderOperations({ order }: OrderOperationsProps) {
               className="bg-red-600 focus:ring-red-600"
             >
               {isArchiveLoading ? (
-                <Icon className="mr-2 h-4 w-4 animate-spin" name="loader-2" />
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               ) : (
-                <Icon className="mr-2 h-4 w-4" name="archive" />
+                <Archive className="mr-2 h-4 w-4" />
               )}
               <span>Archive</span>
             </AlertDialogAction>

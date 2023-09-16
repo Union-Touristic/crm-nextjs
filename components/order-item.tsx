@@ -2,19 +2,14 @@ import { formatDate } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { OrderOperations } from "@/components/order-operations";
 import { Badge } from "@/components/ui/badge";
+import { type Order } from "@/lib/db/schema";
 
-type OrderItemProps = {
-  order: {
-    id: number;
-    name: string | null;
-    phoneNumber: string | null;
-    isActive: boolean | null;
-    createdAt: Date | null;
-  };
-};
+interface OrderItemProps {
+  order: Order;
+}
 
 export function OrderItem({ order }: OrderItemProps) {
-  const { phoneNumber, createdAt } = order;
+  const { phoneNumber, source, createdAt } = order;
 
   return (
     <div className="flex items-center justify-between p-4">
@@ -24,7 +19,7 @@ export function OrderItem({ order }: OrderItemProps) {
             <span className="font-semibold">{order.name}</span>
             {phoneNumber && <span className="text-sm">{phoneNumber}</span>}
           </div>
-          <Badge variant="outline">Website</Badge>
+          <Badge variant="outline">{source}</Badge>
         </div>
         <div>
           <p className="text-sm text-muted-foreground">
@@ -32,7 +27,7 @@ export function OrderItem({ order }: OrderItemProps) {
           </p>
         </div>
       </div>
-      <OrderOperations order={{ id: order.id, name: order.name }} />
+      <OrderOperations order={order} />
     </div>
   );
 }
