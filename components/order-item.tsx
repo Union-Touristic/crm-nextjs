@@ -23,7 +23,7 @@ export function OrderItem({ order }: OrderItemProps) {
         </div>
         <div>
           <p className="text-sm text-muted-foreground">
-            {createdAt && formatDate(createdAt.toDateString())}
+            {/* {createdAt && formatDate(createdAt.toDateString())} */}
           </p>
         </div>
       </div>
