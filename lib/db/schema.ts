@@ -11,7 +11,7 @@ export const users = mysqlTable("users", {
   id: int("id").primaryKey().autoincrement(),
   firstName: varchar("first_name", { length: 100 }),
   lastName: varchar("last_name", { length: 100 }),
-  email: varchar("email", { length: 100 }),
+  email: varchar("email", { length: 100 }).unique(),
   password: varchar("password", { length: 255 }),
   phoneNumber: varchar("phone_number", { length: 30 }),
 });
