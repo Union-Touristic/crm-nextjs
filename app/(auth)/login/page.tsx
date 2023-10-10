@@ -4,7 +4,7 @@ import { LoginForm } from "./login-form";
 
 export default function LoginPage() {
   return (
-    <div className="max-w-lg mx-auto py-10 px-6 bg-white rounded-sm">
+    <div className="max-w-lg mx-auto py-10 px-6 bg-white dark:bg-slate-900 rounded-sm">
       <TypograhyH1>Login to CRM</TypograhyH1>
       <TypographyP className="mt-5">
         If you prefer logging in with a password choose below:

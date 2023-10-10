@@ -10,5 +10,9 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <main className="bg-slate-200 h-full pt-8">{children}</main>;
+  return (
+    <main className="bg-slate-200 dark:bg-slate-600 h-full pt-8">
+      {children}
+    </main>
+  );
 }
