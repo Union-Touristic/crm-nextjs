@@ -7,6 +7,34 @@ import { eq } from "drizzle-orm";
 import type { AuthOptions } from "next-auth";
 
 export const authOptions: AuthOptions = {
+  cookies: {
+    sessionToken: {
+      name: "sessionid",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      },
+    },
+    csrfToken: {
+      name: "csrftoken",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      },
+    },
+    callbackUrl: {
+      name: "callbackurl",
+      options: {
+        sameSite: "lax",
+        path: "/",
+        secure: true,
+      },
+    },
+  },
   session: {
     strategy: "jwt",
   },
