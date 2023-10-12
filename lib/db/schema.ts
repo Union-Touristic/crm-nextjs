@@ -1,14 +1,18 @@
 import {
-  int,
-  varchar,
-  mysqlTable,
+  serial,
+  integer,
   boolean,
+  varchar,
+  pgTable,
   timestamp,
-} from "drizzle-orm/mysql-core";
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
+  text,
+} from "drizzle-orm/pg-core";
 
-export const users = mysqlTable("users", {
-  id: int("id").primaryKey().autoincrement(),
+import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
+import { v4 as uuidv4 } from "uuid";
+
+export const users = pgTable("users", {
+  id: serial("id").primaryKey(),
   firstName: varchar("first_name", { length: 100 }),
   lastName: varchar("last_name", { length: 100 }),
   email: varchar("email", { length: 100 }).unique(),
@@ -16,13 +20,53 @@ export const users = mysqlTable("users", {
   phoneNumber: varchar("phone_number", { length: 30 }),
 });
 
-export const clientOrders = mysqlTable("client_orders", {
-  id: int("id").primaryKey().autoincrement(),
+export const clientOrders = pgTable("client_orders", {
+  id: serial("id").primaryKey(),
   name: varchar("name", { length: 100 }),
   phoneNumber: varchar("phone_number", { length: 30 }),
   isActive: boolean("is_active").default(true),
   source: varchar("source", { length: 60 }),
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const compilations = pgTable("compilations", {
+  id: varchar("id", { length: 36 })
+    .$default(() => uuidv4())
+    .primaryKey(),
+  userId: integer("user_id").references(() => users.id),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// https://planetscale.com/blog/working-with-related-data-using-drizzle-and-planetscale
+//👇 This code block will tell Drizzle that users & compilations are related!
+// export const usersRelations = relations(users, ({ many }) => ({
+//   compilations: many(compilations),
+// }));
+
+//👇 This code block defines which columns in the two tables are related
+
+// export const compilationsRelations = relations(compilations, ({ one }) => ({
+//   user: one(users, {
+//     fields: [compilations.userId],
+//     references: [users.id],
+//   }),
+// }));
+
+export const tours = pgTable("tours", {
+  id: serial("id").primaryKey(),
+  fromCity: varchar("from_city", { length: 50 }),
+  country: varchar("country", { length: 50 }),
+  region: varchar("region", { length: 50 }),
+  departureDate: varchar("departure_date", { length: 30 }),
+  nights: integer("nights"),
+  hotel: varchar("hotel", { length: 100 }),
+  boardBasis: varchar("board_basis", { length: 30 }),
+  roomType: varchar("room_type", { length: 50 }),
+  hotelShortDescription: text("hotel_short_description"),
+  operator: varchar("operator", { length: 30 }),
+  currency: varchar("currency", { length: 10 }),
+  price: integer("price"),
 });
 
 export type Order = InferSelectModel<typeof clientOrders>;
