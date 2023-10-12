@@ -1,3 +1,4 @@
+import { LoginBtn } from "@/components/login-btn";
 import Link from "next/link";
 
 export default function Home() {
@@ -8,6 +9,7 @@ export default function Home() {
       <Link href="/crm/dashboard">Go to Dashboard</Link>
       <br />
       <Link href="/playground">Go to Playground</Link>
+      <LoginBtn />
     </div>
   );
 }

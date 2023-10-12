@@ -1,17 +1,25 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { compare } from "bcrypt";
+import { db } from "@/lib/db";
+import { users } from "@/lib/db/schema";
+import { eq } from "drizzle-orm";
+import type { AuthOptions } from "next-auth";
 
-const handler = NextAuth({
+export const authOptions: AuthOptions = {
+  session: {
+    strategy: "jwt",
+  },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
-      name: "Credentials",
+      name: "email",
       // The credentials is used to generate a suitable form on the sign in page.
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: {},
+        email: {},
         password: {},
       },
       async authorize(credentials, req) {
@@ -21,22 +29,38 @@ const handler = NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        const res = await fetch("/your/endpoint", {
-          method: "POST",
-          body: JSON.stringify(credentials),
-          headers: { "Content-Type": "application/json" },
-        });
-        const user = await res.json();
+        if (!credentials) return null;
+        const fetchedUsers = await db
+          .select()
+          .from(users)
+          .where(eq(users.email, credentials.email));
 
-        // If no error and we have user data, return it
-        if (res.ok && user) {
-          return user;
+        if (!fetchedUsers.length) return null;
+        const user = fetchedUsers[0];
+        const { password: userPassword } = user;
+
+        if (!userPassword) return null;
+        const passwordCorrect = await compare(
+          credentials.password,
+          userPassword
+        );
+
+        if (passwordCorrect) {
+          return {
+            id: user.id.toString(),
+            email: user.email,
+          };
         }
-        // Return null if user data could not be retrieved
+
         return null;
       },
     }),
   ],
-});
+  pages: {
+    signIn: "/login",
+  },
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };
