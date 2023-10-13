@@ -5,6 +5,8 @@ const allowedOrigins =
     ? [
         "https://uniontouristic.kz",
         "https://crm-nextjs-plum.vercel.app",
+        "https://uniontouristic.vercel.app",
+        "https://crm.uniontouristic.vercel.app",
         "chrome-extension://mnepgcmmpdbncekbciddljomkdlebaip",
       ]
     : [
