@@ -3,7 +3,8 @@ import * as React from "react";
 import { useSession, signIn, signOut } from "next-auth/react";
 
 export function LoginBtn() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
   if (session) {
     return (
       <div>

@@ -1,14 +1,13 @@
 import { NextResponse, NextRequest } from "next/server";
 
 const allowedOrigins =
-  process.env.VERCEL_ENV === "production"
+  process.env.NODE_ENV === "production"
     ? [
         "https://uniontouristic.kz",
         "https://crm-nextjs-plum.vercel.app",
         "https://uniontouristic.vercel.app",
         "https://crm.uniontouristic.vercel.app",
         "https://crm-nextjs-union-touristic.vercel.app",
-
         "https://crm-nextjs-git-main-union-touristic.vercel.app",
         "chrome-extension://mnepgcmmpdbncekbciddljomkdlebaip",
       ]
@@ -23,7 +22,7 @@ export function middleware(request: NextRequest) {
 
   if (
     (origin && !allowedOrigins.includes(origin)) ||
-    (!origin && process.env.VERCEL_ENV === "production")
+    (!origin && process.env.NODE_ENV === "production")
   ) {
     return new NextResponse(null, {
       status: 400,

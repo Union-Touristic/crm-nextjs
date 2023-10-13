@@ -3,9 +3,9 @@ import { compare } from "bcrypt";
 import { db } from "@/lib/db";
 import { users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import type { AuthOptions } from "next-auth";
+import type { NextAuthOptions } from "next-auth";
 
-export const authOptions: AuthOptions = {
+export const authOptions: NextAuthOptions = {
   cookies: {
     sessionToken: {
       name: "sessionid",
