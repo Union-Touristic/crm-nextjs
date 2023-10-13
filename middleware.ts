@@ -7,6 +7,9 @@ const allowedOrigins =
         "https://crm-nextjs-plum.vercel.app",
         "https://uniontouristic.vercel.app",
         "https://crm.uniontouristic.vercel.app",
+        "https://crm-nextjs-union-touristic.vercel.app",
+
+        "https://crm-nextjs-git-main-union-touristic.vercel.app",
         "chrome-extension://mnepgcmmpdbncekbciddljomkdlebaip",
       ]
     : [
@@ -38,7 +41,7 @@ export function middleware(request: NextRequest) {
     res.headers.append("Access-Control-Allow-Origin", origin);
     res.headers.append(
       "Access-Control-Allow-Methods",
-      "GET,DELETE,PATCH,POST,PUT"
+      "GET,OPTIONS,DELETE,PATCH,POST,PUT"
     );
     res.headers.append(
       "Access-Control-Allow-Headers",
