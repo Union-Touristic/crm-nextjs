@@ -1,56 +1,21 @@
-import { NextResponse, NextRequest } from "next/server";
+import { withAuth } from "next-auth/middleware";
 
-const allowedOrigins =
-  process.env.NODE_ENV === "production"
-    ? [
-        "https://uniontouristic.kz",
-        "https://crm-nextjs-plum.vercel.app",
-        "https://uniontouristic.vercel.app",
-        "https://crm.uniontouristic.vercel.app",
-        "https://crm-nextjs-union-touristic.vercel.app",
-        "https://crm-nextjs-git-main-union-touristic.vercel.app",
-        "chrome-extension://mnepgcmmpdbncekbciddljomkdlebaip",
-      ]
-    : [
-        "http://localhost:3000",
-        "http://localhost:8000",
-        "chrome-extension://mnepgcmmpdbncekbciddljomkdlebaip",
-      ];
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split("\n");
 
-export function middleware(request: NextRequest) {
-  const origin = request.headers.get("origin");
+export default withAuth({
+  callbacks: {
+    authorized({ req, token }) {
+      const origin = req.headers.get("origin");
+      if (origin && allowedOrigins?.includes(origin)) {
+        return true;
+      }
 
-  if (
-    (origin && !allowedOrigins.includes(origin)) ||
-    (!origin && process.env.NODE_ENV === "production")
-  ) {
-    return new NextResponse(null, {
-      status: 400,
-      statusText: "Bad Request",
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-  }
-
-  const res = NextResponse.next();
-
-  if (origin && allowedOrigins.includes(origin)) {
-    res.headers.append("Access-Control-Allow-Credentials", "true");
-    res.headers.append("Access-Control-Allow-Origin", origin);
-    res.headers.append(
-      "Access-Control-Allow-Methods",
-      "GET,OPTIONS,DELETE,PATCH,POST,PUT"
-    );
-    res.headers.append(
-      "Access-Control-Allow-Headers",
-      "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
-    );
-  }
-
-  return res;
-}
+      if (token) return true;
+      return !!token;
+    },
+  },
+});
 
 export const config = {
-  matcher: "/api/:path*",
+  matcher: ["/api/:path*", "/crm/dashboard"],
 };
