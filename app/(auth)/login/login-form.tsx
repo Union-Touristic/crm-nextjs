@@ -4,24 +4,21 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { FormEvent } from "react";
 import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export function LoginForm() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const calbackUrl = searchParams.get("callbackUrl");
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const signInResponse = await signIn("credentials", {
+    await signIn("credentials", {
       email: formData.get("email"),
       password: formData.get("password"),
-      redirect: false,
-      // callbackUrl: "/crm/dashboard",
+      redirect: true,
+      callbackUrl: calbackUrl || "/crm/dashboard",
     });
-
-    if (signInResponse?.ok) {
-      router.push("/");
-      router.refresh();
-    }
   }
 
   return (
