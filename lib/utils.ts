@@ -13,3 +13,25 @@ export function formatDate(input: string | number): string {
     year: "numeric",
   });
 }
+
+export function txtCenter(
+  inputString: string,
+  length: number = 50,
+  fillchar: string = "="
+) {
+  // If the input string is longer than or equal to the desired length, return it as is
+  if (inputString.length >= length) {
+    return inputString;
+  }
+
+  // Calculate how many characters to pad on each side
+  const totalPadding = length - inputString.length;
+  const leftPadding = Math.floor(totalPadding / 2);
+  const rightPadding = totalPadding - leftPadding;
+
+  // Create the padded string by repeating the fill character
+  const paddedString =
+    fillchar.repeat(leftPadding) + inputString + fillchar.repeat(rightPadding);
+
+  return paddedString;
+}
