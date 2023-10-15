@@ -33,28 +33,20 @@ export const compilations = pgTable("compilations", {
   id: varchar("id", { length: 36 })
     .$default(() => uuidv4())
     .primaryKey(),
-  userId: integer("user_id").references(() => users.id),
+  userId: integer("user_id").references(() => users.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
   createdAt: timestamp("created_at").defaultNow(),
   updatedAt: timestamp("updated_at").defaultNow(),
 });
 
-// https://planetscale.com/blog/working-with-related-data-using-drizzle-and-planetscale
-//👇 This code block will tell Drizzle that users & compilations are related!
-// export const usersRelations = relations(users, ({ many }) => ({
-//   compilations: many(compilations),
-// }));
-
-//👇 This code block defines which columns in the two tables are related
-
-// export const compilationsRelations = relations(compilations, ({ one }) => ({
-//   user: one(users, {
-//     fields: [compilations.userId],
-//     references: [users.id],
-//   }),
-// }));
-
 export const tours = pgTable("tours", {
   id: serial("id").primaryKey(),
+  compilationId: varchar("compilation_id").references(() => compilations.id, {
+    onDelete: "cascade",
+    onUpdate: "cascade",
+  }),
   fromCity: varchar("from_city", { length: 50 }),
   country: varchar("country", { length: 50 }),
   region: varchar("region", { length: 50 }),
@@ -71,3 +63,6 @@ export const tours = pgTable("tours", {
 
 export type Order = InferSelectModel<typeof clientOrders>;
 export type OrderInsert = InferInsertModel<typeof clientOrders>;
+
+export type Tour = InferSelectModel<typeof tours>;
+export type TourInsert = InferInsertModel<typeof tours>;
