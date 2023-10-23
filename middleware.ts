@@ -17,5 +17,5 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ["/api/:path*", "/crm/dashboard"],
+  matcher: ["/api/:path*", "/crm/:path*"],
 };

@@ -13,8 +13,8 @@ type UserNavigationLink = {
 };
 
 const menuLinks: UserNavigationLink[] = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
+  // { name: "Your Profile", href: "#" },
+  // { name: "Settings", href: "#" },
   {
     name: "Sign out",
     href: "#",

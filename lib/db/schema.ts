@@ -33,12 +33,14 @@ export const compilations = pgTable("compilations", {
   id: varchar("id", { length: 36 })
     .$default(() => uuidv4())
     .primaryKey(),
-  userId: integer("user_id").references(() => users.id, {
-    onDelete: "cascade",
-    onUpdate: "cascade",
-  }),
+  userId: integer("user_id")
+    .references(() => users.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    })
+    .notNull(),
+  isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
 });
 
 export const tours = pgTable("tours", {
@@ -63,6 +65,9 @@ export const tours = pgTable("tours", {
 
 export type Order = InferSelectModel<typeof clientOrders>;
 export type OrderInsert = InferInsertModel<typeof clientOrders>;
+
+export type Compilation = InferSelectModel<typeof compilations>;
+export type CompilationInsert = InferInsertModel<typeof compilations>;
 
 export type Tour = InferSelectModel<typeof tours>;
 export type TourInsert = InferInsertModel<typeof tours>;
