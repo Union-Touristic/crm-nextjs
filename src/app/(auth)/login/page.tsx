@@ -1,5 +1,5 @@
-import { TypograhyH1 } from "@/components/typography/h1";
-import { TypographyP } from "@/components/typography/p";
+import { TypograhyH1 } from "@/ui/typography/h1";
+import { TypographyP } from "@/ui/typography/p";
 import { LoginForm } from "./login-form";
 import { redirect } from "next/navigation";
 import { auth } from "@/app/api/auth/[...nextauth]/auth";

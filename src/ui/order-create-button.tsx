@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ButtonProps, buttonVariants } from "@/components/ui/button";
+import { ButtonProps, buttonVariants } from "@/ui/button";
 import { Plus, Loader2 } from "lucide-react";
 import { useModalDispatch } from "./modal-provider";
 

@@ -1,7 +1,7 @@
 import { formatDate } from "@/lib/utils";
-import { Skeleton } from "@/components/ui/skeleton";
-import { OrderOperations } from "@/components/order-operations";
-import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/ui/skeleton";
+import { OrderOperations } from "@/ui/order-operations";
+import { Badge } from "@/ui/badge";
 import { type Order } from "@/lib/db/schema";
 
 interface OrderItemProps {

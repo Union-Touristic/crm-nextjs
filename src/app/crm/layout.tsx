@@ -2,12 +2,12 @@ import MobileSidebar from "./_components/Sidebar/Mobile";
 import DekstopSidebar from "./_components/Sidebar/Dekstop";
 import TopPanel from "./_components/Sidebar/TopPanel";
 import { SidebarProvider } from "./_context/SidebarContext";
-import { ModalProvider } from "@/components/modal-provider";
+import { ModalProvider } from "@/ui/modal-provider";
 import "@/ui/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Toaster } from "@/components/ui/toaster";
-import { Providers } from "@/components/providers";
+import { Toaster } from "@/ui/toaster";
+import { Providers } from "@/providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

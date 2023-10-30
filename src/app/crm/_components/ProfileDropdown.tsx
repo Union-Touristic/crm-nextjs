@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
 import { cn } from "@/lib/utils";
 import { signOut, useSession } from "next-auth/react";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/ui/skeleton";
 import { AvatarIcon } from "@radix-ui/react-icons";
 
 type UserNavigationLink = {

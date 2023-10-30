@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import Icon, { IconProps } from "@/components/lucide-icon";
+import Icon, { IconProps } from "@/ui/lucide-icon";
 
 interface EmptyPlaceholderProps extends React.HTMLAttributes<HTMLDivElement> {}
 

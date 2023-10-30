@@ -1,7 +1,7 @@
-import { DashboardHeader } from "@/components/header";
-import { OrderCreateButton } from "@/components/order-create-button";
-import { OrderItem } from "@/components/order-item";
-import { DashboardShell } from "@/components/shell";
+import { DashboardHeader } from "@/ui/header";
+import { OrderCreateButton } from "@/ui/order-create-button";
+import { OrderItem } from "@/ui/order-item";
+import { DashboardShell } from "@/ui/shell";
 
 export default function DashboardLoading() {
   return (

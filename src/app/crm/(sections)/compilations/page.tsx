@@ -1,8 +1,8 @@
 import { auth } from "@/app/api/auth/[...nextauth]/auth";
-import { CompilationItem } from "@/components/compilation-item";
-import { EmptyPlaceholder } from "@/components/empty-placeholder";
-import { DashboardHeader } from "@/components/header";
-import { DashboardShell } from "@/components/shell";
+import { CompilationItem } from "@/ui/compilation-item";
+import { EmptyPlaceholder } from "@/ui/empty-placeholder";
+import { DashboardHeader } from "@/ui/header";
+import { DashboardShell } from "@/ui/shell";
 import { db } from "@/lib/db";
 import { compilations, users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";

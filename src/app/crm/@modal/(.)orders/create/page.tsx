@@ -5,10 +5,10 @@ import {
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+} from "@/ui/alert-dialog";
 import { useRouter } from "next/navigation";
-import CreateOrderForm from "@/components/create-order-form";
-import { useModal, useModalDispatch } from "@/components/modal-provider";
+import CreateOrderForm from "@/ui/create-order-form";
+import { useModal, useModalDispatch } from "@/ui/modal-provider";
 
 export default function CreateOrderModal() {
   const modal = useModal();

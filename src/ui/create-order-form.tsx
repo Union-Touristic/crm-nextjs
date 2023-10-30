@@ -1,16 +1,16 @@
 "use client";
 
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
+import { Label } from "@/ui/label";
+import { Input } from "@/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/components/ui/use-toast";
+} from "@/ui/select";
+import { Button } from "@/ui/button";
+import { toast } from "@/ui/use-toast";
 import { useState } from "react";
 import { OrderInsert } from "@/lib/db/schema";
 

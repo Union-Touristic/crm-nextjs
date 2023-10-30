@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { CompilationActions } from "./compilation-actions";
 import Link from "next/link";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Skeleton } from "@/ui/skeleton";
 import type { Compilation, CompilationStatus } from "@/types/compilations";
 import { compilations as data } from "@/data/compilations";
 

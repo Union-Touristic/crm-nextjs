@@ -1,4 +1,4 @@
-import { TypograhyH1 } from "@/components/typography/h1";
+import { TypograhyH1 } from "@/ui/typography/h1";
 import { RegisterForm } from "./register-form";
 import { redirect } from "next/navigation";
 import { auth } from "@/app/api/auth/[...nextauth]/auth";

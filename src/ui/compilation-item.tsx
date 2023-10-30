@@ -1,7 +1,7 @@
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/ui/badge";
+import { Skeleton } from "@/ui/skeleton";
 import type { Compilation } from "@/lib/db/schema";
-import { CompilationOperations } from "@/components/compilation-operations";
+import { CompilationOperations } from "@/ui/compilation-operations";
 import {
   CalendarIcon,
   FileTextIcon,

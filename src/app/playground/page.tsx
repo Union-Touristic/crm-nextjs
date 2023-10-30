@@ -1,4 +1,4 @@
-import CreateOrderForm from "@/components/create-order-form";
+import CreateOrderForm from "@/ui/create-order-form";
 
 type Props = {};
 

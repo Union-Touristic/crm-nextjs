@@ -1,7 +1,7 @@
 "use client";
-import CreateOrderForm from "@/components/create-order-form";
-import { ToastAction } from "@/components/ui/toast";
-import { toast } from "@/components/ui/use-toast";
+import CreateOrderForm from "@/ui/create-order-form";
+import { ToastAction } from "@/ui/toast";
+import { toast } from "@/ui/use-toast";
 import { useRouter } from "next/navigation";
 
 type Props = {};

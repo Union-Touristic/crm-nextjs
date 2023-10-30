@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { clientOrders } from "@/lib/db/schema";
-import { DashboardShell } from "@/components/shell";
-import { DashboardHeader } from "@/components/header";
-import { OrderCreateButton } from "@/components/order-create-button";
-import { OrderItem } from "@/components/order-item";
-import { EmptyPlaceholder } from "@/components/empty-placeholder";
+import { DashboardShell } from "@/ui/shell";
+import { DashboardHeader } from "@/ui/header";
+import { OrderCreateButton } from "@/ui/order-create-button";
+import { OrderItem } from "@/ui/order-item";
+import { EmptyPlaceholder } from "@/ui/empty-placeholder";
 
 export const metadata: Metadata = {
   title: "Dashboard",
