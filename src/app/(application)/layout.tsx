@@ -1,12 +1,7 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { inter } from "@/ui/fonts";
 import "@/ui/globals.css";
 import { cn } from "@/lib/utils";
-
-const fontSans = FontSans({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-sans",
-});
 
 export const metadata: Metadata = {
   title: {
@@ -23,7 +18,7 @@ type Props = {
 export default function ApplicationRootLayout({ children }: Props) {
   return (
     <html lang="ru" className="h-full" suppressHydrationWarning>
-      <body className={cn("h-full font-sans antialiased", fontSans.variable)}>
+      <body className={cn("h-full font-sans antialiased", inter.variable)}>
         {children}
       </body>
     </html>

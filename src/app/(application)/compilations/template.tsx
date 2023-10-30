@@ -4,18 +4,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const tabs = [
-  { name: "All", href: "/compilations" },
-  { name: "Active", href: "/compilations/active" },
-  { name: "Archived", href: "/compilations/archived" },
+  { name: "Все", href: "/compilations" },
+  { name: "Активные", href: "/compilations/active" },
+  { name: "Архив", href: "/compilations/archived" },
 ];
 
-type CompilationsTemplateProps = {
+type Props = {
   children: React.ReactNode;
 };
 
-export default function CompilationsTemplate({
-  children,
-}: CompilationsTemplateProps) {
+export default function CompilationsTemplate({ children }: Props) {
   const pathname = usePathname();
 
   return (

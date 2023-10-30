@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import {
   CompilationStackedList,
   CompilationStackedListSkeleton,
-} from "./../_components/compilations-stacked-list";
+} from "@/ui/compilations/compilations-stacked-list";
 
 export default function Compilations() {
   return (
