@@ -1,4 +1,4 @@
-import { NavLink } from "@/types/types";
+import { NavLink } from "@/lib/definitions";
 
 import {
   DrawingPinFilledIcon,

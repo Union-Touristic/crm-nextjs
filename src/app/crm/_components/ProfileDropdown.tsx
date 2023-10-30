@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import Image from "next/image";
 import { Menu, Transition } from "@headlessui/react";
-import classNames from "@/utils/classNames";
+import { cn } from "@/lib/utils";
 import { signOut, useSession } from "next-auth/react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { AvatarIcon } from "@radix-ui/react-icons";
@@ -71,7 +71,7 @@ export default function ProfileDropdown() {
               {({ active }) => (
                 <a
                   href={item.href}
-                  className={classNames(
+                  className={cn(
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
                   )}

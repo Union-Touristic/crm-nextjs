@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import classNames from "@/utils/classNames";
-import { NavLinkIcon } from "@/types/types";
+import { cn } from "@/lib/utils";
+import { NavLinkIcon } from "@/lib/definitions";
 import { MouseEventHandler } from "react";
 
 type Props = {
@@ -34,7 +34,7 @@ export default function NavLink({
 
   return (
     <Link
-      className={classNames(
+      className={cn(
         isActive ? activeClassName : className,
         viewport === "desktop" ? "text-sm" : "text-base",
         "group flex items-center p-2 font-medium rounded-md"
@@ -45,7 +45,7 @@ export default function NavLink({
     >
       {Icon.icon && (
         <Icon.icon
-          className={classNames(
+          className={cn(
             isActive ? Icon.activeClassName : Icon.className,
             "mr-3 flex-shrink-0 h-6 w-6"
           )}

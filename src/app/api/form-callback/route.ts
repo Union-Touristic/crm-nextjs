@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { CallbackForm } from "@/types/types";
+import { CallbackForm } from "@/lib/definitions";
 import { default as twilio } from "twilio";
 
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
