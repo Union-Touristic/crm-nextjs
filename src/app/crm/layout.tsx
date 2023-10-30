@@ -3,7 +3,7 @@ import DekstopSidebar from "./_components/Sidebar/Dekstop";
 import TopPanel from "./_components/Sidebar/TopPanel";
 import { SidebarProvider } from "./_context/SidebarContext";
 import { ModalProvider } from "@/components/modal-provider";
-import "@/app/globals.css";
+import "@/ui/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
