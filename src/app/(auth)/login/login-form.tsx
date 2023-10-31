@@ -17,7 +17,7 @@ export function LoginForm() {
       email: formData.get("email"),
       password: formData.get("password"),
       redirect: true,
-      callbackUrl: calbackUrl || "/crm/dashboard",
+      callbackUrl: calbackUrl || "/dashboard",
     });
   }
 

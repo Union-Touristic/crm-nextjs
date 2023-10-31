@@ -14,3 +14,5 @@ export type NavLink = {
   href: string;
   icon?: NavLinkIcon;
 };
+
+export type CompilationStatus = "Active" | "Archived";

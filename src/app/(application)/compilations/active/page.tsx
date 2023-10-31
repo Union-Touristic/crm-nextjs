@@ -7,7 +7,7 @@ import {
 export default function Compilations() {
   return (
     <Suspense fallback={<CompilationStackedListSkeleton />}>
-      <CompilationStackedList filter="Active" />
+      <CompilationStackedList filter="Active" currentPage={1} />
     </Suspense>
   );
 }

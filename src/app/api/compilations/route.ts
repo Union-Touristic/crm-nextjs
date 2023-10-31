@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
         })
         .returning();
 
+      console.log(createdCompilation);
+
       const toursToInserst = data.map((tour) => {
         return {
           ...tour,
