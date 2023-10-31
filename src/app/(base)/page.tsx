@@ -1,4 +1,3 @@
-import { LoginBtn } from "@/ui/login-btn";
 import Link from "next/link";
 
 export default function Home() {
@@ -9,7 +8,8 @@ export default function Home() {
       <Link href="/dashboard">Перейди в Дэшборд</Link>
       <br />
       <Link href="/playground">Перейти в Песочницу</Link>
-      <LoginBtn />
+      <br />
+      <Link href="/login">Войти</Link>
     </div>
   );
 }

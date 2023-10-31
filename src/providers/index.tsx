@@ -1,6 +1,6 @@
 "use client";
 import * as React from "react";
-import { SessionProvider } from "./session-provider";
+// import { SessionProvider } from "./session-provider";
 import { ThemeProvider } from "./theme-provider";
 
 type Props = {
@@ -9,10 +9,10 @@ type Props = {
 
 export function Providers({ children }: Props) {
   return (
-    <SessionProvider>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-        {children}
-      </ThemeProvider>
-    </SessionProvider>
+    // <SessionProvider>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+      {children}
+    </ThemeProvider>
+    // </SessionProvider>
   );
 }

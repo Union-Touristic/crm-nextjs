@@ -15,10 +15,10 @@ type Props = {
   children: React.ReactNode;
 };
 
-export default function ApplicationRootLayout({ children }: Props) {
+export default function RootLayout({ children }: Props) {
   return (
     <html lang="ru" className="h-full" suppressHydrationWarning>
-      <body className={cn("h-full font-sans antialiased", inter.variable)}>
+      <body className={cn("h-full antialiased", inter.variable)}>
         {children}
       </body>
     </html>

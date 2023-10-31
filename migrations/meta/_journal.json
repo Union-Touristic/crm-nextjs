@@ -22,6 +22,20 @@
       "when": 1698071266862,
       "tag": "0002_perfect_aqueduct",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1698768427748,
+      "tag": "0003_familiar_wildside",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1698768490508,
+      "tag": "0004_useful_iron_fist",
+      "breakpoints": true
     }
   ]
 }

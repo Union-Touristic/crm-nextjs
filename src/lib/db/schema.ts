@@ -12,12 +12,13 @@ import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const users = pgTable("users", {
-  id: serial("id").primaryKey(),
-  firstName: varchar("first_name", { length: 100 }),
-  lastName: varchar("last_name", { length: 100 }),
+  id: varchar("id", { length: 36 })
+    .$default(() => uuidv4())
+    .primaryKey(),
+  name: varchar("name", { length: 50 }),
   email: varchar("email", { length: 100 }).unique(),
   password: varchar("password", { length: 255 }),
-  phoneNumber: varchar("phone_number", { length: 30 }),
+  image: varchar("image", { length: 255 }),
 });
 
 export const clientOrders = pgTable("client_orders", {
@@ -33,12 +34,12 @@ export const compilations = pgTable("compilations", {
   id: varchar("id", { length: 36 })
     .$default(() => uuidv4())
     .primaryKey(),
-  userId: integer("user_id")
+  userId: varchar("user_id")
+    .notNull()
     .references(() => users.id, {
       onDelete: "cascade",
       onUpdate: "cascade",
-    })
-    .notNull(),
+    }),
   isActive: boolean("is_active").default(true),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -62,6 +63,9 @@ export const tours = pgTable("tours", {
   currency: varchar("currency", { length: 10 }),
   price: integer("price"),
 });
+
+export type User = InferSelectModel<typeof users>;
+export type UserInsert = InferInsertModel<typeof users>;
 
 export type Order = InferSelectModel<typeof clientOrders>;
 export type OrderInsert = InferInsertModel<typeof clientOrders>;
