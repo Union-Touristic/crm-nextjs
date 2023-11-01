@@ -5,7 +5,11 @@ export default function Home() {
     <div>
       Домашняя страница
       <br />
-      <Link href="/dashboard">Перейди в Дэшборд</Link>
+      <Link href="/dashboard">Перейти в Дэшборд</Link>
+      <br />
+      <Link href="/compilations">Перейти в Подборки</Link>
+      <br />
+      <Link href="/customers">Перейти к Клиентам</Link>
       <br />
       <Link href="/playground">Перейти в Песочницу</Link>
       <br />

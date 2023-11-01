@@ -1,5 +1,5 @@
 const { sql } = require("@vercel/postgres");
-const { users } = require("../src/lib/placeholderData.js");
+const { users } = require("./placeholderData.js");
 const bcrypt = require("bcryptjs");
 const { exit } = require("process");
 

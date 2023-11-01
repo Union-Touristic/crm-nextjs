@@ -7,7 +7,7 @@ export default function Dashboard() {
       <form
         action={async () => {
           "use server";
-          await signOut();
+          await signOut({ redirectTo: "/" });
         }}
       >
         <button>Выйти</button>

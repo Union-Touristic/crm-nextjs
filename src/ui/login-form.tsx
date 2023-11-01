@@ -3,19 +3,27 @@ import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/lib/actions";
 import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import Logo from "@/ui/logo";
+import { Loader2 } from "lucide-react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 
 export function LoginForm() {
   const [code, action] = useFormState(authenticate, undefined);
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl")?.toString();
 
   return (
     <div className="w-full max-w-sm space-y-10">
       <div>
-        <Logo />
+        <Link href="/">
+          <Logo />
+        </Link>
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
           Войти в аккаунт
         </h2>
       </div>
       <form action={action} className="space-y-6">
+        <input type="hidden" name="callbackUrl" value={callbackUrl} />
         <div className="relative -space-y-px rounded-md shadow-sm">
           <div className="pointer-events-none absolute inset-0 z-10 rounded-md ring-1 ring-inset ring-gray-300" />
           <div>
@@ -27,7 +35,6 @@ export function LoginForm() {
               name="email"
               type="email"
               autoComplete="email"
-              defaultValue={"foo@test.com"}
               required
               className="relative block w-full rounded-t-md border-0 py-1.5 text-gray-900 ring-1 ring-inset ring-gray-100 placeholder:text-gray-400 focus:z-10 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               placeholder="Электронная почта"
@@ -40,7 +47,6 @@ export function LoginForm() {
             <input
               id="password"
               name="password"
-              defaultValue={"1234"}
               type="password"
               autoComplete="current-password"
               required
@@ -50,10 +56,10 @@ export function LoginForm() {
           </div>
         </div>
         {code === "CredentialSignin" && (
-          <div>
-            <ExclamationCircleIcon className="h-5 w-5 text-red-500" />
+          <div className="flex items-center">
+            <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
             <p aria-live="polite" className="text-sm text-red-500">
-              Invalid credentials
+              Неверные данные
             </p>
           </div>
         )}
@@ -97,9 +103,10 @@ function LoginButton() {
   return (
     <button
       type="submit"
-      className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      className="flex w-full justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
       aria-disabled={pending}
     >
+      {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
       Войти
     </button>
   );
