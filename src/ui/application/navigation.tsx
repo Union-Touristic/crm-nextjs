@@ -9,7 +9,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-const navigation = [
+export const navigation = [
   { name: "Дэшборд", href: "/dashboard", icon: HomeIcon },
 
   { name: "Подборки", href: "/compilations", icon: RectangleStackIcon },
