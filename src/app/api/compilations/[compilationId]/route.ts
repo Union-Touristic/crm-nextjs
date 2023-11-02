@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { compilations, users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
-import { auth } from "../../auth/[...nextauth]/auth";
+import { auth } from "~/auth";
 
 export async function PATCH(
   request: NextRequest,

@@ -1,7 +1,7 @@
 import { TypograhyH1 } from "@/ui/typography/h1";
 import { RegisterForm } from "./register-form";
 import { redirect } from "next/navigation";
-import { auth } from "@/app/api/auth/[...nextauth]/auth";
+import { auth } from "~/auth";
 
 export default async function RegisterPage() {
   const session = await auth();
