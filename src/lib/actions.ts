@@ -1,5 +1,5 @@
 "use server";
-import { signIn } from "~/auth";
+import { signIn, signOut } from "~/auth";
 import { users, type User } from "@/lib/db/schema";
 import { db } from "@/lib/db";
 import { eq } from "drizzle-orm";
@@ -34,4 +34,8 @@ export async function authenticate(
     }
     throw error;
   }
+}
+
+export async function logOut(formData: FormData) {
+  await signOut();
 }

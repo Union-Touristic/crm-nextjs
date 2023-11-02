@@ -22,6 +22,7 @@ export const authConfig = {
         return nextUrl.pathname.startsWith(protectedRoute);
       });
       const isOnLoginPage = nextUrl.pathname.startsWith("/login");
+      const isOnHomePage = nextUrl.pathname === "/";
       // TODO: implement /api route
       // const isOnProtectedApi = false;
 
@@ -37,7 +38,7 @@ export const authConfig = {
         return NextResponse.redirect(redirectUrl);
       }
 
-      if (isOnLoginPage && isLoggedIn) {
+      if ((isOnLoginPage && isLoggedIn) || (isOnHomePage && isLoggedIn)) {
         const dashboardUrl = new URL("/dashboard", nextUrl);
         return NextResponse.redirect(dashboardUrl);
       }
