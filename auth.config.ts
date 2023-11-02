@@ -1,6 +1,8 @@
 import type { NextAuthConfig } from "next-auth";
 import { NextResponse } from "next/server";
 
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS?.split("\n");
+
 const PROTECTED_ROUTES = [
   "/dashboard",
   "/compilations",
@@ -23,8 +25,7 @@ export const authConfig = {
       });
       const isOnLoginPage = nextUrl.pathname.startsWith("/login");
       const isOnHomePage = nextUrl.pathname === "/";
-      // TODO: implement /api route
-      // const isOnProtectedApi = false;
+      const isOnProtectedApi = nextUrl.pathname.startsWith("/api");
 
       if (isOnProtectedRoute && isLoggedIn) return true;
 
@@ -43,6 +44,17 @@ export const authConfig = {
         return NextResponse.redirect(dashboardUrl);
       }
 
+      const origin = request.headers.get("origin");
+
+      if (isOnProtectedApi) {
+        // console.log(txtCenter("isLoggedIn"));
+        // console.log(isLoggedIn);
+        if (origin && ALLOWED_ORIGINS?.includes(origin)) return true;
+
+        // TODO: Check if logged in
+        if (isLoggedIn) return true;
+        return false;
+      }
       return true;
     },
   },
