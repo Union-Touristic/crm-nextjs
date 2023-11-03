@@ -7,6 +7,12 @@ const users = [
     email: "foo@test.com",
     password: "123456",
   },
+  {
+    id: "cbf52ff0-f1de-41b0-bc35-59272f7fcd0c",
+    name: "Alice User",
+    email: "alice@test.com",
+    password: "123456",
+  },
 ];
 
 module.exports = {

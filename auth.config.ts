@@ -45,16 +45,15 @@ export const authConfig = {
       }
 
       const origin = request.headers.get("origin");
+      const allowedOrigin = origin && ALLOWED_ORIGINS?.includes(origin);
 
       if (isOnProtectedApi) {
-        // console.log(txtCenter("isLoggedIn"));
-        // console.log(isLoggedIn);
-        if (origin && ALLOWED_ORIGINS?.includes(origin)) return true;
+        if (allowedOrigin) return true;
 
-        // TODO: Check if logged in
-        if (isLoggedIn) return true;
+        if (isLoggedIn && allowedOrigin) return true;
         return false;
       }
+
       return true;
     },
   },

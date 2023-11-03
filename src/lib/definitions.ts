@@ -16,3 +16,9 @@ export type NavLink = {
 };
 
 export type CompilationStatus = "Active" | "Archived";
+
+export type Pagination = {
+  totalPages: number;
+  totalItems: number;
+  perPage: number;
+};

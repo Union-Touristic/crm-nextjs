@@ -4,16 +4,98 @@ import { cn, generatePagination } from "@/lib/utils";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
+import type { Pagination } from "@/lib/definitions";
+
+type PaginationRowProps = {
+  pagination: Pagination;
+  currentPage: number;
+};
+
+type PaginationNavProps = {
+  searchParams: ReturnType<typeof useSearchParams>;
+} & PaginationRowProps;
 
 type Props = {
-  totalPages: number;
+  pagination: Pagination;
 };
-export function Pagination({ totalPages }: Props) {
-  const pathname = usePathname();
+
+export function Pagination({ pagination }: Props) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
-  const allPages = generatePagination(currentPage, totalPages);
+  return (
+    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
+      <PaginationNavMobile
+        pagination={pagination}
+        currentPage={currentPage}
+        searchParams={searchParams}
+      />
+      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <div>
+          <PaginationResultsTextRow
+            pagination={pagination}
+            currentPage={currentPage}
+          />
+        </div>
+        <div>
+          <PaginationNav
+            pagination={pagination}
+            currentPage={currentPage}
+            searchParams={searchParams}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PaginationNavMobile({
+  pagination,
+  currentPage,
+  searchParams,
+}: PaginationNavProps) {
+  const createPageURL = useCreatePageUrl(searchParams);
+
+  if (pagination.totalItems === 0) {
+    return (
+      <div className="sm:hidden">
+        <PaginationResultsTextRow
+          pagination={pagination}
+          currentPage={currentPage}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-1 justify-between sm:hidden">
+      {currentPage <= 1 ? (
+        <div />
+      ) : (
+        <Link
+          href={createPageURL(currentPage - 1)}
+          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          Предыдущие
+        </Link>
+      )}
+
+      {currentPage >= pagination.totalPages ? (
+        <div />
+      ) : (
+        <Link
+          href={createPageURL(currentPage + 1)}
+          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+        >
+          Следующие
+        </Link>
+      )}
+    </div>
+  );
+}
+
+function useCreatePageUrl(searchParams: ReturnType<typeof useSearchParams>) {
+  const pathname = usePathname();
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
@@ -22,67 +104,85 @@ export function Pagination({ totalPages }: Props) {
     return `${pathname}?${params.toString()}`;
   };
 
+  return createPageURL;
+}
+
+function PaginationNav({
+  pagination,
+  currentPage,
+  searchParams,
+}: PaginationNavProps) {
+  const createPageURL = useCreatePageUrl(searchParams);
+  const allPages = generatePagination(currentPage, pagination.totalPages);
+
+  if (pagination.totalItems === 0) return null;
+
   return (
-    <div className="flex items-center justify-between border-t border-gray-200 bg-white px-4 py-3 sm:px-6">
-      <div className="flex flex-1 justify-between sm:hidden">
-        <a
-          href="#"
-          className="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Previous
-        </a>
-        <a
-          href="#"
-          className="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
-        >
-          Next
-        </a>
-      </div>
-      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-        <div>
-          <p className="text-sm text-gray-700">
-            Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">10</span> of{" "}
-            <span className="font-medium">97</span> results
-          </p>
-        </div>
-        <div>
-          <nav
-            className="isolate inline-flex rounded-md shadow-sm"
-            aria-label="Pagination"
-          >
-            <PaginationArrow
-              direction="left"
-              href={createPageURL(currentPage - 1)}
-              isDisabled={currentPage <= 1}
-            />
+    <nav
+      className="isolate inline-flex rounded-md shadow-sm"
+      aria-label="Pagination"
+    >
+      <PaginationArrow
+        direction="left"
+        href={createPageURL(currentPage - 1)}
+        isDisabled={currentPage <= 1}
+      />
 
-            {allPages.map((page, index) => {
-              let position: "first" | "last" | "single" | "middle" | undefined;
+      {allPages.map((page, index) => {
+        let position: "first" | "last" | "single" | "middle" | undefined;
 
-              if (index === 0) position = "first";
-              if (index === allPages.length - 1) position = "last";
-              if (allPages.length === 1) position = "single";
-              if (page === "...") position = "middle";
-              return (
-                <PaginationNumber
-                  key={page}
-                  href={createPageURL(page)}
-                  page={page}
-                  position={position}
-                  isActive={currentPage === page}
-                />
-              );
-            })}
-            <PaginationArrow
-              direction="right"
-              href={createPageURL(currentPage + 1)}
-              isDisabled={currentPage >= totalPages}
-            />
-          </nav>
-        </div>
-      </div>
-    </div>
+        if (index === 0) position = "first";
+        if (index === allPages.length - 1) position = "last";
+        if (allPages.length === 1) position = "single";
+        if (page === "...") position = "middle";
+        return (
+          <PaginationNumber
+            key={page}
+            href={createPageURL(page)}
+            page={page}
+            position={position}
+            isActive={currentPage === page}
+          />
+        );
+      })}
+      <PaginationArrow
+        direction="right"
+        href={createPageURL(currentPage + 1)}
+        isDisabled={currentPage >= pagination.totalPages}
+      />
+    </nav>
+  );
+}
+
+function PaginationResultsTextRow({
+  pagination,
+  currentPage,
+}: PaginationRowProps) {
+  const pageFrom = () => {
+    if (currentPage === 1) return 1;
+    return currentPage * pagination.perPage - pagination.perPage + 1;
+  };
+
+  const pageTo = () => {
+    const untill = currentPage * pagination.perPage;
+    if (untill > pagination.totalItems) return pagination.totalItems;
+    return untill;
+  };
+
+  if (pagination.totalItems === 0) {
+    return (
+      <p className="text-sm text-gray-700">
+        Найдено <span className="font-medium">0</span> результатов
+      </p>
+    );
+  }
+
+  return (
+    <p className="text-sm text-gray-700">
+      Показывается с <span className="font-medium">{pageFrom()} </span> по{" "}
+      <span className="font-medium">{pageTo()}</span> из{" "}
+      <span className="font-medium">{pagination.totalItems}</span> результатов
+    </p>
   );
 }
 

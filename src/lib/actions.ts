@@ -1,20 +1,5 @@
 "use server";
 import { signIn, signOut } from "~/auth";
-import { users, type User } from "@/lib/db/schema";
-import { db } from "@/lib/db";
-import { eq } from "drizzle-orm";
-
-export async function fetchUserByEmail(
-  email: string
-): Promise<User | undefined> {
-  try {
-    const [user] = await db.select().from(users).where(eq(users.email, email));
-    return user;
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    throw new Error("Failed to fetch user.");
-  }
-}
 
 export async function authenticate(
   prevState: string | undefined,
