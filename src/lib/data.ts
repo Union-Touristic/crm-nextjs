@@ -1,9 +1,15 @@
 import { unstable_noStore as noStore } from "next/cache";
 import { db } from "@/lib/db";
-import { compilations as compilationsTable } from "@/lib/db/schema";
+import {
+  users,
+  type User,
+  compilations as compilationsTable,
+  type Compilation,
+  tours,
+  type Tour,
+} from "@/lib/db/schema";
 import type { CompilationStatus, Pagination } from "@/lib/definitions";
 import { desc, eq, sql, and } from "drizzle-orm";
-import { users, type User } from "@/lib/db/schema";
 import { auth } from "~/auth";
 
 const COMPILATIONS_PER_PAGE = 5;
@@ -74,6 +80,66 @@ export async function fetchCompilationsPagination(
   } catch (error) {
     console.error("Database Error:", error);
     throw new Error("Failed to fetch compilations pagination data.");
+  }
+}
+
+export async function fetchCompilationById(id: Compilation["id"]) {
+  noStore();
+
+  try {
+    const query = await db
+      .select()
+      .from(tours)
+      .where(eq(tours.compilationId, id));
+
+    return query;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to fetch compilation by id data.");
+  }
+}
+
+export async function removeCompilationById(id: Compilation["id"]) {
+  try {
+    const [query] = await db
+      .delete(compilationsTable)
+      .where(eq(compilationsTable.id, id))
+      .returning();
+
+    return query.id;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to remove compilation with given id.");
+  }
+}
+
+export async function archiveCompilationById(id: Compilation["id"]) {
+  try {
+    const [query] = await db
+      .update(compilationsTable)
+      .set({ isActive: false })
+      .where(eq(compilationsTable.id, id))
+      .returning();
+
+    return query.id;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to archive compilation with given id.");
+  }
+}
+
+export async function activateCompilationById(id: Compilation["id"]) {
+  try {
+    const [query] = await db
+      .update(compilationsTable)
+      .set({ isActive: true })
+      .where(eq(compilationsTable.id, id))
+      .returning();
+
+    return query.id;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to archive compilation with given id.");
   }
 }
 

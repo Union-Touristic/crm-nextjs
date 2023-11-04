@@ -1,7 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const tabs = [
   { name: "Все", href: "/compilations" },
@@ -15,6 +15,7 @@ type Props = {
 
 export default function CompilationsTemplate({ children }: Props) {
   const pathname = usePathname();
+  const router = useRouter();
 
   return (
     <>
@@ -25,16 +26,21 @@ export default function CompilationsTemplate({ children }: Props) {
         <div className="mt-3 sm:mt-4">
           <div className="sm:hidden">
             <label htmlFor="current-tab" className="sr-only">
-              Select a tab
+              Выберите вкладку
             </label>
             <select
               id="current-tab"
               name="current-tab"
               className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
-              defaultValue={tabs.find((tab) => tab.href === pathname)?.name}
+              defaultValue={tabs.find((tab) => tab.href === pathname)?.href}
+              onChange={(e) => {
+                router.push(e.target.value);
+              }}
             >
               {tabs.map((tab) => (
-                <option key={tab.name}>{tab.name}</option>
+                <option key={tab.name} value={tab.href}>
+                  {tab.name}
+                </option>
               ))}
             </select>
           </div>
