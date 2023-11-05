@@ -22,3 +22,10 @@ export type Pagination = {
   totalItems: number;
   perPage: number;
 };
+
+export type CompilationsOverviewPageProps = {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+};

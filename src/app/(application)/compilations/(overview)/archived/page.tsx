@@ -1,24 +1,11 @@
-import { Suspense } from "react";
-import {
-  CompilationStackedList,
-  CompilationStackedListSkeleton,
-} from "@/ui/compilations/compilations-stacked-list";
+import { CompilationsOverviewPageProps } from "@/lib/definitions";
+import Compilations from "@/app/(application)/compilations/(overview)/page";
+import type { Metadata } from "next";
 
-type Props = {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+export const metadata: Metadata = {
+  title: "Архивированные подборки",
 };
 
-export default async function CompilationsArchived({ searchParams }: Props) {
-  const currentPage = Number(searchParams?.page) || 1;
-
-  return (
-    <>
-      <Suspense fallback={<CompilationStackedListSkeleton />}>
-        <CompilationStackedList filter="Archived" currentPage={currentPage} />
-      </Suspense>
-    </>
-  );
+export default function Page({ searchParams }: CompilationsOverviewPageProps) {
+  return <Compilations filter="Archived" searchParams={searchParams} />;
 }

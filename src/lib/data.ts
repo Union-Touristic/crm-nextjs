@@ -11,8 +11,7 @@ import {
 import type { CompilationStatus, Pagination } from "@/lib/definitions";
 import { desc, eq, sql, and } from "drizzle-orm";
 import { auth } from "~/auth";
-
-const COMPILATIONS_PER_PAGE = 5;
+import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
 
 export async function fetchUserByEmail(
   email: string
@@ -59,6 +58,7 @@ export async function fetchCompilationsPagination(
 ): Promise<Pagination> {
   noStore();
 
+  // await new Promise((res) => setTimeout(res, 5000));
   const whereQuery = await whereFilteredCompilationsIsAllOrActiveOrArchived(
     filter
   );

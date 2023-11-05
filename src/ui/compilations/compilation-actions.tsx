@@ -25,7 +25,8 @@ import {
   activateCompilation,
 } from "@/lib/actions";
 import { Loader2, TrashIcon } from "lucide-react";
-import { Button } from "../button";
+import { Button } from "@/ui/button";
+import { Skeleton } from "@/ui/skeleton";
 
 type Props = {
   compilation: Compilation;
@@ -145,4 +146,8 @@ function SubmitButton() {
       <span>Удалить</span>
     </Button>
   );
+}
+
+export function CompilationActionSkeleton() {
+  return <Skeleton className="h-8 w-8" />;
 }

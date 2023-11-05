@@ -36,7 +36,7 @@ export async function deleteCompilation(
   formData: FormData
 ) {
   try {
-    await new Promise((res) => setTimeout(res, 1000));
+    // await new Promise((res) => setTimeout(res, 1000));
     const id = formData.get("id")?.toString();
 
     if (id) {
@@ -54,7 +54,7 @@ export async function archiveCompilation(
   formData: FormData
 ) {
   try {
-    await new Promise((res) => setTimeout(res, 1000));
+    // await new Promise((res) => setTimeout(res, 1000));
     const id = formData.get("id")?.toString();
 
     if (id) {
@@ -69,7 +69,7 @@ export async function activateCompilation(
   formData: FormData
 ) {
   try {
-    await new Promise((res) => setTimeout(res, 1000));
+    // await new Promise((res) => setTimeout(res, 1000));
     const id = formData.get("id")?.toString();
 
     if (id) {

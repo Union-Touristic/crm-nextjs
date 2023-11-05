@@ -1,11 +1,10 @@
-import { Skeleton } from "@/ui/skeleton";
 import type { CompilationStatus } from "@/lib/definitions";
+import { fetchFilteredCompilations } from "@/lib/data";
 import {
-  fetchCompilationsPagination,
-  fetchFilteredCompilations,
-} from "@/lib/data";
-import { CompilationItem } from "@/ui/compilations/compilations-item";
-import { Pagination } from "@/ui/compilations/pagination";
+  CompilationsItem,
+  CompilationsItemSkeleton,
+} from "@/ui/compilations/compilations-item";
+import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
 
 type Props = {
   filter?: CompilationStatus;
@@ -14,28 +13,25 @@ type Props = {
 
 export async function CompilationStackedList({ filter, currentPage }: Props) {
   const compilations = await fetchFilteredCompilations(filter, currentPage);
-  const pagination = await fetchCompilationsPagination(filter);
 
   return (
-    <>
-      <ul role="list" className="divide-y divide-gray-100">
-        {compilations.map((compilation) => (
-          <CompilationItem compilation={compilation} key={compilation.id} />
-        ))}
-      </ul>
-      <Pagination pagination={pagination} />
-    </>
+    <ul role="list" className="divide-y divide-gray-100">
+      {compilations.map((compilation) => (
+        <CompilationsItem compilation={compilation} key={compilation.id} />
+      ))}
+    </ul>
   );
 }
 
 export function CompilationStackedListSkeleton() {
+  const compilationsSkeletonArray = new Array(COMPILATIONS_PER_PAGE);
+  compilationsSkeletonArray.fill(null);
+
   return (
-    <>
-      <Skeleton className="w-full h-[48px] mt-5 mb-10 rounded-lg" />
-      <Skeleton className="w-full h-[48px] mt-5 mb-10 rounded-lg" />
-      <Skeleton className="w-full h-[48px] mt-5 mb-10 rounded-lg" />
-      <Skeleton className="w-full h-[48px] mt-5 mb-10 rounded-lg" />
-      <Skeleton className="w-full h-[48px] mt-5 mb-10 rounded-lg" />
-    </>
+    <div className="divide-y divide-gray-100">
+      {compilationsSkeletonArray.map((value, index) => (
+        <CompilationsItemSkeleton key={index} />
+      ))}
+    </div>
   );
 }

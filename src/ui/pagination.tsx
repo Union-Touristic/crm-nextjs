@@ -5,6 +5,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { Pagination } from "@/lib/definitions";
+import { Skeleton } from "@/ui/skeleton";
 
 type PaginationRowProps = {
   pagination: Pagination;
@@ -32,7 +33,7 @@ export function Pagination({ pagination }: Props) {
       />
       <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
         <div>
-          <PaginationResultsTextRow
+          <PaginationDescription
             pagination={pagination}
             currentPage={currentPage}
           />
@@ -49,6 +50,18 @@ export function Pagination({ pagination }: Props) {
   );
 }
 
+export function PaginationSkeleton() {
+  return (
+    <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
+      <PaginationNavMobileSkeleton />
+      <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
+        <PaginationDescriptionSkeleton />
+        <PaginationNavSkeleton />
+      </div>
+    </div>
+  );
+}
+
 function PaginationNavMobile({
   pagination,
   currentPage,
@@ -59,7 +72,7 @@ function PaginationNavMobile({
   if (pagination.totalItems === 0) {
     return (
       <div className="sm:hidden">
-        <PaginationResultsTextRow
+        <PaginationDescription
           pagination={pagination}
           currentPage={currentPage}
         />
@@ -90,6 +103,15 @@ function PaginationNavMobile({
           Следующие
         </Link>
       )}
+    </div>
+  );
+}
+
+function PaginationNavMobileSkeleton() {
+  return (
+    <div className="flex flex-1 justify-between sm:hidden">
+      <Skeleton className="h-[38px] w-36" />
+      <Skeleton className="h-[38px] w-36" />
     </div>
   );
 }
@@ -154,7 +176,11 @@ function PaginationNav({
   );
 }
 
-function PaginationResultsTextRow({
+function PaginationNavSkeleton() {
+  return <Skeleton className="h-10 w-44" />;
+}
+
+function PaginationDescription({
   pagination,
   currentPage,
 }: PaginationRowProps) {
@@ -184,6 +210,10 @@ function PaginationResultsTextRow({
       <span className="font-medium">{pagination.totalItems}</span> результатов
     </p>
   );
+}
+
+function PaginationDescriptionSkeleton() {
+  return <Skeleton className="h-5 w-64" />;
 }
 
 function PaginationNumber({

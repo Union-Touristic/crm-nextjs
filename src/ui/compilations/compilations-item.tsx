@@ -1,9 +1,13 @@
-import { cn, getNoun, txtCenter } from "@/lib/utils";
-import { CompilationActions } from "./compilation-actions";
+import { cn, getNoun } from "@/lib/utils";
+import {
+  CompilationActionSkeleton,
+  CompilationActions,
+} from "@/ui/compilations/compilation-actions";
 import Link from "next/link";
 import type { CompilationStatus } from "@/lib/definitions";
 import type { Compilation, Tour } from "@/lib/db/schema";
 import { fetchCompilationById } from "@/lib/data";
+import { Skeleton } from "@/ui/skeleton";
 
 const statuses: Record<CompilationStatus, string> = {
   Active: "text-green-700 bg-green-50 ring-green-600/20",
@@ -14,18 +18,18 @@ type Props = {
   compilation: Compilation;
 };
 
-export async function CompilationItem({ compilation }: Props) {
+export async function CompilationsItem({ compilation }: Props) {
   const compilationTours = await fetchCompilationById(compilation.id);
 
   return (
     <li className="flex items-center justify-between gap-x-6 py-5">
       <div className="min-w-0">
         <div className="flex items-start gap-x-3">
-          <CompilationItemTitle
+          <CompilationsItemTitle
             tours={compilationTours}
             compilation={compilation}
           />
-          <CompilationItemStatus isActive={!!compilation.isActive} />
+          <CompilationsItemStatus isActive={!!compilation.isActive} />
         </div>
         <CompilationInfo compilation={compilation} tours={compilationTours} />
       </div>
@@ -34,7 +38,7 @@ export async function CompilationItem({ compilation }: Props) {
           href={`/compilations/${compilation.id}`}
           className="hidden rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:block"
         >
-          Подробнее <span className="sr-only">, ...</span>
+          Подробнее
         </Link>
         <CompilationActions compilation={compilation} />
       </div>
@@ -42,6 +46,66 @@ export async function CompilationItem({ compilation }: Props) {
   );
 }
 
+export function CompilationsItemSkeleton() {
+  return (
+    <div className="flex items-center justify-between gap-x-6 py-5">
+      <div className="min-w-0">
+        <div className="flex items-start gap-x-3">
+          <CompilationsItemTitleSkeleton />
+          <CompilationsItemStatusSkeleton />
+        </div>
+        <CompilationInfoSkeleton />
+      </div>
+      <div className="flex flex-none items-center gap-x-1">
+        <Skeleton className="h-8 w-[100px] hidden sm:block" />
+        <CompilationActionSkeleton />
+      </div>
+    </div>
+  );
+}
+
+function CompilationsItemTitle({
+  tours,
+  compilation,
+}: {
+  tours: Tour[];
+  compilation: Compilation;
+}) {
+  // Первый город вылета и первая страна
+  const firstTour = tours[0];
+
+  return (
+    <p className="text-sm font-semibold leading-6 text-gray-900">
+      <Link href={`/compilations/${compilation.id}`}>
+        {firstTour.fromCity} &rarr; {firstTour.country}
+      </Link>
+    </p>
+  );
+}
+
+export function CompilationsItemTitleSkeleton() {
+  return <Skeleton className="h-6 w-28" />;
+}
+
+function CompilationsItemStatus({ isActive }: { isActive: boolean }) {
+  return (
+    <p
+      className={cn(
+        {
+          [statuses.Active]: isActive,
+          [statuses.Archived]: !isActive,
+        },
+        "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
+      )}
+    >
+      {isActive ? "Активно" : "Архив"}
+    </p>
+  );
+}
+
+export function CompilationsItemStatusSkeleton() {
+  return <Skeleton className="h-5 mt-0.5 w-12" />;
+}
 function TextCircle() {
   return (
     <svg viewBox="0 0 2 2" className="h-0.5 w-0.5 fill-current">
@@ -81,37 +145,6 @@ function CompilationInfo({
   );
 }
 
-function CompilationItemStatus({ isActive }: { isActive: boolean }) {
-  return (
-    <p
-      className={cn(
-        {
-          [statuses.Active]: isActive,
-          [statuses.Archived]: !isActive,
-        },
-        "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
-      )}
-    >
-      {isActive ? "Активно" : "Архив"}
-    </p>
-  );
-}
-
-function CompilationItemTitle({
-  tours,
-  compilation,
-}: {
-  tours: Tour[];
-  compilation: Compilation;
-}) {
-  // Первый город вылета и первая страна
-  const firstTour = tours[0];
-
-  return (
-    <p className="text-sm font-semibold leading-6 text-gray-900">
-      <Link href={`/compilations/${compilation.id}`}>
-        {firstTour.fromCity} &rarr; {firstTour.country}
-      </Link>
-    </p>
-  );
+export function CompilationInfoSkeleton() {
+  return <Skeleton className="h-5 mt-1 w-40 sm:w-52" />;
 }

@@ -4,7 +4,7 @@ import Sidebar from "@/ui/application/sidebar";
 import MobileHeader from "@/ui/application/mobile-header";
 
 export const metadata: Metadata = {
-  title: "Дэшборд!",
+  title: "Дэшборд",
   description: "Дэшборд для управления турами",
 };
 
