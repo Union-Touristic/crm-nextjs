@@ -83,7 +83,7 @@ export async function fetchCompilationsPagination(
   }
 }
 
-export async function fetchCompilationById(id: Compilation["id"]) {
+export async function fetchToursByCompilationId(id: Compilation["id"]) {
   noStore();
 
   try {

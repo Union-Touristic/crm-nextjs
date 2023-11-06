@@ -6,7 +6,7 @@ import {
 import Link from "next/link";
 import type { CompilationStatus } from "@/lib/definitions";
 import type { Compilation, Tour } from "@/lib/db/schema";
-import { fetchCompilationById } from "@/lib/data";
+import { fetchToursByCompilationId } from "@/lib/data";
 import { Skeleton } from "@/ui/skeleton";
 
 const statuses: Record<CompilationStatus, string> = {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export async function CompilationsItem({ compilation }: Props) {
-  const compilationTours = await fetchCompilationById(compilation.id);
+  const compilationTours = await fetchToursByCompilationId(compilation.id);
 
   return (
     <li className="flex items-center justify-between gap-x-6 py-5">

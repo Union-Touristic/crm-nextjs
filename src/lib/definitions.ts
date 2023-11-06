@@ -1,4 +1,5 @@
 import { IconProps } from "@radix-ui/react-icons/dist/types";
+import { Tour } from "./db/schema";
 
 export type CallbackForm = {
   name: string;
@@ -28,4 +29,15 @@ export type CompilationsOverviewPageProps = {
     query?: string;
     page?: string;
   };
+};
+
+export type ToursSortConfig = {
+  sortKey: Extract<keyof Tour, "departureDate" | "price">;
+  direction: "asc" | "dsc";
+};
+
+export type Occupancy = {
+  adultsCount: number;
+  childrenCount: number;
+  childAges: number[];
 };
