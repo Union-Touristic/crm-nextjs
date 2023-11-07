@@ -1,7 +1,7 @@
+import MobileHeader from "@/ui/application/mobile-header";
+import Sidebar from "@/ui/application/sidebar";
 import type { Metadata } from "next";
 import { auth } from "~/auth";
-import Sidebar from "@/ui/application/sidebar";
-import MobileHeader from "@/ui/application/mobile-header";
 
 export const metadata: Metadata = {
   title: "Дэшборд",

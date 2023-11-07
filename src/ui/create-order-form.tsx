@@ -1,7 +1,9 @@
 "use client";
 
-import { Label } from "@/ui/label";
+import { OrderInsert } from "@/lib/db/schema";
+import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
+import { Label } from "@/ui/label";
 import {
   Select,
   SelectContent,
@@ -9,10 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/ui/select";
-import { Button } from "@/ui/button";
 import { toast } from "@/ui/use-toast";
 import { useState } from "react";
-import { OrderInsert } from "@/lib/db/schema";
 
 type Props = {
   onCancelClick?: (e: React.MouseEvent) => void;
@@ -84,7 +84,7 @@ export default function CreateOrderForm({
                 (prevForm): CreateOrderType => ({
                   ...prevForm,
                   name: e.target.value,
-                })
+                }),
               );
             }}
           />
@@ -101,7 +101,7 @@ export default function CreateOrderForm({
                 (prevForm): CreateOrderType => ({
                   ...prevForm,
                   phoneNumber: e.target.value,
-                })
+                }),
               );
             }}
           />
@@ -115,7 +115,7 @@ export default function CreateOrderForm({
                 (prevForm): CreateOrderType => ({
                   ...prevForm,
                   source: value,
-                })
+                }),
               );
             }}
           >
@@ -139,7 +139,7 @@ export default function CreateOrderForm({
         <Button
           type="submit"
           variant="secondary"
-          className="bg-green-700 hover:bg-green-600 text-white"
+          className="bg-green-700 text-white hover:bg-green-600"
         >
           Create
         </Button>

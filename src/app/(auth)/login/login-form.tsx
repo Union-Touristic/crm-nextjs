@@ -2,9 +2,9 @@
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
-import { FormEvent } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
+import { FormEvent } from "react";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
@@ -31,7 +31,7 @@ export function LoginForm() {
         <Label htmlFor="password">Password</Label>
         <Input id="password" type="password" name="password" />
       </div>
-      <div className="flex justify-end mt-5">
+      <div className="mt-5 flex justify-end">
         <Button type="submit">Login</Button>
       </div>
     </form>

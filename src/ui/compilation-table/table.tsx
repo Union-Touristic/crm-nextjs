@@ -1,17 +1,17 @@
 "use client";
-import { TableTopBar } from "@/ui/compilation-table/table-top-bar";
+import { cn, reorder } from "@/lib/utils";
+import { StrictModeDroppable } from "@/ui/compilation-table/droppable";
 import { Thead } from "@/ui/compilation-table/table-head";
+import { Tr } from "@/ui/compilation-table/table-row";
+import { TableTopBar } from "@/ui/compilation-table/table-top-bar";
 import { useTable } from "@/ui/compilation-table/use-table";
+import { useTours } from "@/ui/compilation-table/use-tours";
 import {
   DragDropContext,
   Draggable,
   DropResult,
   ResponderProvided,
 } from "react-beautiful-dnd";
-import { cn, reorder } from "@/lib/utils";
-import { useTours } from "@/ui/compilation-table/use-tours";
-import { Tr } from "@/ui/compilation-table/table-row";
-import { StrictModeDroppable } from "@/ui/compilation-table/droppable";
 
 type Props = {};
 
@@ -47,17 +47,17 @@ export function Table({}: Props) {
   }
 
   return (
-    <div className="flex flex-col h-full rounded-lg shadow border overflow-hidden">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg border shadow">
       <TableTopBar />
-      <table className="flex flex-col flex-auto">
+      <table className="flex flex-auto flex-col">
         <Thead />
         <DragDropContext onDragEnd={handleDragEnd}>
           <StrictModeDroppable droppableId="droppable">
             {(provided, snapshot) => (
               <tbody
                 className={cn(
-                  "relative z-10 py-1 h-[min(400px,500px)] overflow-y-auto transition-colors",
-                  snapshot.isDraggingOver ? "bg-gray-100" : "bg-gray-50"
+                  "relative z-10 h-[min(400px,500px)] overflow-y-auto py-1 transition-colors",
+                  snapshot.isDraggingOver ? "bg-gray-100" : "bg-gray-50",
                 )}
                 {...provided.droppableProps}
                 ref={provided.innerRef}

@@ -10,7 +10,7 @@ export function TypographyP({ className, children }: Props) {
     <p
       className={cn(
         "leading-7 [&:not(:first-child)]:mt-6",
-        className && className
+        className && className,
       )}
     >
       {children}

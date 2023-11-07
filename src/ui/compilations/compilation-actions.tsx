@@ -1,13 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
-import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/ui/dropdown-menu";
 import { type Compilation } from "@/lib/db/schema";
 import {
   AlertDialog,
@@ -16,17 +7,26 @@ import {
   AlertDialogDescription,
   AlertDialogTitle,
 } from "@/ui/alert-dialog";
-
-import { AlertDialogHeader, AlertDialogFooter } from "../alert-dialog";
-import { useFormState, useFormStatus } from "react-dom";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/ui/dropdown-menu";
+import { EllipsisVerticalIcon } from "@heroicons/react/20/solid";
+import { useEffect, useState } from "react";
+
+import {
+  activateCompilation,
   archiveCompilation,
   deleteCompilation,
-  activateCompilation,
 } from "@/lib/actions";
-import { Loader2, TrashIcon } from "lucide-react";
 import { Button } from "@/ui/button";
 import { Skeleton } from "@/ui/skeleton";
+import { Loader2, TrashIcon } from "lucide-react";
+import { useFormState, useFormStatus } from "react-dom";
+import { AlertDialogFooter, AlertDialogHeader } from "../alert-dialog";
 
 type Props = {
   compilation: Compilation;
@@ -35,16 +35,16 @@ type Props = {
 export function CompilationActions({ compilation }: Props) {
   const [deleteState, deleteAction] = useFormState(
     deleteCompilation,
-    undefined
+    undefined,
   );
   const [archiveState, archiveAction] = useFormState(
     archiveCompilation,
-    undefined
+    undefined,
   );
 
   const [activateState, activateAction] = useFormState(
     activateCompilation,
-    undefined
+    undefined,
   );
 
   const [showDeleteAlert, setShowDeleteAlert] = useState<boolean>(false);
@@ -137,7 +137,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" className="bg-red-600 focus:ring-red-600 w-full">
+    <Button type="submit" className="w-full bg-red-600 focus:ring-red-600">
       {pending ? (
         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       ) : (

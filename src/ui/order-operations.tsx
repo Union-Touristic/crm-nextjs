@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+import { Order } from "@/lib/db/schema";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,8 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
 import { toast } from "@/ui/use-toast";
-import { MoreVertical, Loader2, Archive } from "lucide-react";
-import { Order } from "@/lib/db/schema";
+import { Archive, Loader2, MoreVertical } from "lucide-react";
 
 async function archivePost(orderId: number) {
   const response = await fetch(`/api/orders/${orderId}`, {

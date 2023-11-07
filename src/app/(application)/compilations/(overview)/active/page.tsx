@@ -1,5 +1,5 @@
-import { CompilationsOverviewPageProps } from "@/lib/definitions";
 import Compilations from "@/app/(application)/compilations/(overview)/page";
+import { CompilationsOverviewPageProps } from "@/lib/definitions";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

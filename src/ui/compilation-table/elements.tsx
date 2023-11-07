@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import {
   cn,
   createSortConfig,
@@ -8,8 +7,8 @@ import {
   toursArrayToText,
 } from "@/lib/utils";
 import {
-  ChevronUpDownIcon,
   ChevronDownIcon,
+  ChevronUpDownIcon,
   ChevronUpIcon,
 } from "@heroicons/react/20/solid";
 import {
@@ -17,11 +16,12 @@ import {
   ClipboardDocumentIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
+import { useEffect, useRef, useState } from "react";
 
+import { Tour } from "@/lib/db/schema";
 import { ToursSortConfig } from "@/lib/definitions";
 import { useTable } from "@/ui/compilation-table/use-table";
 import { useTours } from "@/ui/compilation-table/use-tours";
-import { Tour } from "@/lib/db/schema";
 import { Loader2 } from "lucide-react";
 
 type TableSortButtonProps = {
@@ -72,19 +72,19 @@ export function TableSortButton({
   const Icon = () => {
     if (sc) {
       if (sc.sortKey === sortKey && sc.direction === "asc") {
-        return <ChevronDownIcon className="ml-1 w-4 h-4 text-indigo-700" />;
+        return <ChevronDownIcon className="ml-1 h-4 w-4 text-indigo-700" />;
       } else if (sc.sortKey === sortKey && sc.direction === "dsc") {
-        return <ChevronUpIcon className="ml-1 w-4 h-4 text-indigo-700" />;
+        return <ChevronUpIcon className="ml-1 h-4 w-4 text-indigo-700" />;
       }
     }
-    return <ChevronUpDownIcon className="ml-1 w-4 h-4 text-gray-500" />;
+    return <ChevronUpDownIcon className="ml-1 h-4 w-4 text-gray-500" />;
   };
 
   return (
     <button
       className={cn(
-        "flex focus:outline-none focus:ring-blue-500 focus:ring-2 focus:ring-offset-2 rounded-sm",
-        className
+        "flex rounded-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        className,
       )}
       type="button"
       onClick={() => handleSortTable(sortKey)}
@@ -131,7 +131,7 @@ export function TableHeadCheckbox() {
   return (
     <input
       type="checkbox"
-      className="absolute top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 hover:cursor-pointer hover:ring-offset-2 hover:ring-2 hover:ring-blue-300"
+      className="absolute top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 hover:cursor-pointer hover:ring-2 hover:ring-blue-300 hover:ring-offset-2 focus:ring-blue-500"
       ref={checkbox}
       checked={table.checked}
       onChange={handleCheckboxChange}
@@ -169,8 +169,8 @@ export function TableRowDeleteButton({
     <button
       onClick={handleDeleteTour}
       className={cn(
-        "rounded p-1.5 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 hover:text-red-500",
-        className
+        "rounded p-1.5 hover:text-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2",
+        className,
       )}
     >
       <TrashIcon
@@ -209,8 +209,8 @@ export function TableRowCopyButton({
     <button
       onClick={handleCopyButtonClick}
       className={cn(
-        "rounded p-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 hover:text-blue-500",
-        className
+        "rounded p-1.5 hover:text-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
+        className,
       )}
     >
       {copied ? (
@@ -254,8 +254,8 @@ export function TableTopBarDeleteButton({
     <button
       onClick={handleDeleteButtonClick}
       className={cn(
-        "inline-flex items-center text-xs border px-3 py-1.5 rounded-full text-red-500 border-red-500 disabled:text-red-200 disabled:border-red-200",
-        className
+        "inline-flex items-center rounded-full border border-red-500 px-3 py-1.5 text-xs text-red-500 disabled:border-red-200 disabled:text-red-200",
+        className,
       )}
       disabled={!table.selectedRows.length}
     >
@@ -280,7 +280,7 @@ export function TableTopBarCopyButton({
 
   async function handleCopyButtonClick() {
     const toursToCopy = tours.filter((tour) =>
-      table.selectedRows.includes(tour.id)
+      table.selectedRows.includes(tour.id),
     );
     const text = toursArrayToText(toursToCopy);
 
@@ -297,8 +297,8 @@ export function TableTopBarCopyButton({
     <button
       onClick={handleCopyButtonClick}
       className={cn(
-        "inline-flex items-center text-xs border px-3 py-1.5 rounded-full text-blue-500 border-blue-500 disabled:text-blue-200 disabled:border-blue-200",
-        className
+        "inline-flex items-center rounded-full border border-blue-500 px-3 py-1.5 text-xs text-blue-500 disabled:border-blue-200 disabled:text-blue-200",
+        className,
       )}
       disabled={!table.selectedRows.length}
     >
@@ -329,7 +329,7 @@ export function TableRowCheckbox({ singleTour }: TableRowCheckboxProps) {
       )}
       <input
         type="checkbox"
-        className="absolute top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 hover:cursor-pointer hover:ring-blue-300 hover:ring-2 hover:ring-offset-2"
+        className="absolute top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-blue-600 hover:cursor-pointer hover:ring-2 hover:ring-blue-300 hover:ring-offset-2 focus:ring-blue-500"
         checked={table.selectedRows.includes(singleTour.id)}
         onChange={(e) => {
           tableAction({
@@ -386,7 +386,7 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
             ...item,
             price: updatedPrice,
           }
-        : item
+        : item,
     );
     const updatedTours = toursWithChangedTour;
 
@@ -405,7 +405,7 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
         type="text"
         value={price}
         onChange={handlePriceInputChange}
-        className="p-0 text-xs w-16 text-right border-0 focus:ring-2 focuse:ring-blue-500 focus:rounded-sm focus:ring-offset-2 group-[.is-dragging]:text-white bg-transparent"
+        className="focuse:ring-blue-500 w-16 border-0 bg-transparent p-0 text-right text-xs focus:rounded-sm focus:ring-2 focus:ring-offset-2 group-[.is-dragging]:text-white"
         onKeyDown={handleInputKeydown}
       />
     </form>
@@ -428,7 +428,7 @@ export function Button({
       disabled={isDisabled}
       onClick={onClick}
       type="button"
-      className="inline-flex items-center rounded-md border border-transparent bg-blue-100 ml-2.5 px-3 py-2 text-sm font-medium leading-4 text-blue-700 shadow-sm hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 disabled:opacity-75 disabled:hover:bg-blue-100"
+      className="ml-2.5 inline-flex items-center rounded-md border border-transparent bg-blue-100 px-3 py-2 text-sm font-medium leading-4 text-blue-700 shadow-sm hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 disabled:opacity-75 disabled:hover:bg-blue-100"
     >
       {children}
     </button>
@@ -447,7 +447,7 @@ export function UpdateButton() {
     <Button disabled={isLoading} onClick={handleSaveButtonClick}>
       {isLoading ? (
         <>
-          <Loader2 className="w-4 h-4 mr-3 animate-spin" /> Отправка …
+          <Loader2 className="mr-3 h-4 w-4 animate-spin" /> Отправка …
         </>
       ) : (
         "Сохранить"

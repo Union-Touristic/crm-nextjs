@@ -1,9 +1,9 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { ButtonProps, buttonVariants } from "@/ui/button";
-import { Plus, Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useModalDispatch } from "./modal-provider";
 
 interface OrderCreateButtonProps extends ButtonProps {}
@@ -28,7 +28,7 @@ export function OrderCreateButton({
         {
           "cursor-not-allowed opacity-60": isLoading,
         },
-        className
+        className,
       )}
       disabled={isLoading}
       {...props}

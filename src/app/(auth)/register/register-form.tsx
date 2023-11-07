@@ -33,7 +33,7 @@ export function RegisterForm() {
         <Input id="password" type="password" name="password" />
       </div>
 
-      <div className="flex justify-end mt-5">
+      <div className="mt-5 flex justify-end">
         <Button type="submit">Register</Button>
       </div>
     </form>

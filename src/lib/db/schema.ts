@@ -1,14 +1,14 @@
 import {
-  serial,
-  integer,
   boolean,
-  varchar,
+  integer,
   pgTable,
-  timestamp,
+  serial,
   text,
+  timestamp,
+  varchar,
 } from "drizzle-orm/pg-core";
 
-import { type InferSelectModel, type InferInsertModel } from "drizzle-orm";
+import { type InferInsertModel, type InferSelectModel } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const users = pgTable("users", {

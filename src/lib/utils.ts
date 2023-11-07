@@ -1,12 +1,12 @@
-import { type ClassValue, clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
-import { ToursSortConfig } from "./definitions";
-import { Tour } from "./db/schema";
+import { clsx, type ClassValue } from "clsx";
 import type {
   DraggableStateSnapshot,
   DraggingStyle,
   NotDraggingStyle,
 } from "react-beautiful-dnd";
+import { twMerge } from "tailwind-merge";
+import { Tour } from "./db/schema";
+import { ToursSortConfig } from "./definitions";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -24,7 +24,7 @@ export function formatDate(input: string | number): string {
 export function txtCenter(
   inputString: string,
   length: number = 50,
-  fillchar: string = "="
+  fillchar: string = "=",
 ) {
   // If the input string is longer than or equal to the desired length, return it as is
   if (inputString.length >= length) {
@@ -80,7 +80,7 @@ export function getNoun(
   number: number,
   one: string,
   two: string,
-  five: string
+  five: string,
 ) {
   let n = Math.abs(number);
   n %= 100;
@@ -110,7 +110,7 @@ export function toursArrayToText(tours: Array<Tour>) {
       Number(tour.nights),
       "ночь",
       "ночи",
-      "ночей"
+      "ночей",
     )}
 🛋️ Номер: ${tour.roomType}
 🥣 Питание: ${tour.boardBasis}
@@ -140,7 +140,7 @@ export function tourToText(tour: Tour) {
     Number(tour.nights),
     "ночь",
     "ночи",
-    "ночей"
+    "ночей",
   )}
 🛋️ Номер: ${tour.roomType}
 🥣 Питание: ${tour.boardBasis}
@@ -152,7 +152,7 @@ export function tourToText(tour: Tour) {
 
 export function createSortConfig(
   sortConfig: ToursSortConfig | null,
-  configKey: ToursSortConfig["sortKey"]
+  configKey: ToursSortConfig["sortKey"],
 ): ToursSortConfig {
   let direction: ToursSortConfig["direction"] = "asc";
 
@@ -177,7 +177,7 @@ export function reorder(list: Tour[], startIndex: number, endIndex: number) {
 
 export function getStyle(
   style: DraggingStyle | NotDraggingStyle | undefined,
-  snapshot: DraggableStateSnapshot
+  snapshot: DraggableStateSnapshot,
 ) {
   if (!snapshot.isDropAnimating) {
     return style;

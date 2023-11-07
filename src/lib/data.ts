@@ -1,20 +1,19 @@
-import { unstable_noStore as noStore } from "next/cache";
 import { db } from "@/lib/db";
 import {
-  users,
-  type User,
   compilations as compilationsTable,
-  type Compilation,
   tours,
-  type Tour,
+  users,
+  type Compilation,
+  type User,
 } from "@/lib/db/schema";
 import type { CompilationStatus, Pagination } from "@/lib/definitions";
-import { desc, eq, sql, and } from "drizzle-orm";
-import { auth } from "~/auth";
 import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
+import { and, desc, eq, sql } from "drizzle-orm";
+import { unstable_noStore as noStore } from "next/cache";
+import { auth } from "~/auth";
 
 export async function fetchUserByEmail(
-  email: string
+  email: string,
 ): Promise<User | undefined> {
   try {
     const [user] = await db.select().from(users).where(eq(users.email, email));
@@ -27,16 +26,15 @@ export async function fetchUserByEmail(
 
 export async function fetchFilteredCompilations(
   filter: CompilationStatus | undefined,
-  currentPage: number
+  currentPage: number,
 ) {
   noStore();
 
   const offset = (currentPage - 1) * COMPILATIONS_PER_PAGE;
 
   try {
-    const whereQuery = await whereFilteredCompilationsIsAllOrActiveOrArchived(
-      filter
-    );
+    const whereQuery =
+      await whereFilteredCompilationsIsAllOrActiveOrArchived(filter);
 
     const query = await db
       .select()
@@ -54,14 +52,13 @@ export async function fetchFilteredCompilations(
 }
 
 export async function fetchCompilationsPagination(
-  filter?: CompilationStatus | undefined
+  filter?: CompilationStatus | undefined,
 ): Promise<Pagination> {
   noStore();
 
   // await new Promise((res) => setTimeout(res, 5000));
-  const whereQuery = await whereFilteredCompilationsIsAllOrActiveOrArchived(
-    filter
-  );
+  const whereQuery =
+    await whereFilteredCompilationsIsAllOrActiveOrArchived(filter);
 
   const countPages = (count: number) =>
     Math.ceil(Number(count) / COMPILATIONS_PER_PAGE);
@@ -144,7 +141,7 @@ export async function activateCompilationById(id: Compilation["id"]) {
 }
 
 async function whereFilteredCompilationsIsAllOrActiveOrArchived(
-  filter: CompilationStatus | undefined
+  filter: CompilationStatus | undefined,
 ) {
   const user = await getCurrentUser();
   const usersCompilation = eq(compilationsTable.userId, user.id);

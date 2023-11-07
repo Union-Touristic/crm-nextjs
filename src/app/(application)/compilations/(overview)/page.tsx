@@ -1,17 +1,17 @@
-import { Suspense } from "react";
 import {
-  CompilationStackedList,
-  CompilationStackedListSkeleton,
-} from "@/ui/compilations/compilations-stacked-list";
+  CompilationStatus,
+  CompilationsOverviewPageProps,
+} from "@/lib/definitions";
 import {
   CompilationsPagination,
   CompilationsPaginationSkeleton,
 } from "@/ui/compilations/compilations-pagination";
 import {
-  CompilationStatus,
-  CompilationsOverviewPageProps,
-} from "@/lib/definitions";
+  CompilationStackedList,
+  CompilationStackedListSkeleton,
+} from "@/ui/compilations/compilations-stacked-list";
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Все подборки",

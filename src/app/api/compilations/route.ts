@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { TourInsert, compilations, tours, users } from "@/lib/db/schema";
-import { eq } from "drizzle-orm";
-import { auth } from "~/auth";
 import { txtCenter } from "@/lib/utils";
+import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "~/auth";
 
 export async function GET(request: NextRequest) {}
 

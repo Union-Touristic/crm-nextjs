@@ -1,11 +1,11 @@
 "use client";
 
+import type { Pagination } from "@/lib/definitions";
 import { cn, generatePagination } from "@/lib/utils";
+import { Skeleton } from "@/ui/skeleton";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/20/solid";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import type { Pagination } from "@/lib/definitions";
-import { Skeleton } from "@/ui/skeleton";
 
 type PaginationRowProps = {
   pagination: Pagination;
@@ -236,7 +236,7 @@ function PaginationNumber({
         isActive,
       "hover:bg-blue-100": !isActive && position !== "middle",
       "text-gray-300": position === "middle",
-    }
+    },
   );
 
   return isActive || position === "middle" ? (
@@ -264,7 +264,7 @@ function PaginationArrow({
       "hover:bg-gray-100": !isDisabled,
       "mr-2 md:mr-4": direction === "left",
       "ml-2 md:ml-4": direction === "right",
-    }
+    },
   );
 
   const icon =

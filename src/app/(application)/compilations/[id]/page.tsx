@@ -38,7 +38,7 @@ export default async function Page({ params: { id } }: Props) {
             active: true,
           },
         ]}
-        className="pt-6 pb-5"
+        className="pb-5 pt-6"
       />
       {content}
     </>

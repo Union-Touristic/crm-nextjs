@@ -1,9 +1,9 @@
-import { Fragment, useState } from "react";
+import { Navigation } from "@/ui/application/navigation";
+import { Logo } from "@/ui/logo";
 import { Dialog, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import { Logo } from "@/ui/logo";
-import { Navigation } from "@/ui/application/navigation";
+import { Fragment, useState } from "react";
 
 export function MobileSidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

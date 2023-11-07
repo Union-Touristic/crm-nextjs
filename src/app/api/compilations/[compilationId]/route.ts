@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { compilations, users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
+import { NextRequest, NextResponse } from "next/server";
 import { auth } from "~/auth";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { compilationId: string } }
+  { params }: { params: { compilationId: string } },
 ) {
   try {
     const session = await auth();

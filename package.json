@@ -11,7 +11,8 @@
     "makemigrations": "npx drizzle-kit generate:pg",
     "migrate": "npx drizzle-kit push:pg",
     "dropmigration": "npx drizzle-kit drop --out=migrations",
-    "seed": "node -r dotenv/config ./scripts/seed.js dotenv_config_path=./.env.local"
+    "seed": "node -r dotenv/config ./scripts/seed.js dotenv_config_path=./.env.local",
+    "prettier": "npx prettier --write src"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
@@ -60,6 +61,11 @@
     "@types/react-beautiful-dnd": "^13.1.6",
     "@types/uuid": "^9.0.6",
     "drizzle-kit": "^0.19.13",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "prettier": "^3.0.3",
+    "prettier-plugin-import-sort": "^0.0.7",
+    "prettier-plugin-organize-attributes": "^1.0.0",
+    "prettier-plugin-organize-imports": "^3.2.3",
+    "prettier-plugin-tailwindcss": "^0.5.6"
   }
 }

@@ -1,7 +1,7 @@
 import { TypograhyH1 } from "@/ui/typography/h1";
-import { RegisterForm } from "./register-form";
 import { redirect } from "next/navigation";
 import { auth } from "~/auth";
+import { RegisterForm } from "./register-form";
 
 export default async function RegisterPage() {
   const session = await auth();
@@ -11,7 +11,7 @@ export default async function RegisterPage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto py-10 px-6 bg-white dark:bg-slate-900 rounded-sm">
+    <div className="mx-auto max-w-lg rounded-sm bg-white px-6 py-10 dark:bg-slate-900">
       <TypograhyH1>Register to CRM</TypograhyH1>
 
       {/* RegisterForm for CRM */}

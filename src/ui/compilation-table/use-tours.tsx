@@ -1,6 +1,6 @@
 "use client";
-import { createContext, useContext, useReducer } from "react";
 import type { Tour } from "@/lib/db/schema";
+import { createContext, useContext, useReducer } from "react";
 // import type { Tour } from "@/lib/definitions";
 
 export type ToursState = Array<Tour>;
@@ -12,7 +12,7 @@ export type ToursAction = {
 
 export function toursReducer(
   state: ToursState,
-  action: ToursAction
+  action: ToursAction,
 ): ToursState {
   switch (action.type) {
     case "update tours":

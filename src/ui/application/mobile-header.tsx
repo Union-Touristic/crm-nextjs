@@ -1,8 +1,8 @@
 "use client";
 import { MobileSidebar } from "@/ui/application/mobile-sidebar";
+import { navigation } from "@/ui/application/navigation";
 import { ProfileDropdown } from "@/ui/profile-dropdown";
 import { User } from "next-auth";
-import { navigation } from "@/ui/application/navigation";
 import { usePathname } from "next/navigation";
 
 type Props = {

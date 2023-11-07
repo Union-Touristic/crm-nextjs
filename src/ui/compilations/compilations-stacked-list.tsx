@@ -1,10 +1,10 @@
-import type { CompilationStatus } from "@/lib/definitions";
 import { fetchFilteredCompilations } from "@/lib/data";
+import type { CompilationStatus } from "@/lib/definitions";
+import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
 import {
   CompilationsItem,
   CompilationsItemSkeleton,
 } from "@/ui/compilations/compilations-item";
-import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
 
 type Props = {
   filter?: CompilationStatus;

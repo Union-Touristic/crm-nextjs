@@ -1,8 +1,7 @@
-import { formatDate } from "@/lib/utils";
-import { Skeleton } from "@/ui/skeleton";
-import { OrderOperations } from "@/ui/order-operations";
-import { Badge } from "@/ui/badge";
 import { type Order } from "@/lib/db/schema";
+import { Badge } from "@/ui/badge";
+import { OrderOperations } from "@/ui/order-operations";
+import { Skeleton } from "@/ui/skeleton";
 
 interface OrderItemProps {
   order: Order;
@@ -35,7 +34,7 @@ export function OrderItem({ order }: OrderItemProps) {
 OrderItem.Skeleton = function OrderItemSkeleton() {
   return (
     <div className="flex items-center justify-between p-4">
-      <div className="grid gap-1 w-full">
+      <div className="grid w-full gap-1">
         <Skeleton className="h-6 w-2/5" />
         <Skeleton className="h-5 w-4/5" />
       </div>

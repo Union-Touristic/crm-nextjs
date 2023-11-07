@@ -1,13 +1,13 @@
+import { fetchToursByCompilationId } from "@/lib/data";
+import type { Compilation, Tour } from "@/lib/db/schema";
+import type { CompilationStatus } from "@/lib/definitions";
 import { cn, getNoun } from "@/lib/utils";
 import {
   CompilationActionSkeleton,
   CompilationActions,
 } from "@/ui/compilations/compilation-actions";
-import Link from "next/link";
-import type { CompilationStatus } from "@/lib/definitions";
-import type { Compilation, Tour } from "@/lib/db/schema";
-import { fetchToursByCompilationId } from "@/lib/data";
 import { Skeleton } from "@/ui/skeleton";
+import Link from "next/link";
 
 const statuses: Record<CompilationStatus, string> = {
   Active: "text-green-700 bg-green-50 ring-green-600/20",
@@ -57,7 +57,7 @@ export function CompilationsItemSkeleton() {
         <CompilationInfoSkeleton />
       </div>
       <div className="flex flex-none items-center gap-x-1">
-        <Skeleton className="h-8 w-[100px] hidden sm:block" />
+        <Skeleton className="hidden h-8 w-[100px] sm:block" />
         <CompilationActionSkeleton />
       </div>
     </div>
@@ -95,7 +95,7 @@ function CompilationsItemStatus({ isActive }: { isActive: boolean }) {
           [statuses.Active]: isActive,
           [statuses.Archived]: !isActive,
         },
-        "rounded-md whitespace-nowrap mt-0.5 px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset"
+        "mt-0.5 whitespace-nowrap rounded-md px-1.5 py-0.5 text-xs font-medium ring-1 ring-inset",
       )}
     >
       {isActive ? "Активно" : "Архив"}
@@ -104,7 +104,7 @@ function CompilationsItemStatus({ isActive }: { isActive: boolean }) {
 }
 
 export function CompilationsItemStatusSkeleton() {
-  return <Skeleton className="h-5 mt-0.5 w-12" />;
+  return <Skeleton className="mt-0.5 h-5 w-12" />;
 }
 function TextCircle() {
   return (
@@ -146,5 +146,5 @@ function CompilationInfo({
 }
 
 export function CompilationInfoSkeleton() {
-  return <Skeleton className="h-5 mt-1 w-40 sm:w-52" />;
+  return <Skeleton className="mt-1 h-5 w-40 sm:w-52" />;
 }

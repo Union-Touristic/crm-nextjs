@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
+import type { Compilation } from "@/lib/db/schema";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -17,12 +18,10 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/ui/dropdown-menu";
 import { toast } from "@/ui/use-toast";
-import { MoreVertical, Loader2, Archive } from "lucide-react";
-import type { Compilation } from "@/lib/db/schema";
+import { Archive, Loader2, MoreVertical } from "lucide-react";
 
 type CompilationId = Compilation["id"];
 

@@ -1,9 +1,9 @@
-import Link from "next/link";
-import Image from "next/image";
-import { Logo } from "@/ui/logo";
 import { Navigation } from "@/ui/application/navigation";
 import { AvatarPlaceholder } from "@/ui/avatar-placeholder";
+import { Logo } from "@/ui/logo";
 import { User } from "next-auth";
+import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   user: Omit<User, "id">;

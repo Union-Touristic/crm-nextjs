@@ -1,15 +1,15 @@
 "use server";
+import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "~/auth";
 import {
-  removeCompilationById,
-  archiveCompilationById,
   activateCompilationById,
+  archiveCompilationById,
+  removeCompilationById,
 } from "./data";
-import { revalidatePath } from "next/cache";
 
 export async function authenticate(
   prevState: string | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     await new Promise((res) => setTimeout(res, 1000));
@@ -33,7 +33,7 @@ export async function logOut(formData: FormData) {
 
 export async function deleteCompilation(
   prevState: string | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     // await new Promise((res) => setTimeout(res, 1000));
@@ -51,7 +51,7 @@ export async function deleteCompilation(
 
 export async function archiveCompilation(
   prevState: string | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     // await new Promise((res) => setTimeout(res, 1000));
@@ -66,7 +66,7 @@ export async function archiveCompilation(
 
 export async function activateCompilation(
   prevState: string | undefined,
-  formData: FormData
+  formData: FormData,
 ) {
   try {
     // await new Promise((res) => setTimeout(res, 1000));

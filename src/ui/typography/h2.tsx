@@ -10,7 +10,7 @@ export function TypograhyH2({ className, children }: Props) {
     <h1
       className={cn(
         "scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight transition-colors first:mt-0",
-        className && className
+        className && className,
       )}
     >
       {children}

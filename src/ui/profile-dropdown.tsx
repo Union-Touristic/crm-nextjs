@@ -1,11 +1,10 @@
 "use client";
-import { ComponentProps, Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { cn } from "@/lib/utils";
-import Image from "next/image";
-import { AvatarPlaceholder } from "@/ui/avatar-placeholder";
-import Link from "next/link";
 import { logOut } from "@/lib/actions";
+import { cn } from "@/lib/utils";
+import { AvatarPlaceholder } from "@/ui/avatar-placeholder";
+import { Menu, Transition } from "@headlessui/react";
+import Image from "next/image";
+import { ComponentProps, Fragment } from "react";
 
 type Props = {
   image?: string;
@@ -74,7 +73,7 @@ export function ProfileDropdown({ image, className, avatarSize }: Props) {
                 action={logOut}
                 className={cn(
                   active ? "bg-gray-100" : "",
-                  "block px-4 py-2 text-sm text-gray-700"
+                  "block px-4 py-2 text-sm text-gray-700",
                 )}
               >
                 <button className="w-full text-left">Выйти</button>

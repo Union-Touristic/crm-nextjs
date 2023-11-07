@@ -1,13 +1,10 @@
+import type { Tour } from "@/lib/db/schema";
 import {
   cn,
   getNoun,
   getStyle,
   removeParenthesisAndContentInGivenString,
 } from "@/lib/utils";
-import { Squares2X2Icon } from "@heroicons/react/20/solid";
-import { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
-import { useTable } from "@/ui/compilation-table/use-table";
-import type { Tour } from "@/lib/db/schema";
 import {
   TableRowCheckbox,
   TableRowCopyButton,
@@ -15,6 +12,9 @@ import {
   TableRowEditPrice,
 } from "@/ui/compilation-table/elements";
 import { Td, TdSubText } from "@/ui/compilation-table/table-data-cell";
+import { useTable } from "@/ui/compilation-table/use-table";
+import { Squares2X2Icon } from "@heroicons/react/20/solid";
+import { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 
 type Props = {
   tour: Tour;
@@ -28,13 +28,13 @@ export function Tr({ tour, provided, snapshot }: Props) {
   return (
     <tr
       className={cn(
-        "flex leading-4 text-xs text-gray-900 bg-white border-b border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-0 focus:relative focus:z-20",
+        "flex border-b border-gray-200 bg-white text-xs leading-4 text-gray-900 focus:relative focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-0",
         {
           "bg-gray-100": table.selectedRows.includes(tour.id),
-          "bg-gray-400 shadow-lg group is-dragging ring-2 ring-blue-700 ring-offset-0 outline-none":
+          "is-dragging group bg-gray-400 shadow-lg outline-none ring-2 ring-blue-700 ring-offset-0":
             snapshot.isDragging || snapshot.isDropAnimating,
         },
-        "group/row"
+        "group/row",
       )}
       {...provided.draggableProps}
       style={getStyle(provided.draggableProps.style, snapshot)}
@@ -69,8 +69,8 @@ export function Tr({ tour, provided, snapshot }: Props) {
         <TableRowEditPrice tour={tour} />
         <TdSubText>{tour.currency}</TdSubText>
       </Td>
-      <Td className="flex-row justify-between items-center w-28">
-        <div className="flex items-center space-x-2 -ml-1.5">
+      <Td className="w-28 flex-row items-center justify-between">
+        <div className="-ml-1.5 flex items-center space-x-2">
           <TableRowCopyButton singleTour={tour}>
             <span className="sr-only">Копировать</span>
           </TableRowCopyButton>
@@ -80,17 +80,17 @@ export function Tr({ tour, provided, snapshot }: Props) {
         </div>
         <div
           className={cn(
-            "px-1 py-1 cursor-grab text-transparent rounded focus:text-gray-400 focus:outline-none focus:ring-blue-500 focus:ring-2 group-hover/row:text-gray-400 transition-colors",
+            "cursor-grab rounded px-1 py-1 text-transparent transition-colors focus:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 group-hover/row:text-gray-400",
             {
               "text-white focus:text-white": snapshot.isDragging,
-            }
+            },
           )}
           {...provided.dragHandleProps}
           // provided.dragHandleProps is making row grabbable in particular area
         >
-          <Squares2X2Icon className="w-2 h-2" />
-          <Squares2X2Icon className="w-2 h-2" />
-          <Squares2X2Icon className="w-2 h-2" />
+          <Squares2X2Icon className="h-2 w-2" />
+          <Squares2X2Icon className="h-2 w-2" />
+          <Squares2X2Icon className="h-2 w-2" />
         </div>
       </Td>
     </tr>

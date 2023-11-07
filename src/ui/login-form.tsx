@@ -1,11 +1,11 @@
 "use client";
-import { useFormState, useFormStatus } from "react-dom";
 import { authenticate } from "@/lib/actions";
-import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { Logo } from "@/ui/logo";
+import { ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { useFormState, useFormStatus } from "react-dom";
 
 export function LoginForm() {
   const [code, action] = useFormState(authenticate, undefined);
@@ -59,7 +59,7 @@ export function LoginForm() {
         </div>
         {code === "CredentialSignin" && (
           <div className="flex items-center">
-            <ExclamationCircleIcon className="h-5 w-5 text-red-500 mr-2" />
+            <ExclamationCircleIcon className="mr-2 h-5 w-5 text-red-500" />
             <p aria-live="polite" className="text-sm text-red-500">
               Неверные данные
             </p>
@@ -105,7 +105,7 @@ function LoginButton() {
   return (
     <button
       type="submit"
-      className="flex w-full justify-center items-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
+      className="flex w-full items-center justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50"
       aria-disabled={pending}
     >
       {pending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

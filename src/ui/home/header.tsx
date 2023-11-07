@@ -1,8 +1,8 @@
+import { LinkLogo } from "@/ui/home/link-logo";
+import { MobileMenu } from "@/ui/home/mobile-menu";
+import { ProfileDropdown } from "@/ui/profile-dropdown";
 import Link from "next/link";
 import { auth } from "~/auth";
-import { LinkLogo } from "@/ui/home/link-logo";
-import { ProfileDropdown } from "@/ui/profile-dropdown";
-import { MobileMenu } from "@/ui/home/mobile-menu";
 
 const navigation = [
   { name: "Дэшборд", href: "/dashboard" },

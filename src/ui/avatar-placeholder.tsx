@@ -15,7 +15,7 @@ const avatarPlaceholderVariants = cva(
     defaultVariants: {
       size: "default",
     },
-  }
+  },
 );
 
 export interface AvatarPlaceholderProps

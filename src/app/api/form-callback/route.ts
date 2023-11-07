@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { CallbackForm } from "@/lib/definitions";
+import { NextResponse } from "next/server";
 import { default as twilio } from "twilio";
 
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
         code: "MISSING_NAME_FIELD",
         type: "REQUEST_ERROR",
       }),
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
         code: "MISSING_PHONE_FIELD",
         type: "REQUEST_ERROR",
       }),
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -49,7 +49,7 @@ export async function POST(request: Request) {
           code: "PHONE_NUMBER_NOT_VALID",
           type: "VALIDATION_ERROR",
         }),
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
       }),
       {
         status: 500,
-      }
+      },
     );
   }
 

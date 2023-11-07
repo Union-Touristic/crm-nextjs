@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { eq } from "drizzle-orm";
 import { db } from "@/lib/db";
 import { clientOrders } from "@/lib/db/schema";
 import { type CreateOrderType } from "@/ui/create-order-form";
+import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   try {

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
+import { NextRequest, NextResponse } from "next/server";
 
 // http://localhost:8000/api/revalidate/path?path=/&secret=<token>
 export async function POST(request: NextRequest) {
@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
   if (!path) {
     return NextResponse.json(
       { message: "Missing path param" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 

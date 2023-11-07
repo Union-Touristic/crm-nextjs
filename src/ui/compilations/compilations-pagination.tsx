@@ -1,6 +1,6 @@
 import { fetchCompilationsPagination } from "@/lib/data";
-import { Pagination, PaginationSkeleton } from "@/ui/pagination";
 import type { CompilationStatus } from "@/lib/definitions";
+import { Pagination, PaginationSkeleton } from "@/ui/pagination";
 
 type Props = {
   filter?: CompilationStatus;

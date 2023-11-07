@@ -10,7 +10,7 @@ export function TypograhyH1({ className, children }: Props) {
     <h1
       className={cn(
         "scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl",
-        className && className
+        className && className,
       )}
     >
       {children}
