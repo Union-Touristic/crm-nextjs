@@ -31,7 +31,7 @@ export default function CompilationsTemplate({ children }: Props) {
             <select
               id="current-tab"
               name="current-tab"
-              className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
+              className="block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
               defaultValue={tabs.find((tab) => tab.href === pathname)?.href}
               onChange={(e) => {
                 router.push(e.target.value);
@@ -52,7 +52,7 @@ export default function CompilationsTemplate({ children }: Props) {
                   href={tab.href}
                   className={cn(
                     tab.href === pathname
-                      ? "border-indigo-500 text-indigo-600"
+                      ? "border-blue-500 text-blue-600"
                       : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
                     "whitespace-nowrap border-b-2 px-1 pb-4 text-sm font-medium"
                   )}

@@ -137,7 +137,7 @@ function PaginationNav({
   const createPageURL = useCreatePageUrl(searchParams);
   const allPages = generatePagination(currentPage, pagination.totalPages);
 
-  if (pagination.totalItems === 0) return null;
+  if (pagination.totalItems === 0 || pagination.totalPages <= 1) return null;
 
   return (
     <nav
@@ -232,9 +232,9 @@ function PaginationNumber({
     {
       "rounded-l-md": position === "first" || position === "single",
       "rounded-r-md": position === "last" || position === "single",
-      "z-10 bg-indigo-600 hover:bg-indigo-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600":
+      "z-10 bg-blue-600 hover:bg-blue-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600":
         isActive,
-      "hover:bg-indigo-100": !isActive && position !== "middle",
+      "hover:bg-blue-100": !isActive && position !== "middle",
       "text-gray-300": position === "middle",
     }
   );

@@ -41,3 +41,9 @@ export type Occupancy = {
   childrenCount: number;
   childAges: number[];
 };
+
+export type Breadcrumb = {
+  label: string | React.ReactNode;
+  href: string;
+  active?: boolean;
+};
