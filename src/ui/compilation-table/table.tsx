@@ -17,7 +17,7 @@ type Props = {};
 
 export function Table({}: Props) {
   const { tours, toursAction } = useTours();
-  const { table, tableAction } = useTable();
+  const { tableAction } = useTable();
 
   function handleDragEnd(result: DropResult, provided: ResponderProvided) {
     const { source, destination } = result;
@@ -56,13 +56,13 @@ export function Table({}: Props) {
             {(provided, snapshot) => (
               <tbody
                 className={cn(
-                  "flex h-[min(200px,300px)] basis-full flex-wrap content-start py-1 transition-colors",
+                  "flex h-[min(400px,500px)] basis-full flex-wrap content-start py-1 transition-colors",
                   snapshot.isDraggingOver ? "bg-gray-100" : "bg-gray-50",
                 )}
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {tours.map((t, index, array) => (
+                {tours.map((t, index) => (
                   <Draggable
                     key={t.id}
                     draggableId={String(t.id)}

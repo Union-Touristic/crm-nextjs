@@ -11,9 +11,9 @@ import {
   TableRowDeleteButton,
   TableRowEditPrice,
 } from "@/ui/compilation-table/elements";
-import { Td, TdSubText } from "@/ui/compilation-table/table-data-cell";
 import { useTable } from "@/ui/compilation-table/use-table";
 import { Squares2X2Icon } from "@heroicons/react/20/solid";
+import { ComponentProps } from "react";
 import { DraggableProvided, DraggableStateSnapshot } from "react-beautiful-dnd";
 
 type Props = {
@@ -43,7 +43,7 @@ export function Tr({ tour, provided, snapshot }: Props) {
       <Td className="relative w-9">
         <TableRowCheckbox singleTour={tour} />
       </Td>
-      <Td className="min-w-[200px] flex-1 shrink-0">
+      <Td className="min-w-[200px] flex-grow">
         <span className="font-medium">
           {tour.hotel && removeParenthesisAndContentInGivenString(tour.hotel)}
         </span>
@@ -94,5 +94,37 @@ export function Tr({ tour, provided, snapshot }: Props) {
         </div>
       </Td>
     </tr>
+  );
+}
+
+export function Td({ className, children, ...props }: ComponentProps<"td">) {
+  return (
+    <td
+      className={cn(
+        "flex shrink-0 flex-col p-2 first:pl-3 last:pr-3 group-[.is-dragging]:text-white",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </td>
+  );
+}
+
+export function TdSubText({
+  className,
+  children,
+  ...props
+}: ComponentProps<"span">) {
+  return (
+    <span
+      className={cn(
+        "text-gray-500 group-[.is-dragging]:text-gray-100",
+        className,
+      )}
+      {...props}
+    >
+      {children}
+    </span>
   );
 }
