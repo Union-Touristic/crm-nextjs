@@ -12,10 +12,12 @@ type Props = {
 export default async function Page({ params: { id } }: Props) {
   const compilationTours = await fetchToursByCompilationId(id);
   const firstTour = compilationTours[0];
-  const title = (
+  const title = firstTour ? (
     <>
       {firstTour.fromCity} &rarr; {firstTour.country}
     </>
+  ) : (
+    "Пустая подборка"
   );
 
   const content = compilationTours.length ? (
@@ -33,7 +35,7 @@ export default async function Page({ params: { id } }: Props) {
         breadcrumbs={[
           { label: "Подборки", href: "/compilations" },
           {
-            label: <CompilationTitle tour={firstTour} />,
+            label: title,
             href: `/compilations/${id}`,
             active: true,
           },
@@ -46,9 +48,12 @@ export default async function Page({ params: { id } }: Props) {
 }
 
 function CompilationTitle({ tour }: { tour: Tour }) {
-  return (
-    <>
-      {tour.fromCity} &rarr; {tour.country}
-    </>
-  );
+  if (tour) {
+    return (
+      <>
+        {tour.fromCity} &rarr; {tour.country}
+      </>
+    );
+  }
+  return "Пустая подборка";
 }

@@ -13,6 +13,15 @@ export async function POST(request: NextRequest) {
 
   try {
     if (authorizedUser) {
+      // validate tours
+      const data: TourInsert[] = await request.json();
+      const toursToInserst = data.map((tour) => {
+        return {
+          ...tour,
+          compilationId: createdCompilation.id,
+        };
+      });
+
       const userEmail = authorizedUser.email as string;
 
       const [user] = await db
@@ -21,21 +30,12 @@ export async function POST(request: NextRequest) {
         .where(eq(users.email, userEmail))
         .limit(1);
 
-      const data: TourInsert[] = await request.json();
-
       const [createdCompilation] = await db
         .insert(compilations)
         .values({
           userId: user.id,
         })
         .returning();
-
-      const toursToInserst = data.map((tour) => {
-        return {
-          ...tour,
-          compilationId: createdCompilation.id,
-        };
-      });
 
       await db.insert(tours).values(toursToInserst);
     } else {

@@ -139,7 +139,7 @@ export function TableHeadCheckbox() {
   );
 }
 
-type TableRowDeleteButton = {
+type TableRowDeleteButtonProps = {
   tourId: Tour["id"];
   className?: string;
   children?: React.ReactNode;
@@ -149,7 +149,7 @@ export function TableRowDeleteButton({
   tourId,
   className,
   children,
-}: TableRowDeleteButton) {
+}: TableRowDeleteButtonProps) {
   const { table, tableAction } = useTable();
   const { tours, toursAction } = useTours();
 
@@ -439,9 +439,9 @@ export function UpdateButton() {
   const [isLoading, setIsLoading] = useState(false);
   const { tours, toursAction } = useTours();
 
-  const handleSaveButtonClick = async () => {
+  async function handleSaveButtonClick() {
     setIsLoading(true);
-  };
+  }
 
   return (
     <Button disabled={isLoading} onClick={handleSaveButtonClick}>

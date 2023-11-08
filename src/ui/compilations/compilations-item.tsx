@@ -73,12 +73,17 @@ function CompilationsItemTitle({
 }) {
   // Первый город вылета и первая страна
   const firstTour = tours[0];
+  const title = firstTour ? (
+    <>
+      {firstTour.fromCity} &rarr; {firstTour.country}
+    </>
+  ) : (
+    "Пустая подборка"
+  );
 
   return (
     <p className="text-sm font-semibold leading-6 text-gray-900">
-      <Link href={`/compilations/${compilation.id}`}>
-        {firstTour.fromCity} &rarr; {firstTour.country}
-      </Link>
+      <Link href={`/compilations/${compilation.id}`}>{title}</Link>
     </p>
   );
 }
