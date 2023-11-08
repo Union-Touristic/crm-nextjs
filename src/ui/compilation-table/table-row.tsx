@@ -28,7 +28,7 @@ export function Tr({ tour, provided, snapshot }: Props) {
   return (
     <tr
       className={cn(
-        "flex border-b border-gray-200 bg-white text-xs leading-4 text-gray-900 focus:relative focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-0",
+        "flex basis-full border-b border-gray-200 bg-white text-xs leading-4 text-gray-900 focus:relative focus:z-20 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-0",
         {
           "bg-gray-100": table.selectedRows.includes(tour.id),
           "is-dragging group bg-gray-400 shadow-lg outline-none ring-2 ring-blue-700 ring-offset-0":
@@ -43,7 +43,7 @@ export function Tr({ tour, provided, snapshot }: Props) {
       <Td className="relative w-9">
         <TableRowCheckbox singleTour={tour} />
       </Td>
-      <Td className="flex-1">
+      <Td className="min-w-[200px] flex-1 shrink-0">
         <span className="font-medium">
           {tour.hotel && removeParenthesisAndContentInGivenString(tour.hotel)}
         </span>

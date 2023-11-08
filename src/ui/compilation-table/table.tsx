@@ -49,14 +49,14 @@ export function Table({}: Props) {
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-lg border shadow">
       <TableTopBar />
-      <table className="flex flex-auto flex-col">
+      <table className="relative flex flex-wrap overflow-auto">
         <Thead />
         <DragDropContext onDragEnd={handleDragEnd}>
           <StrictModeDroppable droppableId="droppable">
             {(provided, snapshot) => (
               <tbody
                 className={cn(
-                  "relative z-10 h-[min(400px,500px)] overflow-y-auto py-1 transition-colors",
+                  "flex h-[min(200px,300px)] basis-full flex-wrap content-start py-1 transition-colors",
                   snapshot.isDraggingOver ? "bg-gray-100" : "bg-gray-50",
                 )}
                 {...provided.droppableProps}

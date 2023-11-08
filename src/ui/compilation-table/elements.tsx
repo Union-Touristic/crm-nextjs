@@ -254,7 +254,7 @@ export function TableTopBarDeleteButton({
     <button
       onClick={handleDeleteButtonClick}
       className={cn(
-        "inline-flex items-center rounded-full border border-red-500 px-3 py-1.5 text-xs text-red-500 disabled:border-red-200 disabled:text-red-200",
+        "inline-flex items-center rounded-full border border-red-500 px-2 py-1 text-xs text-red-500 disabled:border-red-200 disabled:text-red-200 sm:px-3",
         className,
       )}
       disabled={!table.selectedRows.length}
@@ -297,7 +297,7 @@ export function TableTopBarCopyButton({
     <button
       onClick={handleCopyButtonClick}
       className={cn(
-        "inline-flex items-center rounded-full border border-blue-500 px-3 py-1.5 text-xs text-blue-500 disabled:border-blue-200 disabled:text-blue-200",
+        "inline-flex items-center rounded-full border border-blue-500 px-2 py-1 text-xs text-blue-500 disabled:border-blue-200 disabled:text-blue-200 sm:px-3",
         className,
       )}
       disabled={!table.selectedRows.length}

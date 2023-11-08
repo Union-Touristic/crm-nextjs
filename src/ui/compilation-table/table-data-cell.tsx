@@ -5,7 +5,7 @@ export function Td({ className, children, ...props }: ComponentProps<"td">) {
   return (
     <td
       className={cn(
-        "flex flex-col p-2 first:pl-3 last:pr-3 group-[.is-dragging]:text-white",
+        "flex shrink-0 flex-col p-2 first:pl-3 last:pr-3 group-[.is-dragging]:text-white",
         className,
       )}
       {...props}
