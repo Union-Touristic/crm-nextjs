@@ -1,7 +1,6 @@
 import { db } from "@/lib/db";
 import {
   compilations as compilationsTable,
-  tours,
   users,
   type Compilation,
   type User,
@@ -79,15 +78,34 @@ export async function fetchCompilationsPagination(
     throw new Error("Failed to fetch compilations pagination data.");
   }
 }
+export async function fetchToursWithSortedData(id: Compilation["id"]) {
+  noStore();
+
+  try {
+    const query = await db.query.compilations.findFirst({
+      where: (compilationsTable, { eq }) => eq(compilationsTable.id, id),
+      with: {
+        tours: true,
+        toursOrder: true,
+      },
+    });
+
+    return query;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error(
+      "Failed to fetch compilation tours with sorted data by  compilaiton id.",
+    );
+  }
+}
 
 export async function fetchToursByCompilationId(id: Compilation["id"]) {
   noStore();
 
   try {
-    const query = await db
-      .select()
-      .from(tours)
-      .where(eq(tours.compilationId, id));
+    const query = await db.query.tours.findMany({
+      where: (tours, { eq }) => eq(tours.compilationId, id),
+    });
 
     return query;
   } catch (error) {

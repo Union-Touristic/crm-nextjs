@@ -51,13 +51,22 @@ export function TableSortButton({
 
     const sortedTours = copiedTours.sort((a, b) => {
       const key = config.sortKey;
-      // TODO: fix possible null
-      if (a[key]! < b[key]!) {
+
+      const aKey = a[key];
+      const bKey = b[key];
+
+      if (!aKey || !bKey) {
+        return 0;
+      }
+
+      if (aKey < bKey) {
         return config.direction === "asc" ? -1 : 1;
       }
-      if (a[key]! > b[key]!) {
+
+      if (aKey > bKey) {
         return config.direction === "asc" ? 1 : -1;
       }
+
       return 0;
     });
 

@@ -1,4 +1,6 @@
 "use client";
+import { fetchToursWithSortedData } from "@/lib/data";
+import { Tour } from "@/lib/db/schema";
 import { cn, reorder } from "@/lib/utils";
 import { StrictModeDroppable } from "@/ui/compilation-table/droppable";
 import { Thead } from "@/ui/compilation-table/table-head";
@@ -6,6 +8,7 @@ import { Tr } from "@/ui/compilation-table/table-row";
 import { TableTopBar } from "@/ui/compilation-table/table-top-bar";
 import { useTable } from "@/ui/compilation-table/use-table";
 import { useTours } from "@/ui/compilation-table/use-tours";
+import { useEffect } from "react";
 import {
   DragDropContext,
   Draggable,
@@ -13,11 +16,32 @@ import {
   ResponderProvided,
 } from "react-beautiful-dnd";
 
-type Props = {};
+type Props = {
+  compilation: Awaited<ReturnType<typeof fetchToursWithSortedData>>;
+};
 
-export function Table({}: Props) {
+export function Table({ compilation }: Props) {
   const { tours, toursAction } = useTours();
   const { tableAction } = useTable();
+
+  useEffect(
+    function () {
+      if (!compilation) return () => {};
+      const { tours, toursOrder } = compilation;
+
+      // Sort table
+      const order = toursOrder.sortOrder;
+      const dataMap = tours.reduce<{ [key: number]: Tour }>((acc, obj) => {
+        acc[obj.id] = obj;
+        return acc;
+      }, {});
+
+      const sortedArray = order.map((id) => dataMap[id]);
+
+      toursAction({ type: "update tours", tours: sortedArray });
+    },
+    [toursAction, compilation],
+  );
 
   function handleDragEnd(result: DropResult, provided: ResponderProvided) {
     const { source, destination } = result;

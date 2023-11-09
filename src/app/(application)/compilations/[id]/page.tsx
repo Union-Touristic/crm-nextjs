@@ -1,6 +1,7 @@
-import { fetchToursByCompilationId } from "@/lib/data";
+import { fetchToursWithSortedData } from "@/lib/data";
 import { Breadcrumbs } from "@/ui/breadcrumbs";
-import { CompilationTable } from "@/ui/compilation-table/compilation-table";
+import { Providers } from "@/ui/compilation-table/providers";
+import { Table } from "@/ui/compilation-table/table";
 
 type Props = {
   params: {
@@ -9,8 +10,10 @@ type Props = {
 };
 
 export default async function Page({ params: { id } }: Props) {
-  const compilationTours = await fetchToursByCompilationId(id);
-  const firstTour = compilationTours[0];
+  const compilation = await fetchToursWithSortedData(id);
+
+  const tours = compilation?.tours;
+  const firstTour = tours && tours[0];
   const title = firstTour ? (
     <>
       {firstTour.fromCity} &rarr; {firstTour.country}
@@ -19,11 +22,14 @@ export default async function Page({ params: { id } }: Props) {
     "Пустая подборка"
   );
 
-  const content = compilationTours.length ? (
-    <CompilationTable compilationTours={compilationTours} />
-  ) : (
-    <h2>В подборке нет туров, добавьте туры с помощью расширения хром</h2>
-  );
+  const content =
+    tours && tours.length ? (
+      <Providers>
+        <Table compilation={compilation} />
+      </Providers>
+    ) : (
+      <h2>В подборке нет туров, добавьте туры с помощью расширения хром</h2>
+    );
 
   return (
     <>

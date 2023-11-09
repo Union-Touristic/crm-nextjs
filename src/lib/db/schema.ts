@@ -1,6 +1,7 @@
 import {
   boolean,
   integer,
+  json,
   pgTable,
   serial,
   text,
@@ -9,7 +10,11 @@ import {
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 
-import { type InferInsertModel, type InferSelectModel } from "drizzle-orm";
+import {
+  relations,
+  type InferInsertModel,
+  type InferSelectModel,
+} from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
 
 export const users = pgTable("users", {
@@ -65,6 +70,42 @@ export const tours = pgTable("tours", {
   price: integer("price"),
 });
 
+export const compilationsRelations = relations(
+  compilations,
+  ({ one, many }) => ({
+    toursOrder: one(toursOrder, {
+      fields: [compilations.id],
+      references: [toursOrder.compilationId],
+    }),
+    tours: many(tours),
+  }),
+);
+
+export const toursRelations = relations(tours, ({ one }) => ({
+  compilation: one(compilations, {
+    fields: [tours.compilationId],
+    references: [compilations.id],
+  }),
+  toursOrder: one(toursOrder, {
+    fields: [tours.compilationId],
+    references: [toursOrder.compilationId],
+  }),
+}));
+
+type TourId = Tour["id"];
+
+export const toursOrder = pgTable("tours_order", {
+  id: serial("id").primaryKey(),
+  compilationId: varchar("compilation_id")
+    .references(() => compilations.id, {
+      onDelete: "cascade",
+      onUpdate: "cascade",
+    })
+    .notNull(),
+  // will be infered as number[]
+  sortOrder: json("sort_order").$type<TourId[]>().notNull(),
+});
+
 export const insertTourSchema = createInsertSchema(tours);
 
 export type User = InferSelectModel<typeof users>;
@@ -78,3 +119,6 @@ export type CompilationInsert = InferInsertModel<typeof compilations>;
 
 export type Tour = InferSelectModel<typeof tours>;
 export type TourInsert = InferInsertModel<typeof tours>;
+
+export type ToursOrder = InferSelectModel<typeof toursOrder>;
+export type ToursOrderInsert = InferInsertModel<typeof toursOrder>;

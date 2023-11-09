@@ -34,7 +34,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // TODO: Validate phone number via Twilio
   const twilioClient = twilio(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 
   try {

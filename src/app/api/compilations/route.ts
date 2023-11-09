@@ -1,5 +1,11 @@
 import { db } from "@/lib/db";
-import { compilations, insertTourSchema, tours, users } from "@/lib/db/schema";
+import {
+  compilations,
+  insertTourSchema,
+  tours,
+  toursOrder,
+  users,
+} from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z } from "zod";
@@ -40,7 +46,16 @@ export async function POST(request: NextRequest) {
         };
       });
 
-      await db.insert(tours).values(toursToInserst);
+      const insertedTours = await db
+        .insert(tours)
+        .values(toursToInserst)
+        .returning({ insertedId: tours.id });
+
+      const toursOrderArr = insertedTours.map((item) => item.insertedId);
+      await db.insert(toursOrder).values({
+        compilationId: createdCompilation.id,
+        sortOrder: toursOrderArr,
+      });
     } else {
       return new NextResponse(null, { status: 401 });
     }

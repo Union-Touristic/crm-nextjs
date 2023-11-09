@@ -1,7 +1,6 @@
 "use client";
 import type { Tour } from "@/lib/db/schema";
 import { createContext, useContext, useReducer } from "react";
-// import type { Tour } from "@/lib/definitions";
 
 export type ToursState = Array<Tour>;
 
@@ -27,14 +26,13 @@ export const ToursDispatchContext =
   createContext<React.Dispatch<ToursAction> | null>(null);
 
 type Props = {
-  tours: Tour[];
   children: React.ReactNode;
 };
 
 const initialTours: Array<Tour> = Array(0);
 
-export function ToursProvider({ tours: compilationTours, children }: Props) {
-  const [tours, toursDispatch] = useReducer(toursReducer, compilationTours);
+export function ToursProvider({ children }: Props) {
+  const [tours, toursDispatch] = useReducer(toursReducer, initialTours);
 
   return (
     <ToursContext.Provider value={tours}>
