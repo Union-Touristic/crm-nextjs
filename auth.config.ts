@@ -33,7 +33,7 @@ export const authConfig = {
         const callbackUrl = nextUrl.href;
         const redirectUrl = new URL(
           `/login?callbackUrl=${callbackUrl}`,
-          nextUrl
+          nextUrl,
         );
         // Redirect unauthenticated users to login page.
         return NextResponse.redirect(redirectUrl);

@@ -7,6 +7,7 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { createInsertSchema } from "drizzle-zod";
 
 import { type InferInsertModel, type InferSelectModel } from "drizzle-orm";
 import { v4 as uuidv4 } from "uuid";
@@ -63,6 +64,8 @@ export const tours = pgTable("tours", {
   currency: varchar("currency", { length: 10 }),
   price: integer("price"),
 });
+
+export const insertTourSchema = createInsertSchema(tours);
 
 export type User = InferSelectModel<typeof users>;
 export type UserInsert = InferInsertModel<typeof users>;

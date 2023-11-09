@@ -1,8 +1,8 @@
 import { db } from "@/lib/db";
-import { TourInsert, compilations, tours, users } from "@/lib/db/schema";
-import { txtCenter } from "@/lib/utils";
+import { compilations, insertTourSchema, tours, users } from "@/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
+import { ZodError, z } from "zod";
 import { auth } from "~/auth";
 
 export async function GET(request: NextRequest) {}
@@ -13,14 +13,10 @@ export async function POST(request: NextRequest) {
 
   try {
     if (authorizedUser) {
-      // validate tours
-      const data: TourInsert[] = await request.json();
-      const toursToInserst = data.map((tour) => {
-        return {
-          ...tour,
-          compilationId: createdCompilation.id,
-        };
-      });
+      const data = await request.json();
+      const ToursRequestData = z.array(insertTourSchema);
+
+      const parsedData = ToursRequestData.parse(data);
 
       const userEmail = authorizedUser.email as string;
 
@@ -37,6 +33,13 @@ export async function POST(request: NextRequest) {
         })
         .returning();
 
+      const toursToInserst = parsedData.map((tour) => {
+        return {
+          ...tour,
+          compilationId: createdCompilation.id,
+        };
+      });
+
       await db.insert(tours).values(toursToInserst);
     } else {
       return new NextResponse(null, { status: 401 });
@@ -44,7 +47,10 @@ export async function POST(request: NextRequest) {
 
     return new NextResponse(null, { status: 201 });
   } catch (error) {
-    console.log(txtCenter("Error on creating compilation"));
-    console.log(error);
+    if (error instanceof ZodError) {
+      return new NextResponse(JSON.stringify(error), { status: 400 });
+    }
+
+    return new NextResponse(null, { status: 500 });
   }
 }

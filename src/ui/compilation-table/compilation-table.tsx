@@ -9,6 +9,7 @@ type Props = {
 
 export function CompilationTable({ compilationTours }: Props) {
   return (
+    // TODO: Get rid off providers. Move them to upper component
     <Providers compilationTours={compilationTours}>
       <Table />
     </Providers>

@@ -1,5 +1,4 @@
 import { fetchToursByCompilationId } from "@/lib/data";
-import { Tour } from "@/lib/db/schema";
 import { Breadcrumbs } from "@/ui/breadcrumbs";
 import { CompilationTable } from "@/ui/compilation-table/compilation-table";
 
@@ -45,15 +44,4 @@ export default async function Page({ params: { id } }: Props) {
       {content}
     </>
   );
-}
-
-function CompilationTitle({ tour }: { tour: Tour }) {
-  if (tour) {
-    return (
-      <>
-        {tour.fromCity} &rarr; {tour.country}
-      </>
-    );
-  }
-  return "Пустая подборка";
 }
