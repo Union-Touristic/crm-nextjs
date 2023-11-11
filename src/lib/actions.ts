@@ -78,3 +78,19 @@ export async function activateCompilation(
     }
   } catch (error) {}
 }
+
+// TODO: fully implement this function
+// export async function updateCompilationTours(formData: FormData) {
+//   try {
+//     // const updated = await updateCompilationTable({
+//     //   ...storage,
+//     // });
+
+//     // if (updated) {
+//     //   revalidatePath(`/dashboard/compilations/${storage.compilationId}`);
+//     //   redirect(`/dashboard/compilations/${storage.compilationId}`);
+//     // }
+
+//     return "not updated";
+//   } catch (error) {}
+// }

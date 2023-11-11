@@ -16,13 +16,14 @@ import {
   ClipboardDocumentIcon,
   TrashIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { ComponentProps, useEffect, useRef, useState } from "react";
 
 import { Tour } from "@/lib/db/schema";
 import { ToursSortConfig } from "@/lib/definitions";
 import { useTable } from "@/ui/compilation-table/use-table";
 import { useTours } from "@/ui/compilation-table/use-tours";
 import { Loader2 } from "lucide-react";
+import { useFormStatus } from "react-dom";
 
 type TableSortButtonProps = {
   sortKey: ToursSortConfig["sortKey"];
@@ -37,44 +38,25 @@ export function TableSortButton({
 }: TableSortButtonProps) {
   const { table, tableAction } = useTable();
   const { tours, toursAction } = useTours();
+  // const { toursStorage, toursStorageAction } = useToursStorage();
+
   const sc = table.sortConfig;
 
   function handleSortTable(sortKey: TableSortButtonProps["sortKey"]) {
+    // TODO: move this logic to tableAction
     const config = createSortConfig(table.sortConfig, sortKey);
+
+    // TODO: maybe I should use useEffect when sortconfig changes
 
     tableAction({
       type: "set sort config",
       config: config,
     });
 
-    const copiedTours = [...tours];
-
-    const sortedTours = copiedTours.sort((a, b) => {
-      const key = config.sortKey;
-
-      const aKey = a[key];
-      const bKey = b[key];
-
-      if (!aKey || !bKey) {
-        return 0;
-      }
-
-      if (aKey < bKey) {
-        return config.direction === "asc" ? -1 : 1;
-      }
-
-      if (aKey > bKey) {
-        return config.direction === "asc" ? 1 : -1;
-      }
-
-      return 0;
-    });
-
-    const updatedTours = sortedTours;
-
     toursAction({
-      type: "update tours",
-      tours: updatedTours,
+      type: "sort tours with table sort button",
+      sortKey: sortKey,
+      tableSortConfig: table.sortConfig,
     });
   }
 
@@ -112,14 +94,13 @@ export function TableHeadCheckbox() {
 
   useEffect(() => {
     const isIndeterminate =
-      table.selectedRows.length > 0 && table.selectedRows.length < tours.length;
-
+      table.selectedRows.length > 0 &&
+      table.selectedRows.length < tours.tours.length;
     tableAction({
       type: "selected rows changed",
-      checked: table.selectedRows.length === tours.length,
+      checked: table.selectedRows.length === tours.tours.length,
       indeterminate: isIndeterminate,
     });
-
     if (checkbox && checkbox.current) {
       checkbox.current.indeterminate = isIndeterminate;
     }
@@ -131,7 +112,7 @@ export function TableHeadCheckbox() {
       selectedRows:
         table.checked || table.indeterminate
           ? []
-          : tours.map((tour) => tour.id),
+          : tours.tours.map((tour) => tour.id),
       checked: !table.checked && !table.indeterminate,
       indeterminate: false,
     });
@@ -164,8 +145,8 @@ export function TableRowDeleteButton({
 
   function handleDeleteTour() {
     toursAction({
-      type: "update tours",
-      tours: tours.filter((t) => t.id !== tourId),
+      type: "tour deleted with table row delete button",
+      tourId: tourId,
     });
 
     tableAction({
@@ -246,6 +227,7 @@ export function TableTopBarDeleteButton({
 }: TableTopBarDeleteButtonProps) {
   const { table, tableAction } = useTable();
   const { tours, toursAction } = useTours();
+  // const { toursStorage, toursStorageAction } = useToursStorage();
 
   const handleDeleteButtonClick = async () => {
     tableAction({
@@ -254,8 +236,8 @@ export function TableTopBarDeleteButton({
     });
 
     toursAction({
-      type: "update tours",
-      tours: tours.filter((tour) => !table.selectedRows.includes(tour.id)),
+      type: "tours batch deleted with table top bar button",
+      tableSelectedRows: table.selectedRows,
     });
   };
 
@@ -288,15 +270,12 @@ export function TableTopBarCopyButton({
   const { tours } = useTours();
 
   async function handleCopyButtonClick() {
-    const toursToCopy = tours.filter((tour) =>
+    const toursToCopy = tours.tours.filter((tour) =>
       table.selectedRows.includes(tour.id),
     );
     const text = toursArrayToText(toursToCopy);
-
     await setClipboard(text);
-
     setCopied(true);
-
     setTimeout(() => {
       setCopied(false);
     }, 1000);
@@ -358,10 +337,12 @@ type TableRowEditPriceProps = {
 };
 
 export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
-  // TODO: fix possible null
-  const [price, setPrice] = useState(frenchFormatter.format(tour.price!));
+  const [price, setPrice] = useState(
+    frenchFormatter.format(Number(tour.price)),
+  );
   const { tours, toursAction } = useTours();
-  const initialPriceRef = useRef(tour.price);
+  // const { toursStorage, toursStorageAction } = useToursStorage();
+  const initialPriceRef = useRef<number>(Number(tour.price));
   const inputRef = useRef<HTMLInputElement | null>(null);
 
   const handlePriceInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -375,34 +356,27 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
   const handleInputKeydown = (e: React.KeyboardEvent) => {
     if (e.code === "Escape") {
       e.preventDefault();
-      // TODO: fix types
-      setPrice(frenchFormatter.format(initialPriceRef.current!));
+
+      setPrice(frenchFormatter.format(initialPriceRef.current));
       inputRef.current?.blur();
     }
 
     if (e.code === "Tab") {
-      // TODO: fix types
-      setPrice(frenchFormatter.format(initialPriceRef.current!));
+      setPrice(frenchFormatter.format(initialPriceRef.current));
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const updatedPrice = Number(inputRef.current?.value.replace(/\s/g, ""));
-    const toursWithChangedTour: Tour[] = tours.map((item) =>
-      tour.id === item.id
-        ? {
-            ...item,
-            price: updatedPrice,
-          }
-        : item,
-    );
-    const updatedTours = toursWithChangedTour;
+    const newPrice = Number(inputRef.current?.value.replace(/\s/g, ""));
 
     toursAction({
-      type: "update tours",
-      tours: updatedTours,
+      type: "tour price changed with table row input",
+      tourId: tour.id,
+      newPrice: newPrice,
     });
+
+    // TODO: set sortConfig to null when price changed
 
     inputRef.current?.blur();
   };
@@ -421,23 +395,14 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
   );
 }
 
-type ButtonProps = {
-  children: React.ReactNode;
-  disabled?: boolean;
-  onClick?: () => void;
-};
+type ButtonProps = {} & ComponentProps<"button">;
 
-export function Button({
-  children,
-  disabled: isDisabled = false,
-  onClick = () => {},
-}: ButtonProps) {
+export function Button({ children, ...props }: ButtonProps) {
   return (
     <button
-      disabled={isDisabled}
-      onClick={onClick}
       type="button"
       className="ml-2.5 inline-flex items-center rounded-md border border-transparent bg-blue-100 px-3 py-2 text-sm font-medium leading-4 text-blue-700 shadow-sm hover:bg-blue-200 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:ring-offset-2 disabled:opacity-75 disabled:hover:bg-blue-100"
+      {...props}
     >
       {children}
     </button>
@@ -445,16 +410,47 @@ export function Button({
 }
 
 export function UpdateButton() {
-  const [isLoading, setIsLoading] = useState(false);
-  const { tours, toursAction } = useTours();
+  // const { toursStorage, toursStorageAction } = useToursStorage();
+  // const bindedUpdateCompilationTours = updateCompilationTours.bind(
+  //   null,
+  //   toursStorage,
+  // );
+  // const [_, action] = useFormState(bindedUpdateCompilationTours, undefined);
 
-  async function handleSaveButtonClick() {
-    setIsLoading(true);
-  }
+  // const { removeList, updatePositionList, updateTourPriceList, compilationId } =
+  //   toursStorage;
+
+  // async function handleSaveButtonClick() {
+  //   setIsLoading(true);
+  //   const formData = new FormData();
+  //   Object.entries(toursStorage).forEach(([key, value]) => {
+  //     formData.append(key, JSON.stringify(value));
+  //   });
+  //   updateCompilatioTourAction(formData);
+  //   // send toursStorage data
+  // }
+
+  // const dataChanged = Boolean(
+  //   removeList.length ||
+  //     updatePositionList.length ||
+  //     updateTourPriceList.length,
+  // );
 
   return (
-    <Button disabled={isLoading} onClick={handleSaveButtonClick}>
-      {isLoading ? (
+    // <form action={bindedUpdateCompilationTours}>
+    <form>
+      {/* <SubmitFormButton dataChanged={dataChanged} /> */}
+      <SubmitFormButton dataChanged={false} />
+    </form>
+  );
+}
+
+function SubmitFormButton({ dataChanged }: { dataChanged: boolean }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button disabled={pending || !dataChanged} type="submit">
+      {pending ? (
         <>
           <Loader2 className="mr-3 h-4 w-4 animate-spin" /> Отправка …
         </>

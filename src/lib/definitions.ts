@@ -1,4 +1,5 @@
 import { IconProps } from "@radix-ui/react-icons/dist/types";
+import { fetchToursWithMetadata } from "./data";
 import { Tour } from "./db/schema";
 
 export type CallbackForm = {
@@ -47,3 +48,7 @@ export type Breadcrumb = {
   href: string;
   active?: boolean;
 };
+
+export type ToursWithMetadata = NonNullable<
+  Awaited<ReturnType<typeof fetchToursWithMetadata>>
+>;

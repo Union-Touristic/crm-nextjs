@@ -43,7 +43,7 @@ export function Tr({ tour, provided, snapshot }: Props) {
       <Td className="relative w-9">
         <TableRowCheckbox singleTour={tour} />
       </Td>
-      <Td className="min-w-[200px] flex-grow">
+      <Td className="min-w-[200px] flex-grow ">
         <span className="font-medium">
           {tour.hotel && removeParenthesisAndContentInGivenString(tour.hotel)}
         </span>

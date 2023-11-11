@@ -1,4 +1,4 @@
-import { fetchToursWithSortedData } from "@/lib/data";
+import { fetchToursWithMetadata } from "@/lib/data";
 import { Breadcrumbs } from "@/ui/breadcrumbs";
 import { Providers } from "@/ui/compilation-table/providers";
 import { Table } from "@/ui/compilation-table/table";
@@ -10,9 +10,9 @@ type Props = {
 };
 
 export default async function Page({ params: { id } }: Props) {
-  const compilation = await fetchToursWithSortedData(id);
+  const toursWithMetadata = await fetchToursWithMetadata(id);
 
-  const tours = compilation?.tours;
+  const tours = toursWithMetadata?.tours;
   const firstTour = tours && tours[0];
   const title = firstTour ? (
     <>
@@ -24,8 +24,8 @@ export default async function Page({ params: { id } }: Props) {
 
   const content =
     tours && tours.length ? (
-      <Providers>
-        <Table compilation={compilation} />
+      <Providers tours={toursWithMetadata}>
+        <Table />
       </Providers>
     ) : (
       <h2>В подборке нет туров, добавьте туры с помощью расширения хром</h2>

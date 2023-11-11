@@ -1,21 +1,144 @@
 "use client";
-import type { Tour } from "@/lib/db/schema";
+import type { Compilation, Tour } from "@/lib/db/schema";
+import { ToursSortConfig, ToursWithMetadata } from "@/lib/definitions";
+import { createSortConfig, reorder } from "@/lib/utils";
 import { createContext, useContext, useReducer } from "react";
+import { DraggableLocation } from "react-beautiful-dnd";
+import { TableState } from "./use-table";
 
-export type ToursState = Array<Tour>;
-
-export type ToursAction = {
-  type: "update tours";
-  tours: ToursState;
+export type ToursState = {
+  tours: Tour[];
+  compilationId: Compilation["id"];
+  order: Tour["id"][];
+  changedPriceToursList: Tour["id"][];
 };
+
+// TODO: maybe rename this to CompilationAction and etc...
+export type ToursAction =
+  | {
+      type: "tour deleted with table row delete button";
+      tourId: Tour["id"];
+    }
+  | {
+      type: "tour moved with drag and drop";
+      sourceIndex: DraggableLocation["index"];
+      destinationIndex: DraggableLocation["index"];
+    }
+  | {
+      type: "tours batch deleted with table top bar button";
+      tableSelectedRows: TableState["selectedRows"];
+    }
+  | {
+      type: "sort tours with table sort button";
+      sortKey: ToursSortConfig["sortKey"];
+      tableSortConfig: TableState["sortConfig"];
+    }
+  | {
+      type: "tour price changed with table row input";
+      tourId: Tour["id"];
+      newPrice: NonNullable<Tour["price"]>;
+    };
 
 export function toursReducer(
   state: ToursState,
   action: ToursAction,
 ): ToursState {
   switch (action.type) {
-    case "update tours":
-      return action.tours;
+    case "tour deleted with table row delete button": {
+      const filteredTours = state.tours.filter((t) => t.id !== action.tourId);
+      const order = filteredTours.map((tour) => tour.id);
+
+      return {
+        ...state,
+        order,
+        tours: filteredTours,
+      };
+    }
+
+    case "tour moved with drag and drop": {
+      const reorderedTours = reorder(
+        state.tours,
+        action.sourceIndex,
+        action.destinationIndex,
+      );
+      const order = reorderedTours.map((tour) => tour.id);
+
+      return {
+        ...state,
+        order,
+        tours: reorderedTours,
+      };
+    }
+
+    case "tours batch deleted with table top bar button": {
+      const filteredTours = state.tours.filter(
+        (t) => !action.tableSelectedRows.includes(t.id),
+      );
+      const order = filteredTours.map((tour) => tour.id);
+
+      return {
+        ...state,
+        order,
+        tours: filteredTours,
+      };
+    }
+
+    case "sort tours with table sort button": {
+      // TODO: what is shell copy?
+      const copiedTours = [...state.tours];
+      // TODO: handle with names in createSortConfig
+
+      const config = createSortConfig(action.tableSortConfig, action.sortKey);
+
+      const sortedTours = copiedTours.sort((a, b) => {
+        const key = config.sortKey;
+
+        const aKey = a[key];
+        const bKey = b[key];
+
+        if (!aKey || !bKey) {
+          return 0;
+        }
+
+        if (aKey < bKey) {
+          return config.direction === "asc" ? -1 : 1;
+        }
+
+        if (aKey > bKey) {
+          return config.direction === "asc" ? 1 : -1;
+        }
+
+        return 0;
+      });
+
+      const order = sortedTours.map((tour) => tour.id);
+
+      return {
+        ...state,
+        order,
+        tours: sortedTours,
+      };
+    }
+
+    case "tour price changed with table row input": {
+      const updatedTours = state.tours.map((item) =>
+        action.tourId === item.id
+          ? {
+              ...item,
+              price: action.newPrice,
+            }
+          : item,
+      );
+
+      const order = updatedTours.map((item) => item.id);
+
+      return {
+        ...state,
+        order,
+        tours: updatedTours,
+      };
+    }
+
     default:
       throw Error("Unknown action on toursReducer");
   }
@@ -26,16 +149,20 @@ export const ToursDispatchContext =
   createContext<React.Dispatch<ToursAction> | null>(null);
 
 type Props = {
+  tours: ToursWithMetadata;
   children: React.ReactNode;
 };
 
-const initialTours: Array<Tour> = Array(0);
-
-export function ToursProvider({ children }: Props) {
-  const [tours, toursDispatch] = useReducer(toursReducer, initialTours);
+export function ToursProvider({ tours, children }: Props) {
+  const [toursState, toursDispatch] = useReducer(toursReducer, {
+    tours: tours.tours,
+    compilationId: tours.id,
+    order: tours.toursOrder.sortOrder,
+    changedPriceToursList: [],
+  });
 
   return (
-    <ToursContext.Provider value={tours}>
+    <ToursContext.Provider value={toursState}>
       <ToursDispatchContext.Provider value={toursDispatch}>
         {children}
       </ToursDispatchContext.Provider>

@@ -78,7 +78,7 @@ export async function fetchCompilationsPagination(
     throw new Error("Failed to fetch compilations pagination data.");
   }
 }
-export async function fetchToursWithSortedData(id: Compilation["id"]) {
+export async function fetchToursWithMetadata(id: Compilation["id"]) {
   noStore();
 
   try {
@@ -192,3 +192,42 @@ async function getCurrentUser() {
 
   return user;
 }
+
+// TODO: fully implement this function
+// type Props = {} & ToursStorageState;
+
+// export async function updateCompilationTable({
+//   compilationId,
+//   removeList,
+//   updatePositionList,
+//   updateTourPriceList,
+// }: Props) {
+//   try {
+//     if (removeList.length) {
+//       removeList.forEach(async (id) => {
+//         await db.delete(tours).where(eq(tours.id, id));
+//       });
+//     }
+
+//     if (updatePositionList.length) {
+//       await db
+//         .update(toursOrder)
+//         .set({ sortOrder: updatePositionList })
+//         .where(eq(toursOrder.compilationId, compilationId));
+//     }
+
+//     if (updateTourPriceList.length) {
+//       updateTourPriceList.forEach(async (item) => {
+//         await db
+//           .update(tours)
+//           .set({ price: item.price })
+//           .where(eq(tours.id, item.id));
+//       });
+//     }
+//   } catch (error) {
+//     console.error("Database Error:", error);
+//     throw new Error("Failed to update compilation with given data.");
+//   }
+
+//   return true;
+// }
