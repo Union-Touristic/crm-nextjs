@@ -16,7 +16,7 @@ import {
 type Props = {};
 
 export function Table({}: Props) {
-  const { tours, toursAction } = useTours();
+  const { tours: compilation, toursAction } = useTours();
   const { tableAction } = useTable();
 
   function handleDragEnd(result: DropResult, provided: ResponderProvided) {
@@ -43,6 +43,11 @@ export function Table({}: Props) {
     });
   }
 
+  const { order, tours } = compilation;
+  const toursToRender = order
+    .map((tourId) => tours.find((tour) => tour.id === tourId))
+    .filter((tour) => tour !== undefined) as typeof tours;
+
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-lg border shadow">
       <TableTopBar />
@@ -59,7 +64,7 @@ export function Table({}: Props) {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {tours.tours.map((t, index) => (
+                {toursToRender.map((t, index) => (
                   <Draggable
                     key={t.id}
                     draggableId={String(t.id)}

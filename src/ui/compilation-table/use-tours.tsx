@@ -10,7 +10,7 @@ export type ToursState = {
   tours: Tour[];
   compilationId: Compilation["id"];
   order: Tour["id"][];
-  changedPriceToursList: Tour["id"][];
+  changedTours: Set<Tour["id"]>;
 };
 
 // TODO: maybe rename this to CompilationAction and etc...
@@ -47,26 +47,28 @@ export function toursReducer(
     case "tour deleted with table row delete button": {
       const filteredTours = state.tours.filter((t) => t.id !== action.tourId);
       const order = filteredTours.map((tour) => tour.id);
+      const newSet = new Set(state.changedTours);
+      newSet.delete(action.tourId);
 
       return {
         ...state,
         order,
         tours: filteredTours,
+        changedTours: newSet,
       };
     }
 
     case "tour moved with drag and drop": {
-      const reorderedTours = reorder(
-        state.tours,
+      const reorderToursIds = reorder(
+        state.order,
         action.sourceIndex,
         action.destinationIndex,
       );
-      const order = reorderedTours.map((tour) => tour.id);
+      const order = reorderToursIds;
 
       return {
         ...state,
         order,
-        tours: reorderedTours,
       };
     }
 
@@ -116,7 +118,6 @@ export function toursReducer(
       return {
         ...state,
         order,
-        tours: sortedTours,
       };
     }
 
@@ -130,12 +131,12 @@ export function toursReducer(
           : item,
       );
 
-      const order = updatedTours.map((item) => item.id);
+      const newSet = new Set(state.changedTours);
 
       return {
         ...state,
-        order,
         tours: updatedTours,
+        changedTours: newSet.add(action.tourId),
       };
     }
 
@@ -158,7 +159,7 @@ export function ToursProvider({ tours, children }: Props) {
     tours: tours.tours,
     compilationId: tours.id,
     order: tours.toursOrder.sortOrder,
-    changedPriceToursList: [],
+    changedTours: new Set([]),
   });
 
   return (

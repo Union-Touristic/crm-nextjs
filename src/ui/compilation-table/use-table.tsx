@@ -38,36 +38,46 @@ export type TableAction =
 
 function tableReducer(state: TableState, action: TableAction): TableState {
   switch (action.type) {
-    case "set sort config":
+    case "set sort config": {
       return {
         ...state,
         sortConfig: action.config,
       };
-    case "selected rows changed":
+    }
+
+    case "selected rows changed": {
       return {
         ...state,
         checked: action.checked,
         indeterminate: action.indeterminate,
       };
-    case "toggle all":
+    }
+
+    case "toggle all": {
       return {
         ...state,
         selectedRows: action.selectedRows,
         checked: action.checked,
         indeterminate: action.indeterminate,
       };
-    case "select all":
+    }
+
+    case "select all": {
       return {
         ...state,
         selectedRows: action.selectedRows,
         checked: true,
         indeterminate: false,
       };
-    case "update selected rows":
+    }
+
+    case "update selected rows": {
       return {
         ...state,
         selectedRows: action.selectedRows,
       };
+    }
+
     default:
       throw Error("Unknown action on tableReducer");
   }
