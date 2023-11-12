@@ -2,15 +2,19 @@
 import type { Compilation, Tour } from "@/lib/db/schema";
 import { ToursSortConfig, ToursWithMetadata } from "@/lib/definitions";
 import { createSortConfig, reorder } from "@/lib/utils";
+import { TableState } from "@/ui/compilation-table/use-table";
 import { createContext, useContext, useReducer } from "react";
 import { DraggableLocation } from "react-beautiful-dnd";
-import { TableState } from "./use-table";
 
 export type ToursState = {
+  // we use tours for visual representation.
   tours: Tour[];
   compilationId: Compilation["id"];
   order: Tour["id"][];
+  // Metadata
   changedTours: Set<Tour["id"]>;
+  deletedTours: Set<Tour["id"]>;
+  touched: boolean;
 };
 
 // TODO: maybe rename this to CompilationAction and etc...
@@ -37,7 +41,8 @@ export type ToursAction =
       type: "tour price changed with table row input";
       tourId: Tour["id"];
       newPrice: NonNullable<Tour["price"]>;
-    };
+    }
+  | { type: "reset metadata" };
 
 export function toursReducer(
   state: ToursState,
@@ -47,14 +52,19 @@ export function toursReducer(
     case "tour deleted with table row delete button": {
       const filteredTours = state.tours.filter((t) => t.id !== action.tourId);
       const order = filteredTours.map((tour) => tour.id);
-      const newSet = new Set(state.changedTours);
-      newSet.delete(action.tourId);
+      const changedToursSet = new Set(state.changedTours);
+      changedToursSet.delete(action.tourId);
+
+      const deletedToursSet = new Set(state.deletedTours);
+      deletedToursSet.add(action.tourId);
 
       return {
         ...state,
         order,
         tours: filteredTours,
-        changedTours: newSet,
+        changedTours: changedToursSet,
+        deletedTours: deletedToursSet,
+        touched: true,
       };
     }
 
@@ -69,6 +79,7 @@ export function toursReducer(
       return {
         ...state,
         order,
+        touched: true,
       };
     }
 
@@ -77,16 +88,25 @@ export function toursReducer(
         (t) => !action.tableSelectedRows.includes(t.id),
       );
       const order = filteredTours.map((tour) => tour.id);
+      const changedTourSet = new Set(state.changedTours);
+      const deletedToursSet = new Set(state.deletedTours);
+
+      action.tableSelectedRows.forEach((item) => {
+        changedTourSet.delete(item);
+        deletedToursSet.add(item);
+      });
 
       return {
         ...state,
         order,
         tours: filteredTours,
+        changedTours: changedTourSet,
+        deletedTours: deletedToursSet,
+        touched: true,
       };
     }
 
     case "sort tours with table sort button": {
-      // TODO: what is shell copy?
       const copiedTours = [...state.tours];
       // TODO: handle with names in createSortConfig
 
@@ -118,6 +138,7 @@ export function toursReducer(
       return {
         ...state,
         order,
+        touched: true,
       };
     }
 
@@ -137,6 +158,22 @@ export function toursReducer(
         ...state,
         tours: updatedTours,
         changedTours: newSet.add(action.tourId),
+        touched: true,
+      };
+    }
+
+    case "reset metadata": {
+      const changedTourSet = new Set(state.changedTours);
+      const deletedToursSet = new Set(state.deletedTours);
+
+      changedTourSet.clear();
+      deletedToursSet.clear();
+
+      return {
+        ...state,
+        changedTours: changedTourSet,
+        deletedTours: deletedToursSet,
+        touched: false,
       };
     }
 
@@ -160,6 +197,8 @@ export function ToursProvider({ tours, children }: Props) {
     compilationId: tours.id,
     order: tours.toursOrder.sortOrder,
     changedTours: new Set([]),
+    deletedTours: new Set([]),
+    touched: false,
   });
 
   return (

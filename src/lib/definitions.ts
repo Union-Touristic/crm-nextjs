@@ -52,3 +52,5 @@ export type Breadcrumb = {
 export type ToursWithMetadata = NonNullable<
   Awaited<ReturnType<typeof fetchToursWithMetadata>>
 >;
+
+export type TourUpdateData = Pick<Tour, "id" | "price">[];

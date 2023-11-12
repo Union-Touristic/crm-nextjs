@@ -1,12 +1,20 @@
 import { db } from "@/lib/db";
 import {
+  ToursOrder,
   compilations as compilationsTable,
+  tours,
+  toursOrder,
   users,
   type Compilation,
   type User,
 } from "@/lib/db/schema";
-import type { CompilationStatus, Pagination } from "@/lib/definitions";
+import type {
+  CompilationStatus,
+  Pagination,
+  TourUpdateData,
+} from "@/lib/definitions";
 import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
+import { ToursState } from "@/ui/compilation-table/use-tours";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { unstable_noStore as noStore } from "next/cache";
 import { auth } from "~/auth";
@@ -193,41 +201,47 @@ async function getCurrentUser() {
   return user;
 }
 
-// TODO: fully implement this function
-// type Props = {} & ToursStorageState;
+export async function updateToursOrder(
+  compilationId: Compilation["id"],
+  sortOrder: ToursOrder["sortOrder"],
+) {
+  try {
+    await db
+      .update(toursOrder)
+      .set({ sortOrder: sortOrder })
+      .where(eq(toursOrder.compilationId, compilationId));
+    return true;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to update tours order.");
+  }
+}
 
-// export async function updateCompilationTable({
-//   compilationId,
-//   removeList,
-//   updatePositionList,
-//   updateTourPriceList,
-// }: Props) {
-//   try {
-//     if (removeList.length) {
-//       removeList.forEach(async (id) => {
-//         await db.delete(tours).where(eq(tours.id, id));
-//       });
-//     }
+export async function deleteTours(toursToDelete: ToursState["deletedTours"]) {
+  try {
+    toursToDelete.forEach(async (tourId) => {
+      await db.delete(tours).where(eq(tours.id, tourId));
+    });
 
-//     if (updatePositionList.length) {
-//       await db
-//         .update(toursOrder)
-//         .set({ sortOrder: updatePositionList })
-//         .where(eq(toursOrder.compilationId, compilationId));
-//     }
+    return true;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to delete tours.");
+  }
+}
 
-//     if (updateTourPriceList.length) {
-//       updateTourPriceList.forEach(async (item) => {
-//         await db
-//           .update(tours)
-//           .set({ price: item.price })
-//           .where(eq(tours.id, item.id));
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Database Error:", error);
-//     throw new Error("Failed to update compilation with given data.");
-//   }
+export async function updateToursData(tourUpdateData: TourUpdateData) {
+  try {
+    tourUpdateData.forEach(async (item) => {
+      await db
+        .update(tours)
+        .set({ price: item.price })
+        .where(eq(tours.id, item.id));
+    });
 
-//   return true;
-// }
+    return true;
+  } catch (error) {
+    console.error("Database Error:", error);
+    throw new Error("Failed to update tours");
+  }
+}

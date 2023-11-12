@@ -1,11 +1,16 @@
 "use server";
+import { ToursState } from "@/ui/compilation-table/use-tours";
 import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "~/auth";
 import {
   activateCompilationById,
   archiveCompilationById,
+  deleteTours,
   removeCompilationById,
+  updateToursData,
+  updateToursOrder,
 } from "./data";
+import { TourUpdateData } from "./definitions";
 
 export async function authenticate(
   prevState: string | undefined,
@@ -79,18 +84,34 @@ export async function activateCompilation(
   } catch (error) {}
 }
 
-// TODO: fully implement this function
-// export async function updateCompilationTours(formData: FormData) {
-//   try {
-//     // const updated = await updateCompilationTable({
-//     //   ...storage,
-//     // });
+export async function updateCompilationTours(
+  tourState: ToursState,
+  formData: FormData,
+) {
+  try {
+    const { tours, changedTours, deletedTours, order, compilationId } =
+      tourState;
 
-//     // if (updated) {
-//     //   revalidatePath(`/dashboard/compilations/${storage.compilationId}`);
-//     //   redirect(`/dashboard/compilations/${storage.compilationId}`);
-//     // }
+    const toursToUpdate: TourUpdateData = [];
 
-//     return "not updated";
-//   } catch (error) {}
-// }
+    changedTours.forEach((id) => {
+      const tour = tours.find((tour) => tour.id === id);
+      if (tour) {
+        toursToUpdate.push({ id: tour.id, price: tour.price });
+      }
+    });
+
+    const toursOrderUpdated = updateToursOrder(compilationId, order);
+    const toursDeleted = deleteTours(deletedTours);
+    const toursDataUpdated = updateToursData(toursToUpdate);
+
+    await Promise.all([toursOrderUpdated, toursDeleted, toursDataUpdated]);
+
+    revalidatePath(`/compilations/${compilationId}`);
+
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}

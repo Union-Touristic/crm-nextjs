@@ -18,6 +18,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { ComponentProps, useEffect, useRef, useState } from "react";
 
+import { updateCompilationTours } from "@/lib/actions";
 import { Tour } from "@/lib/db/schema";
 import { ToursSortConfig } from "@/lib/definitions";
 import { useTable } from "@/ui/compilation-table/use-table";
@@ -38,7 +39,6 @@ export function TableSortButton({
 }: TableSortButtonProps) {
   const { table, tableAction } = useTable();
   const { tours, toursAction } = useTours();
-  // const { toursStorage, toursStorageAction } = useToursStorage();
 
   const sc = table.sortConfig;
 
@@ -227,7 +227,6 @@ export function TableTopBarDeleteButton({
 }: TableTopBarDeleteButtonProps) {
   const { table, tableAction } = useTable();
   const { tours, toursAction } = useTours();
-  // const { toursStorage, toursStorageAction } = useToursStorage();
 
   const handleDeleteButtonClick = async () => {
     tableAction({
@@ -341,6 +340,7 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
     frenchFormatter.format(Number(tour.price)),
   );
   const { tours, toursAction } = useTours();
+  const { tableAction } = useTable();
   // const { toursStorage, toursStorageAction } = useToursStorage();
   const initialPriceRef = useRef<number>(Number(tour.price));
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -370,13 +370,16 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
     e.preventDefault();
     const newPrice = Number(inputRef.current?.value.replace(/\s/g, ""));
 
+    tableAction({
+      type: "set sort config",
+      config: null,
+    });
+
     toursAction({
       type: "tour price changed with table row input",
       tourId: tour.id,
       newPrice: newPrice,
     });
-
-    // TODO: set sortConfig to null when price changed
 
     inputRef.current?.blur();
   };
@@ -410,37 +413,23 @@ export function Button({ children, ...props }: ButtonProps) {
 }
 
 export function UpdateButton() {
-  // const { toursStorage, toursStorageAction } = useToursStorage();
-  // const bindedUpdateCompilationTours = updateCompilationTours.bind(
-  //   null,
-  //   toursStorage,
-  // );
-  // const [_, action] = useFormState(bindedUpdateCompilationTours, undefined);
-
-  // const { removeList, updatePositionList, updateTourPriceList, compilationId } =
-  //   toursStorage;
-
-  // async function handleSaveButtonClick() {
-  //   setIsLoading(true);
-  //   const formData = new FormData();
-  //   Object.entries(toursStorage).forEach(([key, value]) => {
-  //     formData.append(key, JSON.stringify(value));
-  //   });
-  //   updateCompilatioTourAction(formData);
-  //   // send toursStorage data
-  // }
-
-  // const dataChanged = Boolean(
-  //   removeList.length ||
-  //     updatePositionList.length ||
-  //     updateTourPriceList.length,
-  // );
+  const { tours, toursAction } = useTours();
 
   return (
-    // <form action={bindedUpdateCompilationTours}>
-    <form>
-      {/* <SubmitFormButton dataChanged={dataChanged} /> */}
-      <SubmitFormButton dataChanged={false} />
+    <form
+      action={async (formData) => {
+        const bindedUpdateCompilationTours = updateCompilationTours.bind(null, {
+          ...tours,
+        });
+
+        const updated = await bindedUpdateCompilationTours(formData);
+
+        if (updated) {
+          toursAction({ type: "reset metadata" });
+        }
+      }}
+    >
+      <SubmitFormButton dataChanged={tours.touched} />
     </form>
   );
 }
