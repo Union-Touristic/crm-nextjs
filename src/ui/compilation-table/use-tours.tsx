@@ -1,12 +1,15 @@
 "use client";
 import type { Compilation, Tour } from "@/lib/db/schema";
-import { ToursSortConfig, ToursWithMetadata } from "@/lib/definitions";
+import {
+  CompilationWithToursAndMetadata,
+  ToursSortConfig,
+} from "@/lib/definitions";
 import { createSortConfig, reorder } from "@/lib/utils";
 import { TableState } from "@/ui/compilation-table/use-table";
 import { createContext, useContext, useReducer } from "react";
 import { DraggableLocation } from "react-beautiful-dnd";
 
-export type ToursState = {
+export type CompilationState = {
   // we use tours for visual representation.
   tours: Tour[];
   compilationId: Compilation["id"];
@@ -18,7 +21,7 @@ export type ToursState = {
 };
 
 // TODO: maybe rename this to CompilationAction and etc...
-export type ToursAction =
+export type CompilationAction =
   | {
       type: "tour deleted with table row delete button";
       tourId: Tour["id"];
@@ -44,10 +47,10 @@ export type ToursAction =
     }
   | { type: "reset metadata" };
 
-export function toursReducer(
-  state: ToursState,
-  action: ToursAction,
-): ToursState {
+export function compilationReducer(
+  state: CompilationState,
+  action: CompilationAction,
+): CompilationState {
   switch (action.type) {
     case "tour deleted with table row delete button": {
       const filteredTours = state.tours.filter((t) => t.id !== action.tourId);
@@ -182,52 +185,57 @@ export function toursReducer(
   }
 }
 
-export const ToursContext = createContext<ToursState | null>(null);
-export const ToursDispatchContext =
-  createContext<React.Dispatch<ToursAction> | null>(null);
+export const CompilationContext = createContext<CompilationState | null>(null);
+export const CompilationDispatchContext =
+  createContext<React.Dispatch<CompilationAction> | null>(null);
 
 type Props = {
-  tours: ToursWithMetadata;
+  compilation: CompilationWithToursAndMetadata;
   children: React.ReactNode;
 };
 
-export function ToursProvider({ tours, children }: Props) {
-  const [toursState, toursDispatch] = useReducer(toursReducer, {
-    tours: tours.tours,
-    compilationId: tours.id,
-    order: tours.toursOrder.sortOrder,
+export function CompilationProvider({ compilation, children }: Props) {
+  const [compilationState, toursDispatch] = useReducer(compilationReducer, {
+    tours: compilation.tours,
+    compilationId: compilation.id,
+    order: compilation.toursOrder.sortOrder,
     changedTours: new Set([]),
     deletedTours: new Set([]),
     touched: false,
   });
 
   return (
-    <ToursContext.Provider value={toursState}>
-      <ToursDispatchContext.Provider value={toursDispatch}>
+    <CompilationContext.Provider value={compilationState}>
+      <CompilationDispatchContext.Provider value={toursDispatch}>
         {children}
-      </ToursDispatchContext.Provider>
-    </ToursContext.Provider>
+      </CompilationDispatchContext.Provider>
+    </CompilationContext.Provider>
   );
 }
 
-export function useToursState() {
-  const object = useContext(ToursContext);
+export function useCompilationState() {
+  const object = useContext(CompilationContext);
 
   if (!object) {
-    throw new Error("useToursState must be used within a ToursProvider");
+    throw new Error("useCompilationState must be used within a ToursProvider");
   }
   return object;
 }
 
-export function useToursDispatch() {
-  const object = useContext(ToursDispatchContext);
+export function useCompilationDispatch() {
+  const object = useContext(CompilationDispatchContext);
 
   if (!object) {
-    throw new Error("useToursDispatch must be used within a ToursProvider");
+    throw new Error(
+      "useCompilationDispatch must be used within a ToursProvider",
+    );
   }
   return object;
 }
 
-export function useTours() {
-  return { tours: useToursState(), toursAction: useToursDispatch() };
+export function useCompilation() {
+  return {
+    compilation: useCompilationState(),
+    compilationAction: useCompilationDispatch(),
+  };
 }

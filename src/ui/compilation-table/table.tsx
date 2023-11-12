@@ -5,7 +5,7 @@ import { Thead } from "@/ui/compilation-table/table-head";
 import { Tr } from "@/ui/compilation-table/table-row";
 import { TableTopBar } from "@/ui/compilation-table/table-top-bar";
 import { useTable } from "@/ui/compilation-table/use-table";
-import { useTours } from "@/ui/compilation-table/use-tours";
+import { useCompilation } from "@/ui/compilation-table/use-tours";
 import {
   DragDropContext,
   Draggable,
@@ -16,7 +16,7 @@ import {
 type Props = {};
 
 export function Table({}: Props) {
-  const { tours: compilation, toursAction } = useTours();
+  const { compilation, compilationAction } = useCompilation();
   const { tableAction } = useTable();
 
   function handleDragEnd(result: DropResult, provided: ResponderProvided) {
@@ -36,7 +36,7 @@ export function Table({}: Props) {
       config: null,
     });
 
-    toursAction({
+    compilationAction({
       type: "tour moved with drag and drop",
       sourceIndex: source.index,
       destinationIndex: destination.index,

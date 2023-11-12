@@ -22,7 +22,7 @@ import { updateCompilationTours } from "@/lib/actions";
 import { Tour } from "@/lib/db/schema";
 import { ToursSortConfig } from "@/lib/definitions";
 import { useTable } from "@/ui/compilation-table/use-table";
-import { useTours } from "@/ui/compilation-table/use-tours";
+import { useCompilation } from "@/ui/compilation-table/use-tours";
 import { Loader2 } from "lucide-react";
 import { useFormStatus } from "react-dom";
 
@@ -38,7 +38,7 @@ export function TableSortButton({
   children,
 }: TableSortButtonProps) {
   const { table, tableAction } = useTable();
-  const { tours, toursAction } = useTours();
+  const { compilationAction } = useCompilation();
 
   const sc = table.sortConfig;
 
@@ -53,7 +53,7 @@ export function TableSortButton({
       config: config,
     });
 
-    toursAction({
+    compilationAction({
       type: "sort tours with table sort button",
       sortKey: sortKey,
       tableSortConfig: table.sortConfig,
@@ -88,23 +88,23 @@ export function TableSortButton({
 
 export function TableHeadCheckbox() {
   const { table, tableAction } = useTable();
-  const { tours } = useTours();
+  const { compilation } = useCompilation();
 
   const checkbox = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const isIndeterminate =
       table.selectedRows.length > 0 &&
-      table.selectedRows.length < tours.tours.length;
+      table.selectedRows.length < compilation.tours.length;
     tableAction({
       type: "selected rows changed",
-      checked: table.selectedRows.length === tours.tours.length,
+      checked: table.selectedRows.length === compilation.tours.length,
       indeterminate: isIndeterminate,
     });
     if (checkbox && checkbox.current) {
       checkbox.current.indeterminate = isIndeterminate;
     }
-  }, [table.selectedRows, tableAction, tours]);
+  }, [table.selectedRows, tableAction, compilation]);
 
   const handleCheckboxChange = () => {
     tableAction({
@@ -112,7 +112,7 @@ export function TableHeadCheckbox() {
       selectedRows:
         table.checked || table.indeterminate
           ? []
-          : tours.tours.map((tour) => tour.id),
+          : compilation.tours.map((tour) => tour.id),
       checked: !table.checked && !table.indeterminate,
       indeterminate: false,
     });
@@ -141,10 +141,10 @@ export function TableRowDeleteButton({
   children,
 }: TableRowDeleteButtonProps) {
   const { table, tableAction } = useTable();
-  const { tours, toursAction } = useTours();
+  const { compilationAction } = useCompilation();
 
   function handleDeleteTour() {
-    toursAction({
+    compilationAction({
       type: "tour deleted with table row delete button",
       tourId: tourId,
     });
@@ -226,7 +226,7 @@ export function TableTopBarDeleteButton({
   children,
 }: TableTopBarDeleteButtonProps) {
   const { table, tableAction } = useTable();
-  const { tours, toursAction } = useTours();
+  const { compilationAction } = useCompilation();
 
   const handleDeleteButtonClick = async () => {
     tableAction({
@@ -234,7 +234,7 @@ export function TableTopBarDeleteButton({
       selectedRows: [],
     });
 
-    toursAction({
+    compilationAction({
       type: "tours batch deleted with table top bar button",
       tableSelectedRows: table.selectedRows,
     });
@@ -266,10 +266,10 @@ export function TableTopBarCopyButton({
 }: TableTopBarCopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const { table } = useTable();
-  const { tours } = useTours();
+  const { compilation } = useCompilation();
 
   async function handleCopyButtonClick() {
-    const toursToCopy = tours.tours.filter((tour) =>
+    const toursToCopy = compilation.tours.filter((tour) =>
       table.selectedRows.includes(tour.id),
     );
     const text = toursArrayToText(toursToCopy);
@@ -339,7 +339,7 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
   const [price, setPrice] = useState(
     frenchFormatter.format(Number(tour.price)),
   );
-  const { tours, toursAction } = useTours();
+  const { compilationAction } = useCompilation();
   const { tableAction } = useTable();
   // const { toursStorage, toursStorageAction } = useToursStorage();
   const initialPriceRef = useRef<number>(Number(tour.price));
@@ -375,7 +375,7 @@ export function TableRowEditPrice({ tour }: TableRowEditPriceProps) {
       config: null,
     });
 
-    toursAction({
+    compilationAction({
       type: "tour price changed with table row input",
       tourId: tour.id,
       newPrice: newPrice,
@@ -413,23 +413,23 @@ export function Button({ children, ...props }: ButtonProps) {
 }
 
 export function UpdateButton() {
-  const { tours, toursAction } = useTours();
+  const { compilation, compilationAction } = useCompilation();
 
   return (
     <form
       action={async (formData) => {
         const bindedUpdateCompilationTours = updateCompilationTours.bind(null, {
-          ...tours,
+          ...compilation,
         });
 
         const updated = await bindedUpdateCompilationTours(formData);
 
         if (updated) {
-          toursAction({ type: "reset metadata" });
+          compilationAction({ type: "reset metadata" });
         }
       }}
     >
-      <SubmitFormButton dataChanged={tours.touched} />
+      <SubmitFormButton dataChanged={compilation.touched} />
     </form>
   );
 }

@@ -49,7 +49,7 @@ export type Breadcrumb = {
   active?: boolean;
 };
 
-export type ToursWithMetadata = NonNullable<
+export type CompilationWithToursAndMetadata = NonNullable<
   Awaited<ReturnType<typeof fetchToursWithMetadata>>
 >;
 

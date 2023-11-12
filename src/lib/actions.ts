@@ -1,5 +1,5 @@
 "use server";
-import { ToursState } from "@/ui/compilation-table/use-tours";
+import { CompilationState } from "@/ui/compilation-table/use-tours";
 import { revalidatePath } from "next/cache";
 import { signIn, signOut } from "~/auth";
 import {
@@ -85,7 +85,7 @@ export async function activateCompilation(
 }
 
 export async function updateCompilationTours(
-  tourState: ToursState,
+  tourState: CompilationState,
   formData: FormData,
 ) {
   try {
@@ -105,7 +105,11 @@ export async function updateCompilationTours(
     const toursDeleted = deleteTours(deletedTours);
     const toursDataUpdated = updateToursData(toursToUpdate);
 
-    await Promise.all([toursOrderUpdated, toursDeleted, toursDataUpdated]);
+    const result = await Promise.all([
+      toursOrderUpdated,
+      toursDeleted,
+      toursDataUpdated,
+    ]);
 
     revalidatePath(`/compilations/${compilationId}`);
 

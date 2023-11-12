@@ -1,17 +1,17 @@
 "use client";
-import { ToursWithMetadata } from "@/lib/definitions";
+import { CompilationWithToursAndMetadata } from "@/lib/definitions";
 import { TableProvider } from "@/ui/compilation-table/use-table";
-import { ToursProvider } from "@/ui/compilation-table/use-tours";
+import { CompilationProvider } from "@/ui/compilation-table/use-tours";
 
 type Props = {
-  tours: ToursWithMetadata;
+  compilation: CompilationWithToursAndMetadata;
   children: React.ReactNode;
 };
 
-export function Providers({ tours, children }: Props) {
+export function Providers({ compilation, children }: Props) {
   return (
-    <ToursProvider tours={tours}>
+    <CompilationProvider compilation={compilation}>
       <TableProvider>{children}</TableProvider>
-    </ToursProvider>
+    </CompilationProvider>
   );
 }

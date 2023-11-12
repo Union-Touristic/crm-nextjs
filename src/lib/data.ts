@@ -14,7 +14,7 @@ import type {
   TourUpdateData,
 } from "@/lib/definitions";
 import { COMPILATIONS_PER_PAGE } from "@/lib/vars";
-import { ToursState } from "@/ui/compilation-table/use-tours";
+import { CompilationState } from "@/ui/compilation-table/use-tours";
 import { and, desc, eq, sql } from "drizzle-orm";
 import { unstable_noStore as noStore } from "next/cache";
 import { auth } from "~/auth";
@@ -217,7 +217,9 @@ export async function updateToursOrder(
   }
 }
 
-export async function deleteTours(toursToDelete: ToursState["deletedTours"]) {
+export async function deleteTours(
+  toursToDelete: CompilationState["deletedTours"],
+) {
   try {
     toursToDelete.forEach(async (tourId) => {
       await db.delete(tours).where(eq(tours.id, tourId));
@@ -232,12 +234,11 @@ export async function deleteTours(toursToDelete: ToursState["deletedTours"]) {
 
 export async function updateToursData(tourUpdateData: TourUpdateData) {
   try {
-    tourUpdateData.forEach(async (item) => {
-      await db
-        .update(tours)
-        .set({ price: item.price })
-        .where(eq(tours.id, item.id));
-    });
+    const promises = tourUpdateData.map((item) =>
+      db.update(tours).set({ price: item.price }).where(eq(tours.id, item.id)),
+    );
+
+    await Promise.all(promises);
 
     return true;
   } catch (error) {
