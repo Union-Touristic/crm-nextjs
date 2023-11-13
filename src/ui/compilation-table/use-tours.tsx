@@ -1,5 +1,5 @@
 "use client";
-import type { Compilation, Tour } from "@/lib/db/schema";
+import type { Compilation, Tour } from "@/db/schema";
 import {
   CompilationWithToursAndMetadata,
   ToursSortConfig,

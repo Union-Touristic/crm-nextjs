@@ -1,10 +1,10 @@
-import { type Order } from "@/lib/db/schema";
+import { type ClientOrder } from "@/db/schema";
 import { Badge } from "@/ui/badge";
 import { OrderOperations } from "@/ui/order-operations";
 import { Skeleton } from "@/ui/skeleton";
 
 interface OrderItemProps {
-  order: Order;
+  order: ClientOrder;
 }
 
 export function OrderItem({ order }: OrderItemProps) {

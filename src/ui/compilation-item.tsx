@@ -1,4 +1,4 @@
-import type { Compilation } from "@/lib/db/schema";
+import type { Compilation } from "@/db/schema";
 import { Badge } from "@/ui/badge";
 import { CompilationOperations } from "@/ui/compilation-operations";
 import { Skeleton } from "@/ui/skeleton";

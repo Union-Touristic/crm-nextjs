@@ -1,11 +1,11 @@
-import { db } from "@/lib/db";
+import { db } from "@/db";
 import {
   compilations,
   insertTourSchema,
   tours,
   toursOrder,
   users,
-} from "@/lib/db/schema";
+} from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, z } from "zod";

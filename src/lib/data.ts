@@ -1,13 +1,13 @@
-import { db } from "@/lib/db";
+import { db } from "@/db";
 import {
-  ToursOrder,
-  compilations as compilationsTable,
+  compilations,
   tours,
   toursOrder,
   users,
   type Compilation,
+  type ToursOrder,
   type User,
-} from "@/lib/db/schema";
+} from "@/db/schema";
 import type {
   CompilationStatus,
   Pagination,
@@ -45,9 +45,9 @@ export async function fetchFilteredCompilations(
 
     const query = await db
       .select()
-      .from(compilationsTable)
+      .from(compilations)
       .where(whereQuery)
-      .orderBy(desc(compilationsTable.createdAt))
+      .orderBy(desc(compilations.createdAt))
       .limit(COMPILATIONS_PER_PAGE)
       .offset(offset);
 
@@ -73,7 +73,7 @@ export async function fetchCompilationsPagination(
   try {
     const [query] = await db
       .select({ count: sql<string>`count(*)` })
-      .from(compilationsTable)
+      .from(compilations)
       .where(whereQuery);
 
     return {
@@ -91,7 +91,7 @@ export async function fetchToursWithMetadata(id: Compilation["id"]) {
 
   try {
     const query = await db.query.compilations.findFirst({
-      where: (compilationsTable, { eq }) => eq(compilationsTable.id, id),
+      where: (compilations, { eq }) => eq(compilations.id, id),
       with: {
         tours: true,
         toursOrder: true,
@@ -125,8 +125,8 @@ export async function fetchToursByCompilationId(id: Compilation["id"]) {
 export async function removeCompilationById(id: Compilation["id"]) {
   try {
     const [query] = await db
-      .delete(compilationsTable)
-      .where(eq(compilationsTable.id, id))
+      .delete(compilations)
+      .where(eq(compilations.id, id))
       .returning();
 
     return query.id;
@@ -139,9 +139,9 @@ export async function removeCompilationById(id: Compilation["id"]) {
 export async function archiveCompilationById(id: Compilation["id"]) {
   try {
     const [query] = await db
-      .update(compilationsTable)
+      .update(compilations)
       .set({ isActive: false })
-      .where(eq(compilationsTable.id, id))
+      .where(eq(compilations.id, id))
       .returning();
 
     return query.id;
@@ -154,9 +154,9 @@ export async function archiveCompilationById(id: Compilation["id"]) {
 export async function activateCompilationById(id: Compilation["id"]) {
   try {
     const [query] = await db
-      .update(compilationsTable)
+      .update(compilations)
       .set({ isActive: true })
-      .where(eq(compilationsTable.id, id))
+      .where(eq(compilations.id, id))
       .returning();
 
     return query.id;
@@ -170,16 +170,16 @@ async function whereFilteredCompilationsIsAllOrActiveOrArchived(
   filter: CompilationStatus | undefined,
 ) {
   const user = await getCurrentUser();
-  const usersCompilation = eq(compilationsTable.userId, user.id);
+  const usersCompilation = eq(compilations.userId, user.id);
 
   let whereQuery;
 
   switch (filter) {
     case "Active":
-      whereQuery = and(eq(compilationsTable.isActive, true), usersCompilation);
+      whereQuery = and(eq(compilations.isActive, true), usersCompilation);
       break;
     case "Archived":
-      whereQuery = and(eq(compilationsTable.isActive, false), usersCompilation);
+      whereQuery = and(eq(compilations.isActive, false), usersCompilation);
       break;
     default:
       whereQuery = usersCompilation;

@@ -1,6 +1,6 @@
 "use client";
 
-import { OrderInsert } from "@/lib/db/schema";
+import { type NewClientOrder } from "@/db/schema";
 import { Button } from "@/ui/button";
 import { Input } from "@/ui/input";
 import { Label } from "@/ui/label";
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export type CreateOrderType = Pick<
-  OrderInsert,
+  NewClientOrder,
   "name" | "phoneNumber" | "source"
 >;
 

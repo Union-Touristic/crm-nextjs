@@ -1,5 +1,5 @@
 "use client";
-import { type Compilation } from "@/lib/db/schema";
+import { type Compilation } from "@/db/schema";
 import {
   AlertDialog,
   AlertDialogCancel,

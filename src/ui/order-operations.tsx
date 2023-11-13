@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import { Order } from "@/lib/db/schema";
+import { type ClientOrder } from "@/db/schema";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,7 +41,7 @@ async function archivePost(orderId: number) {
 }
 
 interface OrderOperationsProps {
-  order: Order;
+  order: ClientOrder;
 }
 
 export function OrderOperations({ order }: OrderOperationsProps) {

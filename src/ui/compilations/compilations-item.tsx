@@ -1,5 +1,5 @@
+import type { Compilation, Tour } from "@/db/schema";
 import { fetchToursByCompilationId } from "@/lib/data";
-import type { Compilation, Tour } from "@/lib/db/schema";
 import type { CompilationStatus } from "@/lib/definitions";
 import { cn, getNoun } from "@/lib/utils";
 import {

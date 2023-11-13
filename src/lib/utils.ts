@@ -1,3 +1,4 @@
+import { Tour } from "@/db/schema/tours";
 import { clsx, type ClassValue } from "clsx";
 import type {
   DraggableStateSnapshot,
@@ -5,7 +6,6 @@ import type {
   NotDraggingStyle,
 } from "react-beautiful-dnd";
 import { twMerge } from "tailwind-merge";
-import { Tour } from "./db/schema";
 import { ToursSortConfig } from "./definitions";
 
 export function cn(...inputs: ClassValue[]) {

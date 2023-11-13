@@ -1,5 +1,5 @@
-import { db } from "@/lib/db";
-import { clientOrders } from "@/lib/db/schema";
+import { db } from "@/db";
+import { clientOrders } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 

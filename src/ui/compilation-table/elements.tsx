@@ -18,8 +18,8 @@ import {
 } from "@heroicons/react/24/outline";
 import { ComponentProps, useEffect, useRef, useState } from "react";
 
+import { Tour } from "@/db/schema";
 import { updateCompilationTours } from "@/lib/actions";
-import { Tour } from "@/lib/db/schema";
 import { ToursSortConfig } from "@/lib/definitions";
 import { useTable } from "@/ui/compilation-table/use-table";
 import { useCompilation } from "@/ui/compilation-table/use-tours";

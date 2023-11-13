@@ -1,4 +1,4 @@
-import type { Tour } from "@/lib/db/schema";
+import type { Tour } from "@/db/schema";
 import {
   cn,
   getNoun,

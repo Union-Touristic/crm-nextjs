@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import type { Compilation } from "@/lib/db/schema";
+import type { Compilation } from "@/db/schema";
 import {
   AlertDialog,
   AlertDialogAction,

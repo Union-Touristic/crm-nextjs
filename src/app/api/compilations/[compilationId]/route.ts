@@ -1,5 +1,5 @@
-import { db } from "@/lib/db";
-import { compilations, users } from "@/lib/db/schema";
+import { db } from "@/db";
+import { compilations, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "~/auth";

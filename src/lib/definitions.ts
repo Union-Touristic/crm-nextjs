@@ -1,6 +1,6 @@
+import { Tour } from "@/db/schema/tours";
 import { IconProps } from "@radix-ui/react-icons/dist/types";
 import { fetchToursWithMetadata } from "./data";
-import { Tour } from "./db/schema";
 
 export type CallbackForm = {
   name: string;

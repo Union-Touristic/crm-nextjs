@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useContext, useReducer } from "react";
 
-import type { Tour } from "@/lib/db/schema";
+import type { Tour } from "@/db/schema";
 import type { ToursSortConfig } from "@/lib/definitions";
 
 export type TableState = {

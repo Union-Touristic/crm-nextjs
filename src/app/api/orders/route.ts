@@ -1,5 +1,5 @@
-import { db } from "@/lib/db";
-import { clientOrders } from "@/lib/db/schema";
+import { db } from "@/db";
+import { clientOrders } from "@/db/schema";
 import { type CreateOrderType } from "@/ui/create-order-form";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
