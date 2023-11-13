@@ -45,7 +45,7 @@ export async function deleteCompilation(
     const id = formData.get("id")?.toString();
 
     if (id) {
-      revalidatePath("/dashboard/compilations");
+      revalidatePath("/compilations");
       return await removeCompilationById(id);
     }
   } catch (error) {
@@ -63,7 +63,7 @@ export async function archiveCompilation(
     const id = formData.get("id")?.toString();
 
     if (id) {
-      revalidatePath("/dashboard/compilations");
+      revalidatePath("/compilations");
       return await archiveCompilationById(id);
     }
   } catch (error) {}
@@ -78,7 +78,7 @@ export async function activateCompilation(
     const id = formData.get("id")?.toString();
 
     if (id) {
-      revalidatePath("/dashboard/compilations");
+      revalidatePath("/compilations");
       return await activateCompilationById(id);
     }
   } catch (error) {}
