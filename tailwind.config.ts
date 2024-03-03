@@ -71,6 +71,13 @@ const config: Config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        passport: "url('/images/passport.png')",
+        "passport-gradient": "url('/images/passport-gradient.png')",
+        "passport-bright-gradient":
+          "url('/images/passport-bright-gradient.png')",
+        "passport-blue-gradient": "url('/images/passport-blue-gradient.png')",
+      },
     },
   },
   plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],

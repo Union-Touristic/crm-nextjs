@@ -1,0 +1,20 @@
+type Props = {
+  children: React.ReactNode;
+};
+
+export function HeaderSectionCentered({ children }: Props) {
+  return (
+    <section id="callback" className="bg-white px-6 py-24 sm:py-32 lg:px-8">
+      <div className="mx-auto max-w-2xl text-center">
+        <h2 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          Оставить заявку
+        </h2>
+        <p className="mt-6 text-lg leading-8 text-gray-600">
+          Хотите отправиться в тур или у вас остались вопросы? Мы подберем тур
+          мечты. Оставьте свои контактные данные и мы перезвоним.
+        </p>
+      </div>
+      {children}
+    </section>
+  );
+}

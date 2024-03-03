@@ -192,3 +192,49 @@ export function getStyle(
 export function removeParenthesisAndContentInGivenString(str: string) {
   return str.replace(/\(.*?\)/g, "");
 }
+
+export function formatPhoneNumber(inputString: string) {
+  // Use a regular expression to match only the allowed characters (+ and numbers)
+  const filteredString = inputString.replace(/[^0-9+]/g, "");
+
+  // Return the filtered string
+  return filteredString;
+}
+
+export const debounce = (callback: () => void, delay: number) => {
+  let timeout: Parameters<typeof clearTimeout>[0];
+
+  return () => {
+    clearTimeout(timeout);
+    timeout = setTimeout(callback, delay);
+  };
+};
+
+export const fakeDelay = (ms: number) => {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+};
+
+export const getNumOnly = (str: string) => {
+  return str.replace(/\D/g, "");
+};
+
+export const sleep = (ms: number) =>
+  new Promise((resolve) => setTimeout(resolve, ms));
+
+export const scrollToSection = (
+  e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+) => {
+  const href = e.currentTarget.getAttribute("href")?.replace("/", "");
+  const section = href && document.querySelector<HTMLElement>(href);
+  if (section) {
+    e.preventDefault();
+    const offsetTop = section.offsetTop;
+
+    scroll({
+      top: offsetTop,
+      behavior: "smooth",
+    });
+  }
+};

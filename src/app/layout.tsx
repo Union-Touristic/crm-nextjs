@@ -18,7 +18,12 @@ type Props = {
 export default function RootLayout({ children }: Props) {
   return (
     <html lang="ru" className="h-full" suppressHydrationWarning>
-      <body className={cn("h-full antialiased", inter.variable)}>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased selection:bg-blue-800 selection:text-white",
+          inter.variable,
+        )}
+      >
         {children}
       </body>
     </html>
