@@ -49,14 +49,14 @@ export function CTASectionTwoColumnsWithPhotoOnDark() {
                   <figcaption className="flex items-center gap-x-3">
                     {/* TODO: поменять картинку на реальную */}
                     <Image
-                      src="/images/mock-employee.avif"
+                      src="/images/alibek.jpg"
                       width={256}
                       height={256}
                       alt="Customer"
                       className="h-10 w-10 rounded-lg bg-gray-50"
                     />
                     <div className="flex gap-x-2">
-                      <span className="font-semibold">Dana Serikbergen</span>
+                      <span className="font-semibold">Alibek Massalimov</span>
                       <span>·</span>
                       <span className="text-gray-600">Директор компании</span>
                     </div>
