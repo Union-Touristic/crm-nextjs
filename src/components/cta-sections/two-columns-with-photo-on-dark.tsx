@@ -45,27 +45,10 @@ export function CTASectionTwoColumnsWithPhotoOnDark() {
                 ))}
               </ul>
               <div className="mt-10 flex">
-                <figure className="rounded-2xl bg-white p-6 ring-1 ring-gray-900/[.05]">
-                  <figcaption className="flex items-center gap-x-3">
-                    {/* TODO: поменять картинку на реальную */}
-                    <Image
-                      src="/images/alibek.jpg"
-                      width={256}
-                      height={256}
-                      alt="Customer"
-                      className="h-10 w-10 rounded-lg bg-gray-50"
-                    />
-                    <div className="flex gap-x-2">
-                      <span className="font-semibold">Alibek Massalimov</span>
-                      <span>·</span>
-                      <span className="text-gray-600">Директор компании</span>
-                    </div>
-                  </figcaption>
-                  <blockquote className="mt-4 text-gray-900">
-                    “Мы хорошо знаем тонкости туристской деятельности благодаря
-                    полученному образованию и многолетнему опыту.”
-                  </blockquote>
-                </figure>
+                <p className="rounded-2xl bg-white p-6 text-gray-900 ring-1 ring-gray-900/[.05]">
+                  Мы хорошо знаем тонкости туристской деятельности благодаря
+                  полученному образованию и многолетнему опыту.
+                </p>
               </div>
             </div>
           </div>
@@ -84,5 +67,31 @@ export function CTASectionTwoColumnsWithPhotoOnDark() {
         </div>
       </div>
     </section>
+  );
+}
+
+function Figure() {
+  return (
+    <figure className="rounded-2xl bg-white p-6 ring-1 ring-gray-900/[.05]">
+      <figcaption className="flex items-center gap-x-3">
+        {/* TODO: поменять картинку на реальную */}
+        <Image
+          src="/images/alibek.jpg"
+          width={256}
+          height={256}
+          alt="Customer"
+          className="h-10 w-10 rounded-lg bg-gray-50"
+        />
+        <div className="flex gap-x-2">
+          <span className="font-semibold">Alibek Massalimov</span>
+          <span>·</span>
+          <span className="text-gray-600">Директор компании</span>
+        </div>
+      </figcaption>
+      <blockquote className="mt-4 text-gray-900">
+        Мы хорошо знаем тонкости туристской деятельности благодаря полученному
+        образованию и многолетнему опыту.
+      </blockquote>
+    </figure>
   );
 }
